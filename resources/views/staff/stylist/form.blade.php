@@ -21,29 +21,24 @@
 </div>
 
 <div class="form-group row">
+    {{ Form::label('specialty', 'Specialty', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        @foreach($specialtyList as $key=>$name)
+            <label>{{ Form::checkbox('specialty[]',$key,!empty($specialty) && in_array($key,$specialty) ? true : false) }}
+                {{$name}}
+            </label> &nbsp;
+        @endforeach
+    </div>
+</div>
+
+<div class="form-group row">
     {{ Form::label('availability', 'Availability', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        <label>{{ Form::checkbox('availability[]','Monday',!empty($availability) && in_array('Monday',$availability) ? true : false) }}
-            Monday
-        </label> &nbsp;
-        <label>{{ Form::checkbox('availability[]','Tuesday',!empty($availability) && in_array('Tuesday',$availability) ? true : false) }}
-            Tuesday
-        </label> &nbsp;
-        <label>{{ Form::checkbox('availability[]','Wednesday',!empty($availability) && in_array('Wednesday',$availability) ? true : false) }}
-            Wednesday
-        </label> &nbsp;
-        <label>{{ Form::checkbox('availability[]','Thursday',!empty($availability) && in_array('Thursday',$availability) ? true : false) }}
-            Thursday
-        </label> &nbsp;
-        <label>{{ Form::checkbox('availability[]','Friday',!empty($availability) && in_array('Friday',$availability) ? true : false) }}
-            Friday
-        </label> &nbsp;
-        <label>{{ Form::checkbox('availability[]','Saturday',!empty($availability) && in_array('Saturday',$availability) ? true : false) }}
-            Saturday
-        </label> &nbsp;
-        <label>{{ Form::checkbox('availability[]','Sunday',!empty($availability) && in_array('Sunday',$availability) ? true : false) }}
-            Sunday
-        </label> &nbsp;
+        @foreach($availabilityList as $key=>$name)
+            <label>{{ Form::checkbox('availability[]',$key,!empty($availability) && in_array($key,$availability) ? true : false) }}
+                {{$name}}
+            </label> &nbsp;
+        @endforeach
     </div>
 </div>
 
@@ -55,7 +50,7 @@
 </div>
 
 <div class="form-group row">
-    {{ Form::label('avatar', 'Avatar Image (300 x 900)', ['class'=>'col-form-label col-sm-2']) }}
+    {{ Form::label('avatar', 'Avatar Image (350 x 900)', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::file('avatar', ['class'=>'form-control']) }}
     </div>

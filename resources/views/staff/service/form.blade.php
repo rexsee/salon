@@ -8,8 +8,8 @@
 <div class="form-group row">
     {{ Form::label('type', 'Type', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        <label>{{ Form::radio('type','Basic') }} Basic</label> &nbsp;
-        <label>{{ Form::radio('type','Color') }} Color</label>
+        <label>{{ Form::radio('type','cat-basics') }} Basic</label> &nbsp;
+        <label>{{ Form::radio('type','cat-color') }} Color</label>
     </div>
 </div>
 

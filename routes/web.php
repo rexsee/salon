@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index')->name('index');
+Route::get('news/{date}/{slug}', 'IndexController@news')->name('news');
 
 Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
 

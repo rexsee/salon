@@ -19,6 +19,13 @@ mix.combine([
     // 'resources/assets/js/dataTables.bootstrap4.min.js',
     // 'resources/assets/js/responsive.bootstrap4.min.js'
     ],'public/js/app.js')
+    .combine([
+        'resources/assets/js/modernizr.min.js',
+        'resources/assets/js/jquery.min.js',
+        'resources/assets/js/plugins.min.js',
+        'resources/assets/js/main.min.js'
+    ],'public/js/front.js')
     .sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/assets/sass/front.scss', 'public/css')
     .copy('resources/assets/fonts','public/fonts')
     .version();

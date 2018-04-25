@@ -16,7 +16,7 @@
                         <table id="datatable" class="table table-list">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th width="80px"></th>
                                 <th>Name</th>
                                 <th>Experience</th>
                                 <th>Specialty</th>

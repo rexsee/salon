@@ -15,9 +15,9 @@
 <div class="form-group row">
     {{ Form::label('type', 'Type', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        <label>{{ Form::radio('type','News') }} News</label> &nbsp;
-        <label>{{ Form::radio('type','Event') }} Event</label> &nbsp;
-        <label>{{ Form::radio('type','Special') }} Special</label>
+        <label>{{ Form::radio('type','news') }} News</label> &nbsp;
+        <label>{{ Form::radio('type','events') }} Event</label> &nbsp;
+        <label>{{ Form::radio('type','specials') }} Special</label>
     </div>
 </div>
 

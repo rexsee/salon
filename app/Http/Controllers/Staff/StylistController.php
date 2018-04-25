@@ -22,7 +22,7 @@ class StylistController extends Controller
             $inputs = $request->validate([
                 'name' => 'required|max:191',
                 'experience' => 'required|max:191',
-                'specialty' => 'required|max:191',
+                'specialty' => 'required|array|nullable',
                 'availability' => 'required|array|nullable',
                 'description' => 'required',
                 'avatar' => 'required|mimes:jpeg,jpg,png,gif|max:1024'
@@ -30,6 +30,10 @@ class StylistController extends Controller
 
             if (!empty($inputs['availability'])) {
                 $inputs['availability'] = implode(',', $inputs['availability']);
+            }
+
+            if (!empty($inputs['specialty'])) {
+                $inputs['specialty'] = implode(',', $inputs['specialty']);
             }
 
             $image = $request->file('avatar');
@@ -43,14 +47,24 @@ class StylistController extends Controller
             return redirect()->route('staff.stylist');
         } else {
             $specialtyList = [
-                'Color Artist' => 'Color Artist',
-                'Make-Overs' => 'Make-Overs',
-                'Evening Styles' => 'Evening Styles',
-                'Men\'s Styles' => 'Men\'s Styles',
-                'Extensions' => 'Extensions',
+                'color-artist' => 'Color Artist',
+                'make-overs' => 'Make-Overs',
+                'evening-styles' => 'Evening Styles',
+                'mens-styles' => 'Men\'s Styles',
+                'extensions' => 'Extensions',
             ];
 
-            return view('staff.stylist.add', compact('specialtyList'));
+            $availabilityList = [
+                'monday' => 'Monday',
+                'tuesday' => 'Tuesday',
+                'wednesday' => 'Wednesday',
+                'thursday' => 'Thursday',
+                'friday' => 'Friday',
+                'saturday' => 'Saturday',
+                'sunday' => 'Sunday',
+            ];
+
+            return view('staff.stylist.add', compact('specialtyList','availabilityList'));
         }
 
     }
@@ -72,6 +86,10 @@ class StylistController extends Controller
                 $inputs['availability'] = implode(',', $inputs['availability']);
             }
 
+            if (!empty($inputs['specialty'])) {
+                $inputs['specialty'] = implode(',', $inputs['specialty']);
+            }
+
             if (!empty($request->avatar)) {
                 if (File::exists($record->avatar_path)) {
                     File::delete($record->avatar_path);
@@ -89,15 +107,26 @@ class StylistController extends Controller
             return redirect()->route('staff.stylist');
         } else {
             $specialtyList = [
-                'Color Artist' => 'Color Artist',
-                'Make-Overs' => 'Make-Overs',
-                'Evening Styles' => 'Evening Styles',
-                'Men\'s Styles' => 'Men\'s Styles',
-                'Extensions' => 'Extensions',
+                'color-artist' => 'Color Artist',
+                'make-overs' => 'Make-Overs',
+                'evening-styles' => 'Evening Styles',
+                'mens-styles' => 'Men\'s Styles',
+                'extensions' => 'Extensions',
+            ];
+
+            $availabilityList = [
+                'monday' => 'Monday',
+                'tuesday' => 'Tuesday',
+                'wednesday' => 'Wednesday',
+                'thursday' => 'Thursday',
+                'friday' => 'Friday',
+                'saturday' => 'Saturday',
+                'sunday' => 'Sunday',
             ];
 
             $availability = explode(',', $record->availability);
-            return view('staff.stylist.edit', compact('specialtyList', 'record', 'availability'));
+            $specialty = explode(',', $record->specialty);
+            return view('staff.stylist.edit', compact('specialtyList', 'availabilityList', 'record', 'availability','specialty'));
         }
     }
 

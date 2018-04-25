@@ -27,7 +27,7 @@ class GalleryController extends Controller
 
             $image = $request->file('image');
             $image->move('storage/gallery', $image->getClientOriginalName());
-            Image::make('storage/gallery/' . $image->getClientOriginalName())->fit('800', '600')->save();
+            Image::make('storage/gallery/' . $image->getClientOriginalName())->fit('700', '470')->save();
             $inputs['image_path'] = 'storage/gallery/' . $image->getClientOriginalName();
 
             Gallery::create($inputs);
@@ -57,7 +57,7 @@ class GalleryController extends Controller
 
                 $image = $request->file('image');
                 $image->move('storage/gallery', $image->getClientOriginalName());
-                Image::make('storage/gallery/' . $image->getClientOriginalName())->fit('800', '600')->save();
+                Image::make('storage/gallery/' . $image->getClientOriginalName())->fit('700', '470')->save();
                 $inputs['image_path'] = 'storage/gallery/' . $image->getClientOriginalName();
             }
 
