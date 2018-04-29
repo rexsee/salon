@@ -20,7 +20,6 @@ mix.combine([
     // 'resources/assets/js/responsive.bootstrap4.min.js'
     ],'public/js/app.js')
     .combine([
-        'resources/assets/js/modernizr.min.js',
         'resources/assets/js/jquery.min.js',
         'resources/assets/js/plugins.min.js',
         'resources/assets/js/main.min.js'
@@ -28,4 +27,5 @@ mix.combine([
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/sass/front.scss', 'public/css')
     .copy('resources/assets/fonts','public/fonts')
+    .copy('resources/assets/js/modernizr.min.js','public/js')
     .version();

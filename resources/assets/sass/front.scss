@@ -1,6 +1,50 @@
-
 @import "../css/normalize.css";
 @import "../css/salon-font.css";
 @import "../css/plugins.css";
 @import "../css/style.css";
 
+section.hl-text-slider .content, section.pic-hl-text .content {
+  padding-top: 5%;
+}
+
+#hero .tagline {
+  top: 50%;
+}
+
+#hero .tagline h1 {
+  color: #ffffff;
+  text-shadow: 2px 2px 5px #000000;
+}
+
+#hero .tagline h2 {
+  color: #ffffff;
+  text-shadow: 2px 2px 3px #000000;
+}
+
+#hero .tagline h1:after {
+  border-top: 1px solid rgba(255, 255, 255, .7);
+}
+
+@media (max-width: 490px) {
+  #hero .tagline h1 {
+    text-shadow: 2px 2px 5px #666666;
+    font-size: 1.6rem;
+    letter-spacing: 0.3625rem;
+    margin-right: 0.3em;
+    margin-left: 0.3em;
+  }
+  #hero .tagline h2 {
+    margin-right: 0.3em;
+    margin-left: 0.3em;
+    text-shadow: 2px 2px 3px #666666;
+    letter-spacing: 0.15rem;
+  }
+}
+
+section.col-3 .hlblock {
+  padding-top: 5%;
+}
+
+section.stripes-1 .content{
+  padding-top: 5%;
+}

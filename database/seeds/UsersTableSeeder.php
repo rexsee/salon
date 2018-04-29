@@ -27,6 +27,13 @@ class UsersTableSeeder extends Seeder
                 'email' => 'example@gmail.com',
                 'head_line' => 'Hello World',
                 'slogan' => 'Slogan 123 sd asd as das',
+                'image_path' => '',
+                'about_slider_path_1' => '',
+                'about_slider_path_2' => '',
+                'about_slider_path_3' => '',
+                'vision_image_path' => '',
+                'about_us_desc' => 'this is the about us demo description',
+                'vision_desc' => 'this is the vision demo description',
             ]
         );
     }

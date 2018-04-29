@@ -13,9 +13,9 @@
             <div class="tagline">
                 <h1>{{$system_info->head_line}}</h1>
                 <h2>{{$system_info->slogan}}</h2>
-                <span class="subinfo">since 1994</span>
+                {{--<span class="subinfo">since 1994</span>--}}
             </div>
-            <img src="{{asset('images/hero.jpg')}}" alt="Welcome to {{$system_info->head_line}}">
+            <img src="{{asset($system_info->image_path)}}" alt="Welcome to {{$system_info->head_line}}">
         </div>
     </section>
 
@@ -24,7 +24,7 @@
         <nav id="mainmenu" class="menu-horizontal">
             <ul>
                 <li><a href="#about" data-panel="about">About Us</a></li>
-                <li><a href="#mastersvision" data-panel="mastersvision">The Masters Vision</a></li>
+                {{--<li><a href="#mastersvision" data-panel="mastersvision">The Masters Vision</a></li>--}}
                 @if(count($team))
                 <li><a href="#team" data-panel="team">Team</a></li>
                 @endif
@@ -38,11 +38,7 @@
                 <li><a href="#news" data-panel="news">News</a></li>
                 @endif
                 <li><a href="#booking" data-panel="booking">Booking</a></li>
-                <li><a href="#contact" data-panel="contact">Contact</a>
-                    <ul class="sub-menu">
-                        <li><a href="#map" data-panel="map">Where to find us</a></li>
-                    </ul>
-                </li>
+                <li><a href="#contact" data-panel="contact">Contact</a></li>
             </ul>
         </nav>
 
@@ -50,10 +46,8 @@
             <a id="socialshare_trigger" class="icon-"></a>
             <nav class="animated">
                 <ul>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">LinkedIn</a></li>
-                    <li><a href="#">GooglePlus</a></li>
+                    <li><a href="https://www.instagram.com/alphstudio/" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/Alphstudioplus/" target="_blank">Facebook</a></li>
                 </ul>
             </nav>
         </div>
@@ -65,15 +59,18 @@
             <div class="hlblock">
                 <h1>About the salon</h1>
             </div><div class="content">
-                <p>Established in 1995, the salon always was a place, where people with sense for current trends found a stylist who understood to turn their vision into reality, and who was able to create a look that ephasized their individuality. </p>
-                <p>Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia bibendum nulla sed consectetur.</p>
-            </div><div class="sliderwrapper slickexpandable">
-                <div class="slick">
-                    <div class="slide imgLiquidCenterLeft"><img src="images/slide-1.jpg" alt="Salon - Slide 1"></div>
-                    <div class="slide imgLiquid"><img src="images/slide-2.jpg" alt="Salon - Slide 2"></div>
-                    <div class="slide imgLiquid"><img src="images/slide-3.jpg" alt="Salon - Slide 3"></div>
-                </div>
+                {!! nl2br($system_info->about_us_desc) !!}
+            </div>
+            <div class="sliderwrapper slickexpandable">
+                @if(!empty($slider_images))
+                    <div class="slick">
+                    @foreach($slider_images as $image)
+                        <div class="slide imgLiquid">
+                            <img src="{{$image}}" />
+                        </div>
+                    @endforeach
+                    </div>
+                @endif
             </div>
         </article>
     </section>
@@ -81,15 +78,11 @@
     <section id="mastersvision" data-panel="mastersvision" class="col-3 pic-hl-text">
         <article>
             <div class="pic">
-                <img src="images/master.jpg" alt="Master">
+                <img src="{{asset($system_info->vision_image_path)}}" alt="Master">
             </div><div class="hlblock">
                 <h1>The masters vision</h1>
             </div><div class="content">
-                <p>Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia bibendum nulla sed consectetur.</p>
-                <p>Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    <span class="signature">Jacques Aux Mains D’Argent</span>
-                </p>
+                {!! nl2br($system_info->about_us_desc) !!}
             </div>
         </article>
     </section>
@@ -122,26 +115,24 @@
                     </div>
                 </div>
                 <div class="filteritems team">
-                    @foreach($team as $item)
-                        <div class="item {{str_replace(',',' ',$item->specialty)}} {{str_replace(',',' ',$item->availability)}}">
-                            <div class="pic imgLiquidTopCenter"><img src="{{asset($item->avatar_path)}}" alt="{{$item->name}}"></div>
-                            <div class="text">
-                                <h3>{{$item->name}}</h3>
-                                <span class="sub-info">Evening Styles</span>
-                                <p>{{$item->description}}</p>
-                                <a href="#booking" class="button">Book Appointment</a>
-                            </div>
+                    @foreach($team as $count => $item)
+                    {!! $count > 0 ? '-->' : '' !!}<div class="item {{str_replace(',',' ',$item->specialty)}} {{str_replace(',',' ',$item->availability)}}">
+                        <div class="pic imgLiquidTopCenter"><img src="{{asset($item->avatar_path)}}" alt="{{$item->name}}"></div>
+                        <div class="text">
+                            <h3>{{$item->name}}</h3>
+                            <span class="sub-info">Evening Styles</span>
+                            <p>{{$item->description}}</p>
+                            <a href="#booking" class="button">Book Appointment</a>
                         </div>
+                    </div>{!! $count < (count($team) - 1) ? '<!--' : '' !!}
                     @endforeach
-                </div><!--slickcarousel-->
+                </div>
                 <div class="pagerlist dark"></div>
             </article>
         </section>
     @endif
 
-
     @if(count($service))
-
     <section id="services" data-panel="services" class="tophead mixitup sixmix">
         <article><div class="hlblock">
                 <h1>Services</h1>
@@ -230,10 +221,6 @@
                             <input type="text" name="name" placeholder="Your Name" data-validetta="required">
                         </fieldset>
                         <fieldset>
-                            <label>Your E-Mail</label>
-                            <input type="text" name="email" placeholder="Your Email" data-validetta="required,email">
-                        </fieldset>
-                        <fieldset>
                             <label>Your Phone No.</label>
                             <input type="text" name="phone" placeholder="Your Phone No." data-validetta="required">
                         </fieldset>
@@ -284,31 +271,35 @@
         <article>
             <div class="hlblock">
                 <h2>Opening hours</h2>
-                <p><strong>Monday - Wednesday</strong><br/>
-                    09 AM - 6 PM
+                <p><strong>Wednesday - Monday</strong><br/>
+                    1030 AM - 2000 PM
                 </p>
-                <p><strong>Thursday - Saturday</strong><br/>
-                    09 AM - 7 PM
-                </p>
-                <p><strong>Sunday</strong><br/>
+                <p><strong>Tuesday</strong><br/>
                     closed
                 </p>
             </div><div class="content">
                 <h2>Business Details</h2>
-                <p><strong>Postal Address</strong><br/>
-                    PO Box 16122 Collins Street West<br/>
-                    Victoria 8007 Australia
+                @if(!empty($system_info->address))
+                <p><strong>Address</strong><br/>
+                    {!! nl2br($system_info->address) !!}
                 </p>
-                <p><strong>Office Headquarters</strong><br/>
-                    121 King Street, Melbourne <br/>
-                    Victoria 3000 Australia
-                </p>
-                <p><strong>Coiffeur Pty Ltd</strong><br/>
-                    ABN 11 112 157 731
-                </p>
-                <p>Phone: +61 3 8376 6284<br/>
-                    Fax: +61 3 8376 6284<br/>
-                    Email: office@coiffeur.com
+                @endif
+                @if(!empty($tels))
+                    <p><strong>Address</strong><br/>
+                        @foreach($tels as $tel)
+                            {{$tel}}<br />
+                        @endforeach
+                    </p>
+                @endif
+                <p>
+                    @if(!empty($system_info->email))
+                        Email: <a href="mailto:{{$system_info->email}}">{{$system_info->email}}</a> <br />
+                    @endif
+                        @if(!empty($system_info->fax_number))
+                            Fax: {{$system_info->fax_number}}<br/>
+                        @endif
+
+
                 </p>
             </div><div class="hlblock">
                 <h2><span>Get in</span><span>Touch</span></h2>
@@ -351,8 +342,8 @@
     <section id="end">
         <div class="content">
             <div class="copyright">
-                <img src="images/logo-small.png" alt="Coiffeur Salon">
-                <p>Copyright Evalanee Labs - All rights reserved</p>
+                <img src="{{asset('images/logo-small.png')}}" alt="{{env('APP_NAME')}}">
+                <p>Copyright {{env('APP_NAME')}} - All rights reserved</p>
             </div>
         </div>
         <a id="back2top" class="backtotop icon-salon_arrowup">back to top</a>

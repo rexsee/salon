@@ -50,7 +50,7 @@ class GalleryController extends Controller
                 'image' => 'mimes:jpeg,jpg,png,gif|max:2048'
             ]);
 
-            if (!empty($request->avatar)) {
+            if (!empty($request->image)) {
                 if (File::exists($record->image_path)) {
                     File::delete($record->image_path);
                 }
