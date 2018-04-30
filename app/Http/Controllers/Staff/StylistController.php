@@ -37,9 +37,12 @@ class StylistController extends Controller
             }
 
             $image = $request->file('avatar');
-            $image->move('storage/stylist', $image->getClientOriginalName());
-            Image::make('storage/stylist/' . $image->getClientOriginalName())->fit('350', '900')->save();
-            $inputs['avatar_path'] = 'storage/stylist/' . $image->getClientOriginalName();
+            $file_name = 'AV_' . time();
+            $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+            $image->move('storage/stylist', $full_file_name);
+            Image::make('storage/stylist/' . $full_file_name)->fit('350', '900')->save();
+            Image::make('storage/stylist/' . $full_file_name)->save('storage/stylist/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+            $inputs['avatar_path'] = 'storage/stylist/' . $full_file_name;
 
             Stylist::create($inputs);
 
@@ -96,9 +99,12 @@ class StylistController extends Controller
                 }
 
                 $image = $request->file('avatar');
-                $image->move('storage/stylist', $image->getClientOriginalName());
-                Image::make('storage/stylist/' . $image->getClientOriginalName())->fit('350', '900')->save();
-                $inputs['avatar_path'] = 'storage/stylist/' . $image->getClientOriginalName();
+                $file_name = 'AV_' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage/stylist', $full_file_name);
+                Image::make('storage/stylist/' . $full_file_name)->fit('350', '900')->save();
+                Image::make('storage/stylist/' . $full_file_name)->save('storage/stylist/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['avatar_path'] = 'storage/stylist/' . $full_file_name;
             }
 
             $record->update($inputs);

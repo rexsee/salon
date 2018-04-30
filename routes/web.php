@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index')->name('index');
+Route::post('contact-us', 'IndexController@contact')->name('contact')->middleware('throttle:3,2');
 Route::get('news/{date}/{slug}', 'IndexController@news')->name('news');
 
 Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {

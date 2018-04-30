@@ -1,6 +1,7 @@
 @extends('layouts.front')
 
 @section('content')
+    @include('flash::message')
     <div id="intro">
         <div class="logo"></div>
         <div class="loading">
@@ -303,26 +304,27 @@
                 </p>
             </div><div class="hlblock">
                 <h2><span>Get in</span><span>Touch</span></h2>
-                <form class="inverted salonform" id="contactform" method="POST" action="#">
+                {{ Form::open(['route'=>'contact','class' => 'inverted salonform', 'id' => 'contactform']) }}
                     <fieldset>
-                        <label>Your Name</label>
-                        <input type="text" name="name" placeholder="Your Name" data-validetta="required">
+                        {{ Form::label('name', 'Your Name') }}
+                        {{ Form::text('name', null, ['data-validetta'=>'required','placeholder'=>'Your Name']) }}
+                        {{--<span class="validetta-bubble">This field is required. Please be sure to check.<br><span class="validetta-bubbleClose">x</span></span>--}}
                     </fieldset>
                     <fieldset>
-                        <label>Your E-Mail</label>
-                        <input type="text" name="email" placeholder="Your Email" data-validetta="required,email">
+                        {{ Form::label('email', 'Your Email') }}
+                        {{ Form::email('email', null, ['data-validetta'=>'required,email','placeholder'=>'Your Email']) }}
                     </fieldset>
                     <fieldset>
-                        <label>Your Message</label>
-                        <textarea class="autosize" name="message" placeholder="Your Message" data-validetta="required"></textarea>
+                        {{ Form::label('message_c', 'Your Message') }}
+                        {{ Form::textarea('message_c', null, ['class'=>'autosize','data-validetta'=>'required','placeholder'=>'Your Message']) }}
                     </fieldset>
                     <fieldset class="submit left">
-                        <input type="hidden" name="subject" value="Contact from the website">
-                        <input type="hidden" name="formtype" value="contactform">
-                        <input type="submit" name="submit" value="Submit">
+                        {{ Form::hidden('subject','Contact from the website') }}
+                        {{ Form::hidden('formtype','contactform') }}
+                        {{ Form::submit('Submit') }}
                     </fieldset>
                     <div class="status">Message successfully sent, thank you!</div>
-                </form>
+                {{ Form::close() }}
             </div>
         </article>
 

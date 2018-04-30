@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\Stylist;
 use App\Models\SystemInformation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class IndexController extends Controller
 {
@@ -39,6 +40,20 @@ class IndexController extends Controller
     public function news($date, $slug)
     {
         $news = News::where('slug', $slug)->firstOrFail();
-        dd($news);
+        return view('news',compact('news'));
+    }
+
+    public function contact(Request $request){
+        $inputs = $request->validate([
+            'name' => 'required|max:191',
+            'email' => 'required|email',
+            'message_c' => 'required',
+        ]);
+
+        $system_info = SystemInformation::first();
+        Mail::send('emails.contact_us', $inputs, function ($message) use ($system_info) {
+            $message->to(empty($system_info->email) ? 'sksiang5335@gmail.com' : $system_info->email, env('APP_NAME') . ' Team')
+                ->subject(env('APP_NAME') . ' :: User Feedback');
+        });
     }
 }

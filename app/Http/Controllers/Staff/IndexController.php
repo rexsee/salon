@@ -37,9 +37,12 @@ class IndexController extends Controller
                 }
 
                 $image = $request->file('image');
-                $image->move('storage', $image->getClientOriginalName());
-                Image::make('storage/' . $image->getClientOriginalName())->fit('1600', '1067')->save();
-                $inputs['image_path'] = 'storage/' . $image->getClientOriginalName();
+                $file_name = 'COVER_' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage', $full_file_name);
+                Image::make('storage/' . $full_file_name)->fit('1600', '1067')->save();
+                Image::make('storage/' . $full_file_name)->save('storage/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['image_path'] = 'storage/' . $full_file_name;
             }
 
             if (!empty($request->about_image_1)) {
@@ -48,9 +51,12 @@ class IndexController extends Controller
                 }
 
                 $image = $request->file('about_image_1');
-                $image->move('storage/slider', $image->getClientOriginalName());
-                Image::make('storage/slider/' . $image->getClientOriginalName())->fit('1200', '900')->save();
-                $inputs['about_slider_path_1'] = 'storage/slider/' . $image->getClientOriginalName();
+                $file_name = 'AB1_' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage/slider', $full_file_name);
+                Image::make('storage/slider/' . $full_file_name)->fit('1200', '900')->save();
+                Image::make('storage/slider/' . $full_file_name)->save('storage/slider/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['about_slider_path_1'] = 'storage/slider/' . $full_file_name;
             }
 
             if (!empty($request->about_image_2)) {
@@ -59,9 +65,12 @@ class IndexController extends Controller
                 }
 
                 $image = $request->file('about_image_2');
-                $image->move('storage/slider', $image->getClientOriginalName());
-                Image::make('storage/slider/' . $image->getClientOriginalName())->fit('1200', '900')->save();
-                $inputs['about_slider_path_2'] = 'storage/slider/' . $image->getClientOriginalName();
+                $file_name = 'AB2_' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage/slider', $full_file_name);
+                Image::make('storage/slider/' . $full_file_name)->fit('1200', '900')->save();
+                Image::make('storage/slider/' . $full_file_name)->save('storage/slider/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['about_slider_path_2'] = 'storage/slider/' . $full_file_name;
             }
 
             if (!empty($request->about_image_3)) {
@@ -70,9 +79,12 @@ class IndexController extends Controller
                 }
 
                 $image = $request->file('about_image_3');
-                $image->move('storage/slider', $image->getClientOriginalName());
-                Image::make('storage/slider/' . $image->getClientOriginalName())->fit('1200', '900')->save();
-                $inputs['about_slider_path_3'] = 'storage/slider/' . $image->getClientOriginalName();
+                $file_name = 'AB3_' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage/slider', $full_file_name);
+                Image::make('storage/slider/' . $full_file_name)->fit('1200', '900')->save();
+                Image::make('storage/slider/' . $full_file_name)->save('storage/slider/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['about_slider_path_3'] = 'storage/slider/' . $full_file_name;
             }
 
             if (!empty($request->vision_image)) {
@@ -81,9 +93,12 @@ class IndexController extends Controller
                 }
 
                 $image = $request->file('vision_image');
-                $image->move('storage', $image->getClientOriginalName());
-                Image::make('storage/' . $image->getClientOriginalName())->fit('600', '900')->save();
-                $inputs['vision_image_path'] = 'storage/' . $image->getClientOriginalName();
+                $file_name = 'V' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage', $full_file_name);
+                Image::make('storage/' . $full_file_name)->fit('600', '900')->save();
+                Image::make('storage/' . $full_file_name)->save('storage/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['vision_image_path'] = 'storage/' . $full_file_name;
             }
 
             $record->update($inputs);

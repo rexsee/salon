@@ -26,9 +26,12 @@ class GalleryController extends Controller
             ]);
 
             $image = $request->file('image');
-            $image->move('storage/gallery', $image->getClientOriginalName());
-            Image::make('storage/gallery/' . $image->getClientOriginalName())->fit('700', '470')->save();
-            $inputs['image_path'] = 'storage/gallery/' . $image->getClientOriginalName();
+            $file_name = 'G' . time();
+            $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+            $image->move('storage/gallery', $full_file_name);
+            Image::make('storage/gallery/' . $full_file_name)->fit('700', '470')->save();
+            Image::make('storage/gallery/' . $full_file_name)->save('storage/gallery/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+            $inputs['image_path'] = 'storage/gallery/' . $full_file_name;
 
             Gallery::create($inputs);
 
@@ -56,9 +59,12 @@ class GalleryController extends Controller
                 }
 
                 $image = $request->file('image');
-                $image->move('storage/gallery', $image->getClientOriginalName());
-                Image::make('storage/gallery/' . $image->getClientOriginalName())->fit('700', '470')->save();
-                $inputs['image_path'] = 'storage/gallery/' . $image->getClientOriginalName();
+                $file_name = 'G' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage/gallery', $full_file_name);
+                Image::make('storage/gallery/' . $full_file_name)->fit('700', '470')->save();
+                Image::make('storage/gallery/' . $full_file_name)->save('storage/gallery/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['image_path'] = 'storage/gallery/' . $full_file_name;
             }
 
             $record->update($inputs);
