@@ -83,7 +83,7 @@
             </div><div class="hlblock">
                 <h1>The masters vision</h1>
             </div><div class="content">
-                {!! nl2br($system_info->about_us_desc) !!}
+                {!! nl2br($system_info->vision_desc) !!}
             </div>
         </article>
     </section>
@@ -118,7 +118,7 @@
                 <div class="filteritems team">
                     @foreach($team as $count => $item)
                     {!! $count > 0 ? '-->' : '' !!}<div class="item {{str_replace(',',' ',$item->specialty)}} {{str_replace(',',' ',$item->availability)}}">
-                        <div class="pic imgLiquidTopCenter"><img src="{{asset($item->avatar_path)}}" alt="{{$item->name}}"></div>
+                        <div class="pic imgLiquidTopCenter" style="filter:none"><img src="{{asset($item->avatar_path)}}" alt="{{$item->name}}"></div>
                         <div class="text">
                             <h3>{{$item->name}}</h3>
                             <span class="sub-info">Evening Styles</span>
@@ -212,58 +212,40 @@
         <article><div class="hlblock">
                 <h1>Request Appointment</h1>
                 <p>
-                    Please fill out the form on the right, <br/>and one of our staff will get back to you <br/>to discuss further details and confirm <br/>the appointment.
+                    Please fill out the form, <br/>and one of our staff will get back to you <br/>to discuss further details and confirm <br/>the appointment by SMS.
                 </p>
             </div><div class="content">
-                <form id="bookingform" method="POST" action="#" class="salonform">
+                {{ Form::open(['class' => 'salonform', 'id' => 'bookingform']) }}
                     <div class="columns-1-2">
                         <fieldset>
-                            <label>Your Name</label>
-                            <input type="text" name="name" placeholder="Your Name" data-validetta="required">
+                            {{ Form::label('name', 'Your Name') }}
+                            {{ Form::text('name', null, ['data-validetta'=>'required','placeholder'=>'Your Name']) }}
                         </fieldset>
                         <fieldset>
-                            <label>Your Phone No.</label>
-                            <input type="text" name="phone" placeholder="Your Phone No." data-validetta="required">
+                            {{ Form::label('phone', 'Your Phone No.') }}
+                            {{ Form::text('phone', null, ['data-validetta'=>'required','placeholder'=>'Your Phone No.']) }}
                         </fieldset>
                     </div><div class="columns-2-2">
                         <fieldset class="select">
-                            <label>Stylist</label>
-                            <select name="stylist" data-placeholder="Select your prefered Stylist">
-                                <option value="lucy">Lucy</option>
-                                <option value="adam">Adam</option>
-                                <option value="josh">Josh</option>
-                                <option value="valerie">Valerie</option>
-                            </select>
+                            {{ Form::label('stylist', 'Stylist') }}
+                            {{ Form::select('stylist', $team->pluck('name','id')->toArray(), null, ['data-placeholder'=>'Select your prefered Stylist']) }}
                         </fieldset>
                         <fieldset class="select">
-                            <label>Service(s)</label>
-                            <select name="service[]" multiple data-placeholder="Select your desired Service(s)">
-                                <optgroup label="Basic">
-                                    <option value="cut-style">Cut & Style</option>
-                                    <option value="quick-cut">Quick Cut</option>
-                                    <option value="wash-go">Wash & Go</option>
-                                    <option value="evening-style">Evening Style</option>
-                                </optgroup>
-                                <optgroup label="Color">
-                                    <option value="coloration">Coloration</option>
-                                    <option value="hightlights-lowlights">Highlights & Lowlights</option>
-                                    <option value="hightlights">Highlights</option>
-                                    <option value="balayage">Balayage</option>
-                                </optgroup>
-                            </select>
+                            {{ Form::label('service', 'Service(s)') }}
+                            {{ Form::select('service[]', $serviceList, null, ['data-placeholder'=>'Select your desired Service(s)','multiple']) }}
                         </fieldset>
                         <fieldset class="select">
-                            <label>Date/Time</label>
-                            <input type="text" name="datetime" class="datetime" data-validetta="required">
+                            {{ Form::label('datetime', 'Date/Time') }}
+                            {{ Form::text('datetime', null, ['data-validetta'=>'required','class'=>'datetime']) }}
                         </fieldset>
                     </div>
                     <fieldset class="submit">
-                        <input type="hidden" name="subject" value="Booking request from the website">
-                        <input type="hidden" name="formtype" value="bookingform">
-                        <input type="submit" name="submit" value="Submit">
+                        {{ Form::hidden('type','booking') }}
+                        {{ Form::submit('Submit') }}
                     </fieldset>
-                    <div class="status">Message successfully sent, thank you!</div>
-                </form>
+                    <div class="status">Your request is submitted, we will come back to you shortly!</div>
+                    <div class="status-error">Fail to make booking! Please call us directly</div>
+                {{ Form::close() }}
             </div>
         </article>
     </section>
@@ -296,19 +278,16 @@
                     @if(!empty($system_info->email))
                         Email: <a href="mailto:{{$system_info->email}}">{{$system_info->email}}</a> <br />
                     @endif
-                        @if(!empty($system_info->fax_number))
-                            Fax: {{$system_info->fax_number}}<br/>
-                        @endif
-
-
+                    @if(!empty($system_info->fax_number))
+                        Fax: {{$system_info->fax_number}}<br/>
+                    @endif
                 </p>
             </div><div class="hlblock">
                 <h2><span>Get in</span><span>Touch</span></h2>
-                {{ Form::open(['route'=>'contact','class' => 'inverted salonform', 'id' => 'contactform']) }}
+                {{ Form::open(['class' => 'inverted salonform', 'id' => 'contactform']) }}
                     <fieldset>
                         {{ Form::label('name', 'Your Name') }}
                         {{ Form::text('name', null, ['data-validetta'=>'required','placeholder'=>'Your Name']) }}
-                        {{--<span class="validetta-bubble">This field is required. Please be sure to check.<br><span class="validetta-bubbleClose">x</span></span>--}}
                     </fieldset>
                     <fieldset>
                         {{ Form::label('email', 'Your Email') }}
@@ -319,11 +298,11 @@
                         {{ Form::textarea('message_c', null, ['class'=>'autosize','data-validetta'=>'required','placeholder'=>'Your Message']) }}
                     </fieldset>
                     <fieldset class="submit left">
-                        {{ Form::hidden('subject','Contact from the website') }}
-                        {{ Form::hidden('formtype','contactform') }}
+                        {{ Form::hidden('type','contact') }}
                         {{ Form::submit('Submit') }}
                     </fieldset>
                     <div class="status">Message successfully sent, thank you!</div>
+                    <div class="status-error">Fail to send message!</div>
                 {{ Form::close() }}
             </div>
         </article>
@@ -345,7 +324,8 @@
         <div class="content">
             <div class="copyright">
                 <img src="{{asset('images/logo-small.png')}}" alt="{{env('APP_NAME')}}">
-                <p>Copyright {{env('APP_NAME')}} - All rights reserved</p>
+                <p>Copyright {{env('APP_NAME')}} - All rights reserved</p><br />
+                <p>Developed by <a style="color: #ffffff;" href="https://www.linkedin.com/in/rex-see-518a51a1/" target="_blank">Rex See</a></p>
             </div>
         </div>
         <a id="back2top" class="backtotop icon-salon_arrowup">back to top</a>

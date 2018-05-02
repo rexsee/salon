@@ -15,13 +15,13 @@ class CreateBookingsTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('status',['Pending','Confirmed','Postpone','Cancel'])->default('Pending');
-            $table->string('name');
-            $table->string('tel');
-            $table->date('booking_date');
-            $table->time('booking_time');
-            $table->unsignedInteger('service_id')->index();
+            $table->enum('status',['Pending','Confirmed','Postpone','Cancel','Done'])->default('Pending');
+            $table->string('name')->index();
+            $table->string('tel')->index();
+            $table->timestamp('booking_date')->index();
+            $table->string('services')->index();
             $table->unsignedInteger('stylist_id')->index();
+            $table->unsignedDecimal('hour_take');
             $table->timestamps();
         });
     }
