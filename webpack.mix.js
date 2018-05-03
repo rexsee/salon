@@ -13,11 +13,10 @@ let mix = require('laravel-mix');
 
 mix.combine([
     'resources/assets/js/jquery-3.2.1.min.js',
+    'resources/assets/js/popper.min.js',
     // 'resources/assets/js/jquery-ui.min.js',
     'resources/assets/js/bootstrap.min.js',
     'resources/assets/js/datatables.min.js'
-    // 'resources/assets/js/dataTables.bootstrap4.min.js',
-    // 'resources/assets/js/responsive.bootstrap4.min.js'
     ],'public/js/app.js')
     .combine([
         'resources/assets/js/jquery.min.js',

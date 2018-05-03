@@ -11,6 +11,7 @@ use App\Models\SystemInformation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Pusher\Pusher;
 
 class IndexController extends Controller
 {
@@ -89,6 +90,13 @@ class IndexController extends Controller
                 $booking->services = $service;
                 $booking->stylist_id = $inputs['stylist'];
                 $booking->save();
+
+                if(!empty(env('PUSHER_APP_KEY'))) {
+                    $options = ['cluster' => env('PUSHER_APP_CLUSTER')];
+                    $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), $options);
+                    $data['message'] = 'New booking from ' . $inputs['name'];
+                    $pusher->trigger('booking', 'new', $data);
+                }
             }
         }
     }

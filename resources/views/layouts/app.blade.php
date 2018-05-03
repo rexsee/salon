@@ -23,6 +23,27 @@
 </head>
 <body>
 <div id="app">
+    <!-- Modal -->
+    <div id="pusherModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Alert</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="pusherModalContent"></p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{route('staff.booking',['type'=>'Pending'])}}" class="btn btn-default">Check it now</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -91,7 +112,37 @@
     <main class="py-4">
         @yield('content')
     </main>
+
+    <audio id="alertAudio">
+        <source src="{{asset('alert.ogg')}}" type="audio/ogg">
+        <source src="{{asset('alert.mp3')}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 </div>
+
+@if(auth()->check() && !empty(env('PUSHER_APP_KEY')))
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script>
+        @if(env('APP_ENV') != 'production')
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        @endif
+
+        var pusher = new Pusher('{{env('PUSHER_APP_KEY')}}', {
+                cluster: '{{env('PUSHER_APP_CLUSTER')}}',
+                encrypted: true
+            });
+
+        var channel = pusher.subscribe('booking');
+        channel.bind('new', function(data) {
+            alertSound = document.getElementById("alertAudio");
+            $('#pusherModal').modal('show');
+            $("#pusherModalContent").text(data.message);
+            alertSound.play();
+        });
+    </script>
+@endif
+
 <script>
     $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
 </script>
