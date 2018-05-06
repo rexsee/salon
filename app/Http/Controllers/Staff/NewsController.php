@@ -20,7 +20,7 @@ class NewsController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'title' => 'required|max:191',
-                'news_date' => 'required|date',
+                'news_date' => 'required|date_format:d/m/Y',
                 'type' => 'required',
                 'description' => 'required',
                 'content' => 'required',
@@ -32,7 +32,7 @@ class NewsController extends Controller
                 $slug .= rand(1,100);
             }
             $inputs['slug'] = $slug;
-            $inputs['news_date'] = Carbon::parse($inputs['news_date'])->toDateString();
+            $inputs['news_date'] = Carbon::createFromFormat('d/m/Y',$inputs['news_date'])->toDateString();
 
             News::create($inputs);
 
@@ -50,7 +50,7 @@ class NewsController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'title' => 'required|max:191',
-                'news_date' => 'required|date',
+                'news_date' => 'required|date_format:d/m/Y',
                 'type' => 'required',
                 'description' => 'required',
                 'content' => 'required',
@@ -62,7 +62,7 @@ class NewsController extends Controller
                 $slug .= rand(1,100);
             }
             $inputs['slug'] = $slug;
-            $inputs['news_date'] = Carbon::parse($inputs['news_date'])->toDateString();
+            $inputs['news_date'] = Carbon::createFromFormat('d/m/Y',$inputs['news_date'])->toDateString();
 
             $record->update($inputs);
 

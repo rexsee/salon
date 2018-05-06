@@ -37,7 +37,7 @@
                     <p id="pusherModalContent"></p>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{route('staff.booking',['type'=>'Pending'])}}" class="btn btn-default">Check it now</a>
+                    <a href="{{route('staff.booking')}}" class="btn btn-default">Check it now</a>
                 </div>
             </div>
 

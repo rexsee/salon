@@ -31,7 +31,7 @@
                                     </td>
                                     <td>{{$data->created_at->toDateString()}}</td>
                                     <td>{{$data->title}}</td>
-                                    <td><img src="{{asset($data->image_path)}}" width="200px"/></td>
+                                    <td><img src="{{asset($data->image_path)}}" width="100px"/></td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -49,7 +49,7 @@
             $('#datatable').DataTable({
                 autoWidth: false,
                 responsive: true,
-                pageLength: 50,
+                pageLength: 25,
                 columnDefs : [{ orderable: false, targets: 0 }],
                 order:[1,'asc']
             });

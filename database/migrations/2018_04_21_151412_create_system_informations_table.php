@@ -22,7 +22,7 @@ class CreateSystemInformationsTable extends Migration
             $table->string('head_line')->nullable();
             $table->string('slogan')->nullable();
             $table->string('image_path')->nullable();
-            $table->string('vision_image')->nullable();
+            $table->string('vision_image_path')->nullable();
             $table->string('about_slider_path_1')->nullable();
             $table->string('about_slider_path_2')->nullable();
             $table->string('about_slider_path_3')->nullable();

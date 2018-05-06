@@ -1,20 +1,20 @@
 @extends('layouts.front')
-
+@section('title') - {{$system_info->slogan}}@stop
 @section('content')
-    @include('flash::message')
+    @if(env('APP_ENV') == 'production')
     <div id="intro">
         <div class="logo"></div>
         <div class="loading">
             <div class="loader1"></div>
         </div>
     </div>
+    @endif
 
     <section id="hero" data-panel="hero">
         <div class="content imgLiquid">
             <div class="tagline">
                 <h1>{{$system_info->head_line}}</h1>
                 <h2>{{$system_info->slogan}}</h2>
-                {{--<span class="subinfo">since 1994</span>--}}
             </div>
             <img src="{{asset($system_info->image_path)}}" alt="Welcome to {{$system_info->head_line}}">
         </div>
@@ -25,7 +25,6 @@
         <nav id="mainmenu" class="menu-horizontal">
             <ul>
                 <li><a href="#about" data-panel="about">About Us</a></li>
-                {{--<li><a href="#mastersvision" data-panel="mastersvision">The Masters Vision</a></li>--}}
                 @if(count($team))
                 <li><a href="#team" data-panel="team">Team</a></li>
                 @endif
@@ -89,31 +88,9 @@
     </section>
 
     @if(count($team))
-        <section id="team" data-panel="team" class="tophead mixitup supermix">
+        <section id="team" data-panel="team" class="tophead mixitup sixmix">
             <article><div class="hlblock controls">
                     <h1>Team</h1>
-                    <div class="multilist">
-                        <ul class="filterlist" data-label="Specialty: " data-default="All Specialty">
-                            <li class="label"><a class="default">Specialty: </a></li>
-                            <li><a class="filter" data-filter=".color-artist">Color Artist</a></li>
-                            <li><a class="filter" data-filter=".make-overs">Make-Overs</a></li>
-                            <li><a class="filter" data-filter=".evening-styles">Evening Styles</a></li>
-                            <li><a class="filter" data-filter=".mens-styles">Men's Styles</a></li>
-                            <li><a class="filter" data-filter=".extensions">Extensions</a></li>
-                        </ul>
-                        <ul class="filterlist" data-label="Available on: " data-default="Everyday">
-                            <li class="label"><a class="default">Available on: </a></li>
-                            <li><a class="filter" data-filter=".monday">Monday</a></li>
-                            <li><a class="filter" data-filter=".tuesday">Tuesday</a></li>
-                            <li><a class="filter" data-filter=".wednesday">Wednesday</a></li>
-                            <li><a class="filter" data-filter=".thursday">Thursday</a></li>
-                            <li><a class="filter" data-filter=".friday">Friday</a></li>
-                            <li><a class="filter" data-filter=".saturday">Saturday</a></li>
-                            <li><a class="filter" data-filter=".sunday">Sunday</a></li>
-                        </ul>
-                        <a class="reset">reset</a>
-
-                    </div>
                 </div>
                 <div class="filteritems team">
                     @foreach($team as $count => $item)
@@ -121,7 +98,7 @@
                         <div class="pic imgLiquidTopCenter" style="filter:none"><img src="{{asset($item->avatar_path)}}" alt="{{$item->name}}"></div>
                         <div class="text">
                             <h3>{{$item->name}}</h3>
-                            <span class="sub-info">Evening Styles</span>
+                            <span class="sub-info">{{format_specialty($item->specialty)}}</span>
                             <p>{{$item->description}}</p>
                             <a href="#booking" class="button">Book Appointment</a>
                         </div>
@@ -147,7 +124,7 @@
                 @foreach($service as $item)
                 <div class="item {{$item->type}}">
                     <h3>{{$item->name}}</h3>
-                    <p>{{$item->description}}</p><a href="#booking"><i>book now</i><span class="price">RM {{number_format($item->price)}}</span></a>
+                    <p>{{$item->description}}</p><a href="#booking"><i>book now</i><span class="price">RM {{number_format($item->price)}} ++</span></a>
                 </div>
                 @endforeach
             </div><!--slickcarousel-->
@@ -212,7 +189,7 @@
         <article><div class="hlblock">
                 <h1>Request Appointment</h1>
                 <p>
-                    Please fill out the form, <br/>and one of our staff will get back to you <br/>to discuss further details and confirm <br/>the appointment by SMS.
+                    Please fill out the form, <br />your booking will be reserve for <br />15 minutes after the booking time. <br />Please call us if you need modify your booking detail.
                 </p>
             </div><div class="content">
                 {{ Form::open(['class' => 'salonform', 'id' => 'bookingform']) }}
@@ -228,7 +205,7 @@
                     </div><div class="columns-2-2">
                         <fieldset class="select">
                             {{ Form::label('stylist', 'Stylist') }}
-                            {{ Form::select('stylist', $team->pluck('name','id')->toArray(), null, ['data-placeholder'=>'Select your prefered Stylist']) }}
+                            {{ Form::select('stylist', $team->pluck('name','id')->toArray(), null, ['data-placeholder'=>'Select your prefered Stylist','id'=>'bookingformstylist']) }}
                         </fieldset>
                         <fieldset class="select">
                             {{ Form::label('service', 'Service(s)') }}
@@ -236,15 +213,15 @@
                         </fieldset>
                         <fieldset class="select">
                             {{ Form::label('datetime', 'Date/Time') }}
-                            {{ Form::text('datetime', null, ['data-validetta'=>'required','class'=>'datetime']) }}
+                            {{ Form::text('datetime', null, ['data-validetta'=>'required','id'=>'datetimed']) }}
                         </fieldset>
                     </div>
                     <fieldset class="submit">
                         {{ Form::hidden('type','booking') }}
                         {{ Form::submit('Submit') }}
                     </fieldset>
-                    <div class="status">Your request is submitted, we will come back to you shortly!</div>
-                    <div class="status-error">Fail to make booking! Please call us directly</div>
+                    <div class="status">Your booking is confirmed, thank you. See you soon ;)</div>
+                    <div class="status-error"></div>
                 {{ Form::close() }}
             </div>
         </article>
@@ -302,7 +279,7 @@
                         {{ Form::submit('Submit') }}
                     </fieldset>
                     <div class="status">Message successfully sent, thank you!</div>
-                    <div class="status-error">Fail to send message!</div>
+                    <div class="status-error"></div>
                 {{ Form::close() }}
             </div>
         </article>
@@ -313,21 +290,23 @@
         <article>
             <div class="hlblock">
                 <h1>Where to find us</h1>
-                <div class="filterlist maplist" data-label="Filter: " data-default="All"></div>
             </div><div class="gmap">
-
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.0300728895345!2d101.69008391449832!3d3.086648197752312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc4a6c0425c0e1%3A0x2d2b33c7d05a404a!2sALPH+Studio!5e0!3m2!1sen!2smy!4v1525626850343" width="100%" height="100%" frameborder="0" style="border:0"></iframe>
             </div>
         </article>
     </section>
 
-    <section id="end">
-        <div class="content">
-            <div class="copyright">
-                <img src="{{asset('images/logo-small.png')}}" alt="{{env('APP_NAME')}}">
-                <p>Copyright {{env('APP_NAME')}} - All rights reserved</p><br />
-                <p>Developed by <a style="color: #ffffff;" href="https://www.linkedin.com/in/rex-see-518a51a1/" target="_blank">Rex See</a></p>
-            </div>
-        </div>
-        <a id="back2top" class="backtotop icon-salon_arrowup">back to top</a>
-    </section>
+    @include('footer')
+@stop
+
+@section('js')
+    <script>
+        $('#datetimed').datetimepicker({
+            theme: "dark",
+            step: 30,
+            minTime: "10:30",
+            maxTime: "20:00"
+        });
+        $('#datetimed').datetimepicker('reset')
+    </script>
 @stop

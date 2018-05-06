@@ -28,7 +28,7 @@
 <div class="form-group row">
     {{ Form::label('description', 'Description', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::text('description', old('description'), ['class'=>'form-control', 'placeholder'=>'Short description about this service']) }}
+        {{ Form::text('description', old('description'), ['class'=>'form-control', 'placeholder'=>'Short description about this service, max length 60']) }}
     </div>
 </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('css')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="{{asset('css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet">
 @stop
 
 @section('content')
@@ -35,8 +35,11 @@
 @endsection
 
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="{{asset('js/moment.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <script>
-        $('.datepicker').datepicker();
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
     </script>
 @stop

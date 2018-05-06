@@ -27,4 +27,7 @@ mix.combine([
     .sass('resources/assets/sass/front.scss', 'public/css')
     .copy('resources/assets/fonts','public/fonts')
     .copy('resources/assets/js/modernizr.min.js','public/js')
+    .copy('resources/assets/js/moment.min.js','public/js')
+    .copy('resources/assets/js/tempusdominus-bootstrap-4.min.js','public/js')
+    .copy('resources/assets/css/tempusdominus-bootstrap-4.min.css','public/css')
     .version();

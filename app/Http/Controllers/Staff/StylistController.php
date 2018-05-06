@@ -23,7 +23,7 @@ class StylistController extends Controller
                 'name' => 'required|max:191',
                 'experience' => 'required|max:191',
                 'specialty' => 'required|array|nullable',
-                'availability' => 'required|array|nullable',
+//                'availability' => 'required|array|nullable',
                 'description' => 'required',
                 'avatar' => 'required|mimes:jpeg,jpg,png,gif|max:1024'
             ]);
@@ -49,13 +49,7 @@ class StylistController extends Controller
             flash('Record added')->success();
             return redirect()->route('staff.stylist');
         } else {
-            $specialtyList = [
-                'color-artist' => 'Color Artist',
-                'make-overs' => 'Make-Overs',
-                'evening-styles' => 'Evening Styles',
-                'mens-styles' => 'Men\'s Styles',
-                'extensions' => 'Extensions',
-            ];
+            $specialtyList = get_specialty();
 
             $availabilityList = [
                 'monday' => 'Monday',
@@ -80,7 +74,7 @@ class StylistController extends Controller
                 'name' => 'required|max:191',
                 'experience' => 'required|max:191',
                 'specialty' => 'required|max:191',
-                'availability' => 'required|array|nullable',
+//                'availability' => 'required|array|nullable',
                 'description' => 'required',
                 'avatar' => 'mimes:jpeg,jpg,png,gif|max:1024'
             ]);
@@ -112,13 +106,7 @@ class StylistController extends Controller
             flash('Record updated')->success();
             return redirect()->route('staff.stylist');
         } else {
-            $specialtyList = [
-                'color-artist' => 'Color Artist',
-                'make-overs' => 'Make-Overs',
-                'evening-styles' => 'Evening Styles',
-                'mens-styles' => 'Men\'s Styles',
-                'extensions' => 'Extensions',
-            ];
+            $specialtyList = get_specialty();
 
             $availabilityList = [
                 'monday' => 'Monday',

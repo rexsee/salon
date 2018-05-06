@@ -22,7 +22,7 @@ class ServiceController extends Controller
                 'type' => 'required|max:191',
                 'price' => 'required|numeric',
                 'minutes_needed' => 'required|numeric',
-                'description' => 'required',
+                'description' => 'required|max:60',
             ]);
 
             Service::create($inputs);
@@ -44,7 +44,7 @@ class ServiceController extends Controller
                 'type' => 'required|max:191',
                 'price' => 'required|numeric',
                 'minutes_needed' => 'required|numeric',
-                'description' => 'required',
+                'description' => 'required|max:60',
             ]);
 
             $record->update($inputs);

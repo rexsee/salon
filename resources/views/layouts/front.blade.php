@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
+    <link rel="icon" type="img/ico" href="{{asset('images/favicon.ico')}}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/modernizr.min.js') }}"></script>

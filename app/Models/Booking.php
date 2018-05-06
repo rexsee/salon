@@ -12,8 +12,9 @@ class Booking extends Model
         'tel',
         'booking_date',
         'services',
+        'services_id',
         'stylist_id',
-        'hour_take'
+        'minutes_take'
     ];
 
     protected $dates = ['booking_date'];

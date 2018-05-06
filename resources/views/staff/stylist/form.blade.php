@@ -16,13 +16,6 @@
 <div class="form-group row">
     {{ Form::label('specialty', 'Specialty', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::select('specialty', $specialtyList, null, ['class'=>'form-control']) }}
-    </div>
-</div>
-
-<div class="form-group row">
-    {{ Form::label('specialty', 'Specialty', ['class'=>'col-form-label col-sm-2']) }}
-    <div class="col-sm-10">
         @foreach($specialtyList as $key=>$name)
             <label>{{ Form::checkbox('specialty[]',$key,!empty($specialty) && in_array($key,$specialty) ? true : false) }}
                 {{$name}}
@@ -31,6 +24,7 @@
     </div>
 </div>
 
+<!--
 <div class="form-group row">
     {{ Form::label('availability', 'Availability', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
@@ -41,7 +35,7 @@
         @endforeach
     </div>
 </div>
-
+-->
 <div class="form-group row">
     {{ Form::label('description', 'Description', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">

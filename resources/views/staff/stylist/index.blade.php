@@ -20,7 +20,6 @@
                                 <th>Name</th>
                                 <th>Experience</th>
                                 <th>Specialty</th>
-                                <th>Availability</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,8 +31,7 @@
                                     </td>
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->experience}}</td>
-                                    <td>{{$data->specialty}}</td>
-                                    <td>{{$data->availability}}</td>
+                                    <td>{{format_specialty($data->specialty)}}</td>
                                 </tr>
                             @endforeach
                             </tbody>

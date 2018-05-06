@@ -6,12 +6,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        @if(!empty($is_pending_list))
-                            Pending Booking &nbsp;&nbsp;<a href="{{route('staff.booking')}}" class="small">(click to view all booking)</a>
-                        @else
-                            All Booking &nbsp;&nbsp;<a href="{{route('staff.booking',['type'=>'Pending'])}}" class="small">(click to view pending booking)</a>
-                        @endif
-
+                        Booking
                         <a href="{{route('staff.booking.add')}}" class="btn btn-sm btn-success pull-right">Add New</a>
                     </div>
 
@@ -21,8 +16,6 @@
                         <table id="datatable" class="table table-list">
                             <thead>
                             <tr>
-                                <th width="80px"></th>
-                                <th>Created At</th>
                                 <th>Status</th>
                                 <th>Name</th>
                                 <th>Tel</th>
@@ -35,13 +28,17 @@
                             @foreach($result as $data)
                                 <tr>
                                     <td>
-                                        <a href="{{route('staff.booking.edit',[$data->id])}}" class="btn btn-sm-2 btn-info">Edit</a>
+                                        @if($data->status == 'Done')
+                                            <span class="badge badge-success">{{$data->status}}</span>
+                                        @elseif($data->status == 'Confirmed' || $data->status == 'Postpone')
+                                            <a href="{{route('staff.booking.update',[$data->id])}}" class="btn btn-sm-2 btn-info">{{$data->status}}</a>
+                                        @else
+                                            <span class="badge badge-danger">{{$data->status}}</span>
+                                        @endif
                                     </td>
-                                    <td>{{$data->created_at}}</td>
-                                    <td>{{$data->status}}</td>
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->tel}}</td>
-                                    <td>{{$data->booking_date->toDayDateTimeString()}}</td>
+                                    <td>{{$data->booking_date->format('(D) d/m/Y H:i')}}</td>
                                     <td>{{$data->stylist->name}}</td>
                                     <td>{{$data->services}}</td>
                                 </tr>
@@ -63,7 +60,7 @@
                 responsive: true,
                 pageLength: 50,
                 columnDefs : [{ orderable: false, targets: 0 }],
-                order:[1,'desc']
+                order:[3,'desc']
             });
         } );
     </script>

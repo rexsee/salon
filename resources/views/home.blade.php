@@ -9,7 +9,7 @@
 
                     <div class="card-body">
                         @if(!empty($birthday_customer))
-                            <div class="jumbotron">
+                            <div class="jumbotron" style="padding: 2rem 2rem;">
                                 <h1>Birthday Reminder</h1>
                                 <p>There is <b>{{$birthday_customer}}</b> customer(s) birthday this month.</p>
                                 <p>
@@ -29,7 +29,7 @@
                         <div class="form-group row">
                             {{ Form::label('address', 'Address', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::textarea('address', old('address'), ['class'=>'form-control', 'required']) }}
+                                {{ Form::textarea('address', old('address'), ['class'=>'form-control', 'required','rows'=>'3']) }}
                             </div>
                         </div>
 
@@ -84,14 +84,14 @@
                         <div class="form-group row">
                             {{ Form::label('about_us_desc', 'About Us Description', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::textarea('about_us_desc', old('about_us_desc'), ['class'=>'form-control']) }}
+                                {{ Form::textarea('about_us_desc', old('about_us_desc'), ['class'=>'form-control','rows'=>'5']) }}
                             </div>
                         </div>
 
                         <div class="form-group row">
                             {{ Form::label('vision_desc', 'Vision Description', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::textarea('vision_desc', old('vision_desc'), ['class'=>'form-control']) }}
+                                {{ Form::textarea('vision_desc', old('vision_desc'), ['class'=>'form-control','rows'=>'5']) }}
                             </div>
                         </div>
 

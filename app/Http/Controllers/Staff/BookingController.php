@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Models\Booking;
+use App\Models\Customer;
 use App\Models\Service;
 use App\Models\Stylist;
 use Carbon\Carbon;
@@ -14,17 +15,9 @@ class BookingController extends Controller
 {
     public function index()
     {
-        if(Input::get('type') == 'pending') {
-            $result = Booking::where('type','Pending')->get();
-            $is_pending_list = true;
-        }
-        else {
-            $result = Booking::all();
-        }
+        $result = Booking::whereIn('status', ['Confirmed', 'Postpone'])->get();
 
-
-
-        return view('staff.booking.index', compact('result','is_pending_list'));
+        return view('staff.booking.index', compact('result'));
     }
 
     public function add(Request $request)
@@ -45,32 +38,37 @@ class BookingController extends Controller
             flash('Record added')->success();
             return redirect()->route('staff.booking');
         } else {
-            $stylistList = Stylist::pluck('name','id')->toArray();
-            $service = Service::orderBy('name')->get();
-            $color_services = $service->where('type', 'cat-color')->pluck('name', 'id')->toArray();
-            $basic_services = $service->where('type', 'cat-basics')->pluck('name', 'id')->toArray();
-            $serviceList['Color'] = $color_services;
-            $serviceList['Basic'] = $basic_services;
-            return view('staff.booking.add',compact('stylistList','serviceList'));
+            $customer_id = Input::get('id');
+            if (!empty($customer_id)) {
+                $customer = Customer::find($customer_id);
+            }
+            $stylistList = Stylist::pluck('name', 'id')->toArray();
+            $serviceList = Service::pluck('name','id')->toArray();
+            return view('staff.booking.add', compact('stylistList', 'serviceList', 'customer'));
         }
     }
 
-    public function edit($id, Request $request)
+    public function update($id, Request $request)
     {
-        $record = Booking::findOrFail($id);
+        $record = Booking::where('id', $id)->whereIn('status', ['Confirmed', 'Postpone'])->firstOrFail();
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
-                'status' => 'required',
-                'hour' => 'require_if:status:Confirmed',
-                'is_sms_notify' => 'require_if:status:Confirmed',
+                'update_to' => 'required|in:Postpone,Cancel',
+                'postpone_date' => 'required_if:update_to,Postpone',
+                'postpone_time' => 'required_if:update_to,Postpone',
             ]);
 
-            $record->update($inputs);
+            $record->status = $inputs['update_to'];
+            if ($inputs['update_to'] == 'Postpone') {
+                $to_date = $inputs['postpone_date'] . ' ' . $inputs['postpone_time'];
+                $record->booking_date = Carbon::createFromFormat('d/m/Y g:i A', $to_date)->toDateTimeString();
+            }
+            $record->save();
 
             flash('Record updated')->success();
             return redirect()->route('staff.booking');
         } else {
-            return view('staff.booking.edit', compact('record','stylistList'));
+            return view('staff.booking.update', compact('record'));
         }
     }
 }

@@ -33,10 +33,16 @@
                             @foreach($result as $data)
                                 <tr>
                                     <td>
+                                        <a href="{{route('staff.booking.add',['id'=>$data->id])}}" class="btn btn-sm-2 btn-success">Booking</a>
                                         <a href="{{route('staff.customer.edit',[$data->id])}}" class="btn btn-sm-2 btn-info">Edit</a>
-                                        <a href="{{route('staff.customer.detail',[$data->id])}}" class="btn btn-sm-2 btn-outline-info">Detail</a>
                                     </td>
-                                    <td>{{$data->name}}</td>
+                                    <td>
+                                        <a href="{{route('staff.customer.detail',[$data->id])}}">{{$data->name}}</a>
+
+                                        @if($data->dob->format('m') == date('m'))
+                                            <span class="oi oi-star" style="color: green"></span>
+                                        @endif
+                                    </td>
                                     <td>{{$data->tel}}</td>
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob->toFormattedDateString()}}</td>

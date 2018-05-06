@@ -1,4 +1,5 @@
 @extends('layouts.front')
+@section('title') - {{$news->title}} @stop
 
 @section('content')
     @include('flash::message')
@@ -6,7 +7,7 @@
         <a href="{{route('index')}}"><img src="{{asset('images/logo.png')}}" width="120px"></a>
     </div>
 
-    <section class="tophead mixitup supermix" style="padding-top: .5rem">
+    <section class="tophead mixitup supermix" style="padding-top: .5rem;height: 90%">
         <article>
             <div class="content">
                 <div class="news">
@@ -28,13 +29,5 @@
         </article>
     </section>
 
-    <section id="end">
-        <div class="content">
-            <div class="copyright">
-                <img src="{{asset('images/logo-small.png')}}" alt="{{env('APP_NAME')}}">
-                <p>Copyright {{env('APP_NAME')}} - All rights reserved</p>
-            </div>
-        </div>
-        <a id="back2top" class="backtotop icon-salon_arrowup">back to top</a>
-    </section>
+    @include('footer')
 @stop

@@ -14,6 +14,7 @@
 Route::get('/', 'IndexController@index')->name('index');
 Route::post('processing', 'IndexController@processing')->name('processing')->middleware('throttle:10,1');
 Route::get('news/{date}/{slug}', 'IndexController@news')->name('news');
+Route::get('booking', 'IndexController@booking')->name('booking');
 
 Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
 
@@ -54,7 +55,7 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
         Route::group(['prefix' => 'booking', 'as'=>'.booking'], function () {
             Route::get('', 'Staff\BookingController@index');
             Route::match(['get','post'],'add', 'Staff\BookingController@add')->name('.add');
-            Route::match(['get','post'],'edit/{id}', 'Staff\BookingController@edit')->name('.edit');
+            Route::match(['get','post'],'update/{id}', 'Staff\BookingController@update')->name('.update');
         });
 
         //Customer
