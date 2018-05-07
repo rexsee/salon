@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Customer;
 use App\Models\Gallery;
 use App\Models\News;
 use App\Models\Service;
@@ -124,6 +125,16 @@ class IndexController extends Controller
                             ])
                         ];
                     }
+
+                    $customer = Customer::where('tel',$tel)->first();
+                    if(empty($customer)) {
+                        $customer = new Customer();
+                        $customer->tel = $tel;
+                        $customer->name = $request->name;
+                        $customer->stylist_id = $request->stylist;
+                        $customer->save();
+                    }
+
                     $booking = new Booking();
                     $booking->name = $request->name;
                     $booking->tel = $tel;
@@ -132,7 +143,10 @@ class IndexController extends Controller
                     $booking->services_id = substr($services_id, 0, -1);
                     $booking->minutes_take = $minutes_take;
                     $booking->stylist_id = $request->stylist;
+                    $booking->customer_id = $customer->id;
                     $booking->save();
+
+                    // send sms
 
                     if (!empty(env('PUSHER_APP_KEY'))) {
                         $options = ['cluster' => env('PUSHER_APP_CLUSTER')];

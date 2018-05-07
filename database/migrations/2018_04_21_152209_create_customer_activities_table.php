@@ -15,7 +15,8 @@ class CreateCustomerActivitiesTable extends Migration
     {
         Schema::create('customer_activities', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('service_id')->index();
+            $table->string('services')->index();
+            $table->string('services_id')->index();
             $table->text('remark')->nullable();
             $table->unsignedInteger('stylist_id')->index();
             $table->unsignedInteger('customer_id')->index();

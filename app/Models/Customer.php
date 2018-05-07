@@ -16,4 +16,8 @@ class Customer extends Model
     public function activities() {
         return $this->hasMany('App\Models\CustomerActivity');
     }
+
+    public function bookings() {
+        return $this->hasMany('App\Models\Booking');
+    }
 }

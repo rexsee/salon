@@ -23,6 +23,7 @@ class CreateBookingsTable extends Migration
             $table->string('services_id')->index();
             $table->unsignedInteger('stylist_id')->index();
             $table->unsignedInteger('minutes_take');
+            $table->unsignedInteger('customer_id')->nullable();
             $table->timestamps();
         });
     }

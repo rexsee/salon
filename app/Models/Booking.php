@@ -14,6 +14,7 @@ class Booking extends Model
         'services',
         'services_id',
         'stylist_id',
+        'customer_id',
         'minutes_take'
     ];
 

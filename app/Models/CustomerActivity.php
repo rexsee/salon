@@ -6,15 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomerActivity extends Model
 {
-    protected $fillable = ['service_id', 'remark', 'stylist_id', 'customer_id'];
+    protected $fillable = ['services_id', 'services', 'remark', 'stylist_id', 'customer_id'];
 
     public function stylist()
     {
         return $this->belongsTo('App\Models\Stylist');
-    }
-
-    public function service()
-    {
-        return $this->belongsTo('App\Models\Service');
     }
 }
