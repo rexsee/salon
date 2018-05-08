@@ -39,13 +39,13 @@
                                     <td>
                                         <a href="{{route('staff.customer.detail',[$data->id])}}">{{$data->name}}</a>
 
-                                        @if($data->dob->format('m') == date('m'))
+                                        @if(!empty($data->dob) && $data->dob->format('m') == date('m'))
                                             <span class="oi oi-star" style="color: green"></span>
                                         @endif
                                     </td>
                                     <td>{{$data->tel}}</td>
                                     <td>{{$data->city}}</td>
-                                    <td>{{$data->dob->toFormattedDateString()}}</td>
+                                    <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
                                     <td>{{$data->stylist->name}}</td>
                                 </tr>
                             @endforeach

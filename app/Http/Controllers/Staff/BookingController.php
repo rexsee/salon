@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Laracasts\Flash\Flash;
 
 class BookingController extends Controller
 {
@@ -24,18 +25,71 @@ class BookingController extends Controller
     {
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
-                'status' => 'required',
                 'name' => 'required|max:191',
                 'tel' => 'required|max:191',
-                'bdate' => 'required|date',
+                'book_date' => 'required',
+                'book_time' => 'required',
                 'services' => 'required|array',
-                'stylist_id' => 'required|exists:stylists,id',
+                'stylist' => 'required|exists:stylists,id',
             ]);
 
-            $inputs['booking_date'] = Carbon::parse($inputs['bdate'])->toDateTimeString();
-            Booking::create($inputs);
+            $datetime = Carbon::createFromFormat('d/m/Y g:i A',$inputs['book_date'] . ' ' .$inputs['book_time']);
+            if($datetime->format('N') == 2) {
+                return redirect()->back()->withInput()->withErrors('Booking date is no in the business day.');
+            }
 
-            flash('Record added')->success();
+            if($datetime->format('H') < 11 || $datetime->format('H') > 20) {
+                return redirect()->back()->withInput()->withErrors('Booking time is no in the business hour.');
+            }
+
+            $services_string = '';
+            $services_id = '';
+            $minutes_take = 0;
+            $tel = starts_with($inputs['tel'], '60') ? substr($inputs['tel'], 1) : $inputs['tel'];
+            foreach ($inputs['services'] as $service_id) {
+                $service = Service::findOrFail($service_id);
+                $services_string .= $service->name . ', ';
+                $services_id .= $service->id . ',';
+                $minutes_take += $service->minutes_needed;
+            }
+            $check_double_booking = Booking::where('name', $inputs['name'])
+                ->where('status', 'Pending')
+                ->where('tel', $tel)
+                ->where('booking_date', $datetime->toDateTimeString())
+                ->where('services_id', substr($services_id, 0, -1))
+                ->where('stylist_id', $inputs['stylist'])
+                ->first();
+
+            if (empty($check_double_booking)) {
+                $check_status = check_stylist_availability($inputs['stylist'], $datetime, $minutes_take, true);
+                if ($check_status['status'] == false) {
+                    Flash::error('Selected date time is not available. ' . $check_status['remark'])->important();
+                    return redirect()->back()->withInput();
+                }
+
+                $customer = Customer::where('tel',$tel)->first();
+                if(empty($customer)) {
+                    $customer = new Customer();
+                    $customer->tel = $tel;
+                    $customer->name = $inputs['name'];
+                    $customer->stylist_id = $inputs['stylist'];
+                    $customer->save();
+                }
+
+                $booking = new Booking();
+                $booking->name = $inputs['name'];
+                $booking->tel = $tel;
+                $booking->booking_date = Carbon::createFromFormat('d/m/Y g:i A',$inputs['book_date'] . ' ' .$inputs['book_time'])->toDateTimeString();
+                $booking->services = substr($services_string, 0, -2);
+                $booking->services_id = substr($services_id, 0, -1);
+                $booking->minutes_take = $minutes_take;
+                $booking->stylist_id = $inputs['stylist'];
+                $booking->customer_id = $customer->id;
+                $booking->save();
+
+                // send sms
+            }
+            flash('Booking added')->success();
             return redirect()->route('staff.booking');
         } else {
             $customer_id = Input::get('id');

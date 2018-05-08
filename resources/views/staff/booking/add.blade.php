@@ -14,6 +14,7 @@
                     </div>
 
                     <div class="card-body">
+                        @include('flash::message')
                         @include('error_list')
 
                         {{ Form::open(['class' => 'form-horizontal']) }}
@@ -32,9 +33,16 @@
                         </div>
 
                         <div class="form-group row">
-                            {{ Form::label('datetime', 'Booking Date', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('book_date', 'Booking Date', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::text('datetime', old('datetime'), ['class'=>'form-control datetimepicker', 'required']) }}
+                                {{ Form::text('book_date', old('book_date'), ['class'=>'form-control datepicker', 'required']) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {{ Form::label('book_time', 'Booking Date', ['class'=>'col-form-label col-sm-2']) }}
+                            <div class="col-sm-10">
+                                {{ Form::text('book_time', old('book_time'), ['class'=>'form-control timepicker', 'required']) }}
                             </div>
                         </div>
 
@@ -50,9 +58,9 @@
                         </div>
 
                         <div class="form-group row">
-                            {{ Form::label('stylist_id', 'Stylist', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('stylist', 'Stylist', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::select('stylist_id', $stylistList, null, ['class'=>'form-control']) }}
+                                {{ Form::select('stylist', $stylistList, null, ['class'=>'form-control']) }}
                             </div>
                         </div>
 
@@ -75,9 +83,15 @@
     <script type="text/javascript" src="{{asset('js/moment.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <script>
-        $('.datetimepicker').datetimepicker({
-            format: 'DD/MM/YYYY LT',
-            minDate : "{{\Carbon\Carbon::now()->format('d/m/Y H:i')}}"
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            minDate : "{{\Carbon\Carbon::now()->toDateTimeString()}}"
+        });
+
+        $('.timepicker').datetimepicker({
+            format: 'LT',
+            stepping: 30,
+            minDate : "{{\Carbon\Carbon::now()->toDateTimeString()}}"
         });
     </script>
 @stop

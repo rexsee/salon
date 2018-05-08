@@ -15,13 +15,23 @@
             padding: 5px 10px;
         }
 
-        .panel-info .panel-body {
+        .panel-warning {
+            border: 1px solid orangered;
+            border-radius: 5px;
+        }
+
+        .panel-warning .panel-heading {
+            background: orange;
+            padding: 5px 10px;
+        }
+
+        .panel-info .panel-body, .panel-warning .panel-body{
             padding: 5px 10px;
             font-weight: 100;
             font-size: 10pt;
         }
 
-        .panel-info .table td, .panel-info .table th
+        .panel-info .table td, .panel-info .table th, .panel-warning .table td, .panel-info .table th
         {
             padding: 3px 5px;
         }
@@ -56,7 +66,7 @@
                                     </tr>
                                     <tr>
                                         <td align="right" valign="top"><b>DOB</b></td>
-                                        <td> : {{$record->dob->toFormattedDateString()}}</td>
+                                        <td> : {{$record->dob ? $record->dob->toFormattedDateString() : ''}}</td>
                                     </tr>
                                     <tr>
                                         <td align="right" valign="top"><b>Address</b></td>
@@ -77,9 +87,36 @@
                                 </table>
                             </div>
                             <div class="col-md-8">
+                                <div class="panel-warning">
+                                    <div class="panel-heading">
+                                        Upcoming Bookings
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Service</th>
+                                                <th>Stylist</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($bookings as $booking)
+                                                <tr>
+                                                    <td width="100px">{{$booking->booking_date->format('(D) d/m/Y H:i')}}</td>
+                                                    <td width="150px">{{$booking->services}}</td>
+                                                    <td width="100px">{{$booking->stylist->name}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <br />
                                 <div class="panel-info">
                                     <div class="panel-heading">
-                                        Activities
+                                        Served Activities
                                     </div>
                                     <div class="panel-body">
 
