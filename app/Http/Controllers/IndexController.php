@@ -12,6 +12,7 @@ use App\Models\SystemInformation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Pusher\Pusher;
 use Illuminate\Support\Facades\Validator;
@@ -85,6 +86,10 @@ class IndexController extends Controller
                     throw new \Exception('Booking time must in hourly or in every 30 minute.');
                 }
 
+                if (!starts_with($request->phone, '0') && !starts_with($request->phone, '60')) {
+                    throw new \Exception("Please submit a valid Malaysia phone number. Eg. 0129876543 or 60129876543");
+                }
+
                 $datetime = Carbon::parse($request->datetime);
 
                 $services_string = '';
@@ -146,7 +151,33 @@ class IndexController extends Controller
                     $booking->customer_id = $customer->id;
                     $booking->save();
 
-                    // send sms
+                    if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_MT_URL'))){
+                        $system_info = SystemInformation::first();
+                        $support_tels = explode(',',$system_info->contact_number);
+                        $support_tel = str_replace(' ','',$support_tels[0]);
+                        $support_tel = str_replace('-','',$support_tel);
+                        $support_tel = str_replace('+','',$support_tel);
+                        $message = urlencode('Your booking at ' . env('APP_NAME') . ' on '. $datetime->toDayDateTimeString() . ' is confirmed. Please call us at '.$support_tel.' if you need to modify your booking.');
+
+                        $sms_url = env('SMS_MT_URL') . '?';
+                        $sms_url.= 'apiusername=' . env('SMS_USERNAME');
+                        $sms_url.= '&apipassword=' . env('SMS_PASSWORD');
+                        $sms_url.= '&mobileno=6' . $tel;
+                        $sms_url.= '&senderid=INFO';
+                        $sms_url.= '&languagetype=1';
+                        $sms_url.= '&message=' . $message;
+
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $sms_url);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                        $sms_result = curl_exec($ch);
+                        curl_close($ch);
+
+                        if (empty($sms_result) || $sms_result != '200'){
+                            Log::error('SMS_MT | ' . $sms_result . ' | ' . $sms_url);
+                        }
+                    }
 
                     if (!empty(env('PUSHER_APP_KEY'))) {
                         $options = ['cluster' => env('PUSHER_APP_CLUSTER')];

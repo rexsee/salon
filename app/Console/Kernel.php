@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+         $schedule->command('check:booking')->hourly();
+         $schedule->command('check:birthday')->monthlyOn(1,'10:00');
     }
 
     /**

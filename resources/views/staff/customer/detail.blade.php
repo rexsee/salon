@@ -48,6 +48,8 @@
                         <a href="{{route('staff.customer')}}" class="btn btn-sm btn-outline-dark pull-right">Back</a>
                     </div>
 
+                    @include('flash::message')
+
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
@@ -104,7 +106,7 @@
                                             <tbody>
                                             @foreach($bookings as $booking)
                                                 <tr>
-                                                    <td width="100px">{{$booking->booking_date->format('(D) d/m/Y H:i')}}</td>
+                                                    <td width="100px"><a href="{{route('staff.booking.update',[$booking->id])}}">{{$booking->booking_date->format('(D) d/m/Y H:i')}}</a></td>
                                                     <td width="150px">{{$booking->services}}</td>
                                                     <td width="100px">{{$booking->stylist->name}}</td>
                                                 </tr>
@@ -132,9 +134,9 @@
                                             <tbody>
                                             @foreach($activities as $activity)
                                                 <tr>
-                                                    <td width="100px">{{$activity->created_at->toFormattedDateString()}}</td>
-                                                    <td width="150px">{{$activity->service->name}}</td>
-                                                    <td>{{$activity->remark}}</td>
+                                                    <td width="100px"><a href="{{route('staff.customer.activity',[$activity->id])}}">{{$activity->created_at->toFormattedDateString()}}</a></td>
+                                                    <td width="150px">{{$activity->services}}</td>
+                                                    <td class="small">{!! nl2br($activity->remark) !!}</td>
                                                     <td width="100px">{{$activity->stylist->name}}</td>
                                                 </tr>
                                             @endforeach

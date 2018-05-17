@@ -86,4 +86,25 @@ class CustomerController extends Controller
 
         return view('staff.customer.detail',compact('record','activities','bookings'));
     }
+
+    public function activity($id, Request $request)
+    {
+        $record = CustomerActivity::findOrFail($id);
+        if ($request->method() == 'POST') {
+            $inputs = $request->validate([
+                'remark' => 'required',
+                'stylist' => 'required|exists:stylists,id',
+            ]);
+
+            $record->remark = $inputs['remark'];
+            $record->stylist_id = $inputs['stylist'];
+            $record->save();
+
+            flash('Updated')->success();
+            return redirect()->route('staff.customer.detail',[$record->customer_id]);
+        } else {
+            $stylistList = Stylist::pluck('name', 'id')->toArray();
+            return view('staff.customer.activity', compact('stylistList', 'record'));
+        }
+    }
 }

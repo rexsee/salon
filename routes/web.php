@@ -64,6 +64,7 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::match(['get','post'],'add', 'Staff\CustomerController@add')->name('.add');
             Route::match(['get','post'],'edit/{id}', 'Staff\CustomerController@edit')->name('.edit');
             Route::get('detail/{id}', 'Staff\CustomerController@detail')->name('.detail');
+            Route::match(['get','post'],'activity/{id}', 'Staff\CustomerController@activity')->name('.activity');
         });
 
         //Gallery

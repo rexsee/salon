@@ -18,7 +18,7 @@ class CreateBookingsTable extends Migration
             $table->enum('status',['Confirmed','Postpone','Cancel','Done'])->default('Confirmed');
             $table->string('name')->index();
             $table->string('tel')->index();
-            $table->timestamp('booking_date')->index();
+            $table->timestamp('booking_date')->index()->nullable();
             $table->string('services')->index();
             $table->string('services_id')->index();
             $table->unsignedInteger('stylist_id')->index();
