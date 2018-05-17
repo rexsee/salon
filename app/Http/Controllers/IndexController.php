@@ -183,7 +183,7 @@ class IndexController extends Controller
                         $options = ['cluster' => env('PUSHER_APP_CLUSTER')];
                         $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'),
                             $options);
-                        $data['message'] = 'New booking from ' . $request->name . ' on ' . $datetime->toFormattedDateString();
+                        $data['message'] = 'New booking from ' . $request->name . ' on ' . $datetime->format('(D) d/m/Y H:i');
                         $pusher->trigger('booking', 'new', $data);
                     }
                 }

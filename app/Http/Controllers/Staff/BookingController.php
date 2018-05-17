@@ -95,7 +95,7 @@ class BookingController extends Controller
                     $support_tel = str_replace(' ','',$support_tels[0]);
                     $support_tel = str_replace('-','',$support_tel);
                     $support_tel = str_replace('+','',$support_tel);
-                    $message = urlencode('Your booking at ' . env('APP_NAME') . ' on '. $datetime->toDayDateTimeString() . ' is confirmed. Please call us at '.$support_tel.' if you need to modify your booking.');
+                    $message = urlencode('Your booking at ' . env('APP_NAME') . ' on '. $datetime->format('(D) d/m/Y H:i') . ' is confirmed. Please call us at '.$support_tel.' if you need to modify your booking.');
 
                     $sms_url = env('SMS_MT_URL') . '?';
                     $sms_url.= 'apiusername=' . env('SMS_USERNAME');
@@ -146,7 +146,7 @@ class BookingController extends Controller
                 $record->booking_date = Carbon::createFromFormat('d/m/Y g:i A', $to_date)->toDateTimeString();
 
                 if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_MT_URL'))){
-                    $message = urlencode('Your booking at ' . env('APP_NAME') . ' is updated to '. $record->booking_date->toDayDateTimeString());
+                    $message = urlencode('Your booking at ' . env('APP_NAME') . ' is updated to '. $record->booking_date->format('(D) d/m/Y H:i'));
 
                     $sms_url = env('SMS_MT_URL') . '?';
                     $sms_url.= 'apiusername=' . env('SMS_USERNAME');

@@ -17,6 +17,20 @@
                         {{ Form::open(['class' => 'form-horizontal']) }}
 
                         <div class="form-group row">
+                            {{ Form::label('activity_at', 'Activity At', ['class'=>'col-form-label col-sm-2']) }}
+                            <div class="col-sm-10">
+                                {{ Form::text('activity_at', $record->created_at->format('(D) d/m/Y H:i'), ['class'=>'form-control', 'readonly']) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {{ Form::label('services', 'Services', ['class'=>'col-form-label col-sm-2']) }}
+                            <div class="col-sm-10">
+                                {{ Form::text('services', $record->services, ['class'=>'form-control', 'readonly']) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             {{ Form::label('remark', 'Remark', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
                                 {{ Form::textarea('remark', $record->remark, ['class'=>'form-control', 'required']) }}
