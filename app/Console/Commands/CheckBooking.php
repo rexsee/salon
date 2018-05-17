@@ -41,7 +41,7 @@ class CheckBooking extends Command
      */
     public function handle()
     {
-        $bookings = Booking::where('status','Confirmed')->where('booking_date','<',Carbon::now()->toDateTimeString())->get();
+        $bookings = Booking::whereIn('status',['Confirmed','Postpone'])->where('booking_date','<',Carbon::now()->toDateTimeString())->get();
 
         foreach ($bookings as $booking){
             $until = Carbon::parse($booking->booking_date->toDateTimeString());
