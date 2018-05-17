@@ -171,6 +171,9 @@ class IndexController extends Controller
                         curl_setopt($ch, CURLOPT_URL, $sms_url);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                        if(curl_error($ch)) {
+                            telegram_send_message('Online Booking fail to send SMS :: ' . curl_error($ch));
+                        }
                         $sms_result = curl_exec($ch);
                         curl_close($ch);
 

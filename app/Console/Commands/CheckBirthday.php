@@ -42,7 +42,7 @@ class CheckBirthday extends Command
         $customers = Customer::where('dob','like','%-' . date('m') . '-%')->get();
         foreach ($customers as $customer) {
             if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_MT_URL'))){
-                $message = urlencode('Happy Birthday ' . $customer->name . '. Warmest birthday wishes from all of us at ' . env('APP_NAME') . '. Check link for our gift to you. http://xxxxxxxxxxxx');
+                $message = urlencode('Happy Birthday ' . $customer->name . '. Warmest birthday wishes from ' . env('APP_NAME') . '. Check link to check your birthday offer. http://xxxxxxxxxxxx');
 
                 $sms_url = env('SMS_MT_URL') . '?';
                 $sms_url.= 'apiusername=' . env('SMS_USERNAME');
@@ -56,6 +56,9 @@ class CheckBirthday extends Command
                 curl_setopt($ch, CURLOPT_URL, $sms_url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                if(curl_error($ch)) {
+                    telegram_send_message('Birthday alert fail to send SMS :: ' . curl_error($ch));
+                }
                 $sms_result = curl_exec($ch);
                 curl_close($ch);
 

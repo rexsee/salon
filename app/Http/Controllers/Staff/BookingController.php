@@ -109,6 +109,9 @@ class BookingController extends Controller
                     curl_setopt($ch, CURLOPT_URL, $sms_url);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    if(curl_error($ch)) {
+                        telegram_send_message('Admin add booking fail to send SMS :: ' . curl_error($ch));
+                    }
                     $sms_result = curl_exec($ch);
                     curl_close($ch);
 
@@ -160,6 +163,9 @@ class BookingController extends Controller
                     curl_setopt($ch, CURLOPT_URL, $sms_url);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    if(curl_error($ch)) {
+                        telegram_send_message('Edit booking fail to send SMS :: ' . curl_error($ch));
+                    }
                     $sms_result = curl_exec($ch);
                     curl_close($ch);
 

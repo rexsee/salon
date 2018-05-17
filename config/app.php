@@ -161,6 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        RicardoFontanelli\LaravelTelegram\TelegramServiceProvider::class,
 
     ],
 
@@ -214,6 +215,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Telegram' => RicardoFontanelli\LaravelTelegram\TelegramFacade::class
     ],
 
 ];
