@@ -18,7 +18,7 @@ class CreateStylistsTable extends Migration
             $table->string('name');
             $table->string('experience')->nullable();
             $table->string('specialty')->nullable();
-            $table->string('availability');
+            $table->string('availability')->nullable();
             $table->string('avatar_path');
             $table->text('description');
             $table->timestamps();
