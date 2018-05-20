@@ -17,7 +17,7 @@
     <div class="col-sm-10">
         <label>{{ Form::radio('type','news') }} News</label> &nbsp;
         <label>{{ Form::radio('type','events') }} Event</label> &nbsp;
-        <label>{{ Form::radio('type','specials') }} Special</label>
+        {{--<label>{{ Form::radio('type','specials') }} Special</label>--}}
     </div>
 </div>
 

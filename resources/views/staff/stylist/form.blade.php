@@ -5,6 +5,7 @@
     </div>
 </div>
 
+<!--
 <div class="form-group row">
     {{ Form::label('experience', 'Experience', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
@@ -12,6 +13,7 @@
         <label>{{ Form::radio('experience','Junior') }} Junior</label>
     </div>
 </div>
+-->
 
 <div class="form-group row">
     {{ Form::label('specialty', 'Specialty', ['class'=>'col-form-label col-sm-2']) }}

@@ -163,7 +163,7 @@
                 <h1>News</h1>
                 <ul class="filterlist" data-label="Filter: " data-default="All">
                     <li><a class="filter active" data-filter="all">All</a></li>
-                    <li><a class="filter" data-filter=".cat-specials">Specials</a></li>
+                    {{--<li><a class="filter" data-filter=".cat-specials">Specials</a></li>--}}
                     <li><a class="filter" data-filter=".cat-news">News</a></li>
                     <li><a class="filter" data-filter=".cat-events">Events</a></li>
                 </ul>
@@ -196,16 +196,16 @@
                     <div class="columns-1-2">
                         <fieldset>
                             {{ Form::label('name', 'Your Name') }}
-                            {{ Form::text('name', null, ['data-validetta'=>'required','placeholder'=>'Your Name']) }}
+                            {{ Form::text('name', array_get($_COOKIE,'customer_name'), ['data-validetta'=>'required','placeholder'=>'Your Name']) }}
                         </fieldset>
                         <fieldset>
                             {{ Form::label('phone', 'Your Phone No.') }}
-                            {{ Form::text('phone', null, ['data-validetta'=>'required','placeholder'=>'Your Phone No.']) }}
+                            {{ Form::text('phone', array_get($_COOKIE,'customer_phone'), ['data-validetta'=>'required','placeholder'=>'Your Phone No.']) }}
                         </fieldset>
                     </div><div class="columns-2-2">
                         <fieldset class="select">
                             {{ Form::label('stylist', 'Stylist') }}
-                            {{ Form::select('stylist', $team->pluck('name','id')->toArray(), null, ['data-placeholder'=>'Select your prefered Stylist','id'=>'bookingformstylist']) }}
+                            {{ Form::select('stylist', $team->pluck('name','id')->toArray(), array_get($_COOKIE,'customer_stylist_id'), ['data-placeholder'=>'Select your prefered Stylist','id'=>'bookingformstylist']) }}
                         </fieldset>
                         <fieldset class="select">
                             {{ Form::label('service', 'Service(s)') }}
@@ -218,6 +218,12 @@
                     </div>
                     <fieldset class="submit">
                         {{ Form::hidden('type','booking') }}
+                        {{--<button--}}
+                                {{--class="g-recaptcha"--}}
+                                {{--data-sitekey="6Lf8SloUAAAAALRkQJwpneGViuw2Xrm2ZQwQCjcm"--}}
+                                {{--data-callback="this.submit();">--}}
+                            {{--Submit--}}
+                        {{--</button>--}}
                         {{ Form::submit('Submit') }}
                     </fieldset>
                     <div class="status">Your booking is confirmed, thank you. See you soon ;)</div>
@@ -300,6 +306,7 @@
 @stop
 
 @section('js')
+    {{--<script src='https://www.google.com/recaptcha/api.js?hl={{app()->getLocale()}}'></script>--}}
     <script>
         $('#datetimed').datetimepicker({
             theme: "dark",

@@ -21,7 +21,7 @@ class StylistController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'name' => 'required|max:191',
-                'experience' => 'required|max:191',
+//                'experience' => 'required|max:191',
                 'specialty' => 'required|array|nullable',
 //                'availability' => 'required|array|nullable',
                 'description' => 'required',
@@ -72,7 +72,7 @@ class StylistController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'name' => 'required|max:191',
-                'experience' => 'required|max:191',
+//                'experience' => 'required|max:191',
                 'specialty' => 'required|max:191',
 //                'availability' => 'required|array|nullable',
                 'description' => 'required',
