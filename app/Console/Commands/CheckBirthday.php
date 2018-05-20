@@ -67,7 +67,5 @@ class CheckBirthday extends Command
                 }
             }
         }
-
-        Log::info('check:birthday | ' . count($customers));
     }
 }

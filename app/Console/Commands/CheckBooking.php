@@ -58,7 +58,5 @@ class CheckBooking extends Command
                 $booking->update(['status'=>'Done']);
             }
         }
-
-        Log::info('check:booking | ' . count($bookings));
     }
 }
