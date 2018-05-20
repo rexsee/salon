@@ -107,4 +107,8 @@ class CustomerController extends Controller
             return view('staff.customer.activity', compact('stylistList', 'record'));
         }
     }
+
+    public function sms() {
+        return 'work in progress';
+    }
 }

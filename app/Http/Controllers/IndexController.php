@@ -190,6 +190,10 @@ class IndexController extends Controller
                         $pusher->trigger('booking', 'new', $data);
                     }
                 }
+
+                setcookie('customer_phone', $request->phone, time() + (86400 * 100)); // store for 100 days
+                setcookie('customer_name', $request->name, time() + (86400 * 100)); // store for 100 days
+                setcookie('customer_stylist_id', $request->stylist, time() + (86400 * 100)); // store for 100 days
             }
         } catch (\Exception $e) {
             return ['err_msg' => $e->getMessage()];

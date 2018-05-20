@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index')->name('index');
-Route::post('processing', 'IndexController@processing')->name('processing')->middleware('throttle:10,1');
+Route::post('processing', 'IndexController@processing')->name('processing')->middleware('throttle:20,1');
 Route::get('news/{date}/{slug}', 'IndexController@news')->name('news');
 Route::get('booking', 'IndexController@booking')->name('booking');
 
@@ -58,6 +58,11 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::match(['get','post'],'update/{id}', 'Staff\BookingController@update')->name('.update');
         });
 
+        //Calender
+        Route::group(['prefix' => 'calender', 'as'=>'.calender'], function () {
+            Route::get('', 'Staff\CalenderController@index');
+        });
+
         //Customer
         Route::group(['prefix' => 'customer', 'as'=>'.customer'], function () {
             Route::get('', 'Staff\CustomerController@index');
@@ -65,6 +70,7 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::match(['get','post'],'edit/{id}', 'Staff\CustomerController@edit')->name('.edit');
             Route::get('detail/{id}', 'Staff\CustomerController@detail')->name('.detail');
             Route::match(['get','post'],'activity/{id}', 'Staff\CustomerController@activity')->name('.activity');
+            Route::match(['get','post'],'sms-burst', 'Staff\CustomerController@sms')->name('.sms_burst');
         });
 
         //Gallery

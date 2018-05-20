@@ -65,6 +65,9 @@
                         <li class="nav-item {{\request()->segment(2) == 'booking' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.booking')}}">Bookings</a>
                         </li>
+                        <li class="nav-item {{\request()->segment(2) == 'calender' ? 'active' : ''}}">
+                            <a class="nav-link" href="{{route('staff.calender')}}">Calender</a>
+                        </li>
                         <li class="nav-item {{\request()->segment(2) == 'customer' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.customer')}}">Customers</a>
                         </li>

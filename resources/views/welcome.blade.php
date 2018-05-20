@@ -218,12 +218,6 @@
                     </div>
                     <fieldset class="submit">
                         {{ Form::hidden('type','booking') }}
-                        {{--<button--}}
-                                {{--class="g-recaptcha"--}}
-                                {{--data-sitekey="6Lf8SloUAAAAALRkQJwpneGViuw2Xrm2ZQwQCjcm"--}}
-                                {{--data-callback="this.submit();">--}}
-                            {{--Submit--}}
-                        {{--</button>--}}
                         {{ Form::submit('Submit') }}
                     </fieldset>
                     <div class="status">Your booking is confirmed, thank you. See you soon ;)</div>
@@ -306,13 +300,13 @@
 @stop
 
 @section('js')
-    {{--<script src='https://www.google.com/recaptcha/api.js?hl={{app()->getLocale()}}'></script>--}}
     <script>
         $('#datetimed').datetimepicker({
             theme: "dark",
             step: 30,
             minTime: "10:30",
-            maxTime: "20:00"
+            maxTime: "20:00",
+            allowTimes:['10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
         });
         $('#datetimed').datetimepicker('reset')
     </script>
