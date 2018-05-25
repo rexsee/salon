@@ -62,7 +62,7 @@ class CheckBirthday extends Command
                 $sms_result = curl_exec($ch);
                 curl_close($ch);
 
-                if (empty($sms_result) || $sms_result != '200'){
+                if (empty($sms_result) || (int)$sms_result <= 0){
                     Log::error('SMS_MT | ' . $sms_result . ' | ' . $sms_url);
                 }
             }

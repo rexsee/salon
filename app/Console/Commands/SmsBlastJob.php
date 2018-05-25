@@ -69,7 +69,7 @@ class SmsBlastJob extends Command
                         $sms_result = curl_exec($ch);
                         curl_close($ch);
 
-                        if (empty($sms_result) || $sms_result != '200'){
+                        if (empty($sms_result) || (int)$sms_result <= 0 ){
                             Log::error('SMS_MT | ' . $sms_result . ' | ' . $sms_url);
                             Redis::command('SADD', [$key, $tel_arr[0] . '||' . $tel_arr[1] . '||' . ($tel_arr[2] + 1)]);
                         }
