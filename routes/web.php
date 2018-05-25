@@ -70,7 +70,8 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::match(['get','post'],'edit/{id}', 'Staff\CustomerController@edit')->name('.edit');
             Route::get('detail/{id}', 'Staff\CustomerController@detail')->name('.detail');
             Route::match(['get','post'],'activity/{id}', 'Staff\CustomerController@activity')->name('.activity');
-            Route::match(['get','post'],'sms-burst', 'Staff\CustomerController@sms')->name('.sms_burst');
+            Route::match(['get','post'],'sms-blast', 'Staff\CustomerController@sms')->name('.sms_blast');
+            Route::get('sms-delete/{id}', 'Staff\CustomerController@deleteSms')->name('.sms_delete');
         });
 
         //Gallery

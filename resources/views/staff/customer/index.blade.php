@@ -13,7 +13,7 @@
                             Customers &nbsp;&nbsp;<a href="{{route('staff.customer',['type'=>'birthday'])}}"
                                                      class="small">(click to view birthday month customer)</a>
                         @endif
-                        <a href="{{route('staff.customer.sms_burst')}}" class="btn btn-sm btn-info pull-right" style="margin-left: 10px;">SMS Burst</a>
+                        <a href="{{route('staff.customer.sms_blast')}}" class="btn btn-sm btn-info pull-right" style="margin-left: 10px;">SMS Blast</a>
                         <a href="{{route('staff.customer.add')}}" class="btn btn-sm btn-success pull-right">Add New</a>
                     </div>
 
@@ -26,6 +26,7 @@
                                 <th width="80px"></th>
                                 <th>Name</th>
                                 <th>Tel</th>
+                                <th>Gender</th>
                                 <th>City</th>
                                 <th>DOB</th>
                                 <th>Stylist</th>
@@ -48,6 +49,7 @@
                                         @endif
                                     </td>
                                     <td>{{$data->tel}}</td>
+                                    <td>{{$data->gender}}</td>
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
                                     <td>{{$data->stylist->name}}</td>
