@@ -100,7 +100,6 @@
         $('.timepicker').datetimepicker({
             format: 'LT',
             defaultDate: "{{$record->booking_date->toDateTimeString()}}",
-            minDate : "{{$record->booking_date->toDateTimeString()}}"
         });
     </script>
 @stop

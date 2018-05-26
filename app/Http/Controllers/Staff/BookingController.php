@@ -124,12 +124,16 @@ class BookingController extends Controller
             return redirect()->route('staff.booking');
         } else {
             $customer_id = Input::get('id');
+            $stylist_id = Input::get('sid');
+            $book_date = Input::get('bd');
+            $book_time = Input::get('bt');
             if (!empty($customer_id)) {
                 $customer = Customer::find($customer_id);
             }
             $stylistList = Stylist::pluck('name', 'id')->toArray();
             $serviceList = Service::pluck('name','id')->toArray();
-            return view('staff.booking.add', compact('stylistList', 'serviceList', 'customer'));
+
+            return view('staff.booking.add', compact('stylistList', 'serviceList', 'customer','stylist_id','book_date','book_time'));
         }
     }
 

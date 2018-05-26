@@ -33,16 +33,16 @@
                         </div>
 
                         <div class="form-group row">
-                            {{ Form::label('book_date', 'Booking Date', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('book_date', 'Date', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::text('book_date', old('book_date'), ['class'=>'form-control datepicker', 'required']) }}
+                                {{ Form::text('book_date', $book_date, ['class'=>'form-control datepicker', 'required']) }}
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            {{ Form::label('book_time', 'Booking Date', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('book_time', 'Time', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::text('book_time', old('book_time'), ['class'=>'form-control timepicker', 'required']) }}
+                                {{ Form::text('book_time', $book_time, ['class'=>'form-control timepicker', 'required']) }}
                             </div>
                         </div>
 
@@ -60,7 +60,7 @@
                         <div class="form-group row">
                             {{ Form::label('stylist', 'Stylist', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::select('stylist', $stylistList, null, ['class'=>'form-control']) }}
+                                {{ Form::select('stylist', $stylistList, $stylist_id, ['class'=>'form-control']) }}
                             </div>
                         </div>
 
@@ -90,8 +90,7 @@
 
         $('.timepicker').datetimepicker({
             format: 'LT',
-            stepping: 30,
-            minDate : "{{\Carbon\Carbon::now()->toDateTimeString()}}"
+            stepping: 30
         });
     </script>
 @stop
