@@ -245,7 +245,7 @@
                 </p>
                 @endif
                 @if(!empty($tels))
-                    <p><strong>Address</strong><br/>
+                    <p><strong>Tel.</strong><br/>
                         @foreach($tels as $tel)
                             {{$tel}}<br />
                         @endforeach
