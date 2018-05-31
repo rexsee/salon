@@ -18,8 +18,8 @@
                             <tr>
                                 <th width="80px"></th>
                                 <th>Name</th>
-                                <th>Experience</th>
-                                <th>Specialty</th>
+                                <th>Title</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -30,8 +30,8 @@
                                         <a href="{{route('staff.stylist.delete',[$data->id])}}" onclick="return confirm('Are you sure to delete?')" class="btn btn-sm-2 btn-danger">Delete</a>
                                     </td>
                                     <td>{{$data->name}}</td>
-                                    <td>{{$data->experience}}</td>
-                                    <td>{{format_specialty($data->specialty)}}</td>
+                                    <td>{{$data->title}}</td>
+                                    <td><img src="{{asset($data->avatar_path)}}" width="100px"/></td>
                                 </tr>
                             @endforeach
                             </tbody>

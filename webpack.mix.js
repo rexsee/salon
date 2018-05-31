@@ -20,6 +20,7 @@ mix.combine([
     ],'public/js/app.js')
     .combine([
         'resources/assets/js/jquery.min.js',
+        'resources/assets/js/jquery-confirm.min.js',
         'resources/assets/js/plugins.min.js',
         'resources/assets/js/main.min.js'
     ],'public/js/front.js')

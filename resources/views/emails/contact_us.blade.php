@@ -17,7 +17,7 @@
                                     <td>
                                         <table cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
-                                                <td width="150" class="data-heading">
+                                                <td width="180" class="data-heading">
                                                     Name:
                                                 </td>
                                                 <td class="data-value">
@@ -25,11 +25,19 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td width="150" class="data-heading">
+                                                <td width="180" class="data-heading">
                                                     Email:
                                                 </td>
                                                 <td class="data-value">
                                                     {{$email}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="180" class="data-heading">
+                                                    Phone No.:
+                                                </td>
+                                                <td class="data-value">
+                                                    {{$phone}}
                                                 </td>
                                             </tr>
                                         </table>

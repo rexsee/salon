@@ -5,49 +5,47 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header">
-                        Edit Activity
-                        <a href="{{route('staff.customer.detail',[$record->customer_id])}}" class="btn btn-sm btn-outline-dark pull-right">Back</a>
-                    </div>
+                    <div class="card-header">Edit Profile</div>
 
                     <div class="card-body">
+
                         @include('flash::message')
                         @include('error_list')
 
-                        {{ Form::open(['class' => 'form-horizontal']) }}
+                        {{ Form::model(auth()->user(),['class' => 'form-horizontal']) }}
 
                         <div class="form-group row">
-                            {{ Form::label('activity_at', 'Activity At', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('name', 'Name', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::text('activity_at', $record->created_at->format('(D) d/m/Y H:i'), ['class'=>'form-control', 'readonly']) }}
+                                {{ Form::tel('name', null, ['class'=>'form-control','required']) }}
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            {{ Form::label('services', 'Services', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('current_password', 'Current Password', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::text('services', $record->services, ['class'=>'form-control', 'readonly']) }}
+                                {{ Form::password('current_password', ['class'=>'form-control','required']) }}
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            {{ Form::label('remark', 'Remark', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('new_password', 'New Password', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::textarea('remark', $record->remark, ['class'=>'form-control', 'required']) }}
+                                {{ Form::password('new_password', ['class'=>'form-control','required','placeholder'=>'Enter your new password']) }}
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            {{ Form::label('stylist', 'Stylist', ['class'=>'col-form-label col-sm-2']) }}
+                            {{ Form::label('new_password_confirmation', 'New Password Confirm', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::select('stylist', $stylistList, $record->stylist_id, ['class'=>'form-control']) }}
+                                {{ Form::password('new_password_confirmation', ['class'=>'form-control','required','placeholder'=>'Enter your new password again.']) }}
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-sm-2"></div>
                             <div class="col-sm-10">
-                                {{ Form::submit('Edit', ['class'=>'btn btn-primary btn-block']) }}
+                                {{ Form::submit('Update', ['class'=>'btn btn-primary btn-block']) }}
                             </div>
                         </div>
 

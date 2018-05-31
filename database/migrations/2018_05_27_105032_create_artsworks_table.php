@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddGenderFieldToCustomersTable extends Migration
+class CreateArtsworksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddGenderFieldToCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->enum('gender',['Male','Female'])->nullable();
+        Schema::create('artsworks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('image_path');
+            $table->string('title')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddGenderFieldToCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('gender');
-        });
+        Schema::dropIfExists('artsworks');
     }
 }

@@ -21,10 +21,11 @@ class StylistController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'name' => 'required|max:191',
+                'title' => 'required|max:191',
 //                'experience' => 'required|max:191',
-                'specialty' => 'required|array|nullable',
+//                'specialty' => 'required|array|nullable',
 //                'availability' => 'required|array|nullable',
-                'description' => 'required',
+//                'description' => 'required',
                 'avatar' => 'required|mimes:jpeg,jpg,png,gif|max:1024'
             ]);
 
@@ -40,7 +41,7 @@ class StylistController extends Controller
             $file_name = 'AV_' . time();
             $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
             $image->move('storage/stylist', $full_file_name);
-            Image::make('storage/stylist/' . $full_file_name)->fit('350', '900')->save();
+            Image::make('storage/stylist/' . $full_file_name)->fit('500', '500')->save();
             Image::make('storage/stylist/' . $full_file_name)->save('storage/stylist/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
             $inputs['avatar_path'] = 'storage/stylist/' . $full_file_name;
 
@@ -72,10 +73,11 @@ class StylistController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'name' => 'required|max:191',
+                'title' => 'required|max:191',
 //                'experience' => 'required|max:191',
-                'specialty' => 'required|max:191',
+//                'specialty' => 'required|max:191',
 //                'availability' => 'required|array|nullable',
-                'description' => 'required',
+//                'description' => 'required',
                 'avatar' => 'mimes:jpeg,jpg,png,gif|max:1024'
             ]);
 
@@ -96,7 +98,7 @@ class StylistController extends Controller
                 $file_name = 'AV_' . time();
                 $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
                 $image->move('storage/stylist', $full_file_name);
-                Image::make('storage/stylist/' . $full_file_name)->fit('350', '900')->save();
+                Image::make('storage/stylist/' . $full_file_name)->fit('500', '500')->save();
                 Image::make('storage/stylist/' . $full_file_name)->save('storage/stylist/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
                 $inputs['avatar_path'] = 'storage/stylist/' . $full_file_name;
             }

@@ -62,20 +62,31 @@
                         <li class="nav-item {{\request()->segment(2) == 'home' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.home')}}">Dashboard</a>
                         </li>
-                        <li class="nav-item {{\request()->segment(2) == 'booking' ? 'active' : ''}}">
-                            <a class="nav-link" href="{{route('staff.booking')}}">Bookings</a>
-                        </li>
-                        <li class="nav-item {{\request()->segment(2) == 'calender' ? 'active' : ''}}">
-                            <a class="nav-link" href="{{route('staff.calender')}}">Calender</a>
-                        </li>
+                        {{--<li class="nav-item {{\request()->segment(2) == 'booking' ? 'active' : ''}}">--}}
+                            {{--<a class="nav-link" href="{{route('staff.booking')}}">Bookings</a>--}}
+                        {{--</li>--}}
+                        {{--<li class="nav-item {{\request()->segment(2) == 'calender' ? 'active' : ''}}">--}}
+                            {{--<a class="nav-link" href="{{route('staff.calender')}}">Calender</a>--}}
+                        {{--</li>--}}
+                        @if(auth()->user()->group == 'FULL_CONTROL')
                         <li class="nav-item {{\request()->segment(2) == 'customer' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.customer')}}">Customers</a>
                         </li>
+                        @endif
                         <li class="nav-item {{\request()->segment(2) == 'news' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.news')}}">News</a>
                         </li>
                         <li class="nav-item {{\request()->segment(2) == 'gallery' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.gallery')}}">Gallery</a>
+                        </li>
+                        <li class="nav-item {{\request()->segment(2) == 'about-img' ? 'active' : ''}}">
+                            <a class="nav-link" href="{{route('staff.about_img')}}">About Img</a>
+                        </li>
+                        <li class="nav-item {{\request()->segment(2) == 'vision-img' ? 'active' : ''}}">
+                            <a class="nav-link" href="{{route('staff.vision_img')}}">Vision Img</a>
+                        </li>
+                        <li class="nav-item {{\request()->segment(2) == 'artwork' ? 'active' : ''}}">
+                            <a class="nav-link" href="{{route('staff.artwork')}}">Artwork</a>
                         </li>
                         <li class="nav-item {{\request()->segment(2) == 'service' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.service')}}">Services</a>
@@ -95,6 +106,9 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('staff.profile') }}">
+                                    Edit Profile
+                                </a>
                                 <a class="dropdown-item" href="{{ route('staff.logout') }}"
                                    onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">

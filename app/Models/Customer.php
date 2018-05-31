@@ -13,8 +13,8 @@ class Customer extends Model
         return $this->belongsTo('App\Models\Stylist');
     }
 
-    public function activities() {
-        return $this->hasMany('App\Models\CustomerActivity');
+    public function logs() {
+        return $this->hasMany('App\Models\CustomerLog');
     }
 
     public function bookings() {

@@ -162,6 +162,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         RicardoFontanelli\LaravelTelegram\TelegramServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -215,7 +216,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Telegram' => RicardoFontanelli\LaravelTelegram\TelegramFacade::class
+        'Telegram' => RicardoFontanelli\LaravelTelegram\TelegramFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class
     ],
 
 ];

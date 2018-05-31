@@ -14,11 +14,7 @@ class SystemInformation extends Model
         'head_line',
         'slogan',
         'image_path',
-        'about_slider_path_1',
-        'about_slider_path_2',
-        'about_slider_path_3',
         'about_us_desc',
-        'vision_image_path',
         'vision_desc'
     ];
 }

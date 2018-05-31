@@ -6,6 +6,8 @@ use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 class NewsController extends Controller
 {
@@ -22,8 +24,8 @@ class NewsController extends Controller
                 'title' => 'required|max:191',
                 'news_date' => 'required|date_format:d/m/Y',
                 'type' => 'required',
-                'description' => 'required',
                 'content' => 'required',
+                'image' => 'required|mimes:jpeg,jpg,png,gif|max:2048'
             ]);
 
             $slug = str_slug($inputs['title']);
@@ -33,6 +35,12 @@ class NewsController extends Controller
             }
             $inputs['slug'] = $slug;
             $inputs['news_date'] = Carbon::createFromFormat('d/m/Y',$inputs['news_date'])->toDateString();
+
+            $image = $request->file('image');
+            $full_file_name = $slug . '.' . $image->getClientOriginalExtension();
+            $image->move('storage/news', $full_file_name);
+            Image::make('storage/news/' . $full_file_name)->fit('600', '400')->save();
+            $inputs['image_path'] = 'storage/news/' . $full_file_name;
 
             News::create($inputs);
 
@@ -52,8 +60,8 @@ class NewsController extends Controller
                 'title' => 'required|max:191',
                 'news_date' => 'required|date_format:d/m/Y',
                 'type' => 'required',
-                'description' => 'required',
                 'content' => 'required',
+                'image' => 'required|mimes:jpeg,jpg,png,gif|max:2048'
             ]);
 
             $slug = str_slug($inputs['title']);
@@ -63,6 +71,18 @@ class NewsController extends Controller
             }
             $inputs['slug'] = $slug;
             $inputs['news_date'] = Carbon::createFromFormat('d/m/Y',$inputs['news_date'])->toDateString();
+
+            if (!empty($request->image)) {
+                if (File::exists($record->image_path)) {
+                    File::delete($record->image_path);
+                }
+
+                $image = $request->file('image');
+                $full_file_name = $slug . '.' . $image->getClientOriginalExtension();
+                $image->move('storage/news', $full_file_name);
+                Image::make('storage/news/' . $full_file_name)->fit('600', '400')->save();
+                $inputs['image_path'] = 'storage/news/' . $full_file_name;
+            }
 
             $record->update($inputs);
 
@@ -77,6 +97,9 @@ class NewsController extends Controller
     public function delete($id)
     {
         $record = News::findOrFail($id);
+        if (File::exists($record->image_path)) {
+            File::delete($record->image_path);
+        }
         $record->delete();
 
         flash('Record deleted')->warning()->important();

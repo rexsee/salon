@@ -1,16 +1,5 @@
 @extends('layouts.front')
 @section('title') - Booking @stop
-@section('css')
-    @if(!empty($suggest_time))
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
-        <style>
-            .jconfirm-box-container{
-                width:90%;
-                margin: 0 auto;
-            }
-        </style>
-    @endif
-@stop
 
 @section('content')
     <div style="text-align: center">
@@ -64,7 +53,6 @@
 
 @section('js')
     @if(!empty($suggest_time))
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
         <script>
             $.alert({
                 title: 'Ops, the booking date was taken!',

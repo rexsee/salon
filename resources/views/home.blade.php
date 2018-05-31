@@ -84,10 +84,6 @@
                             </div>
                         </div>
 
-                        <hr/>
-
-                        <h3>About Us Information ( Image Size : 1200 x 900)</h3>
-
                         <div class="form-group row">
                             {{ Form::label('about_us_desc', 'About Us Description', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
@@ -99,46 +95,6 @@
                             {{ Form::label('vision_desc', 'Vision Description', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
                                 {{ Form::textarea('vision_desc', old('vision_desc'), ['class'=>'form-control','rows'=>'5']) }}
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            {{ Form::label('about_image_1', 'Slider Image 1', ['class'=>'col-form-label col-sm-2']) }}
-                            <div class="col-sm-10">
-                                {{ Form::file('about_image_1', ['class'=>'form-control']) }}
-                                @if(!is_null($record->about_slider_path_1))
-                                    <br /><img src="{{asset($record->about_slider_path_1)}}" width="100px"/>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            {{ Form::label('about_image_2', 'Slider Image 2 ', ['class'=>'col-form-label col-sm-2']) }}
-                            <div class="col-sm-10">
-                                {{ Form::file('about_image_2', ['class'=>'form-control']) }}
-                                @if(!is_null($record->about_slider_path_2))
-                                    <br /><img src="{{asset($record->about_slider_path_2)}}" width="100px"/>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            {{ Form::label('about_image_3', 'Slider Image 3 ', ['class'=>'col-form-label col-sm-2']) }}
-                            <div class="col-sm-10">
-                                {{ Form::file('about_image_3', ['class'=>'form-control']) }}
-                                @if(!is_null($record->about_slider_path_3))
-                                    <br /><img src="{{asset($record->about_slider_path_3)}}" width="100px"/>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            {{ Form::label('vision_image', 'Vision Image (600 x 900)', ['class'=>'col-form-label col-sm-2']) }}
-                            <div class="col-sm-10">
-                                {{ Form::file('vision_image', ['class'=>'form-control']) }}
-                                @if(!is_null($record->vision_image_path))
-                                    <br /><img src="{{asset($record->vision_image_path)}}" width="100px"/>
-                                @endif
                             </div>
                         </div>
 

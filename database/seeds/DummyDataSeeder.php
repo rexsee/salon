@@ -14,11 +14,13 @@ class DummyDataSeeder extends Seeder
         $faker = Faker\Factory::create();
         $experiences = collect(['Senior', 'Junior']);
         $service_types = collect(['Basic', 'Color']);
+        $genders = collect(['Male', 'Female']);
         $specialties = collect(['Color Artist', 'Make-Overs', 'Evening Styles', 'Men\'s Styles', 'Extensions']);
 
         for ($i = 1; $i < 10; $i++) {
             $stylist = new \App\Models\Stylist();
             $stylist->name = $faker->name;
+            $stylist->title = $faker->word;
             $stylist->experience = $experiences->random();
             $stylist->specialty = $specialties->random();
             $stylist->availability = 'Monday,Tuesday,Wednesday,Friday,Saturday,Sunday';
@@ -46,6 +48,7 @@ class DummyDataSeeder extends Seeder
             $customer->name = $faker->name;
             $customer->tel = $faker->phoneNumber;
             $customer->email = $faker->email;
+            $customer->gender = $genders->random();
             $customer->dob = $faker->date();
             $customer->address = $faker->address;
             $customer->city = $faker->city;
@@ -55,11 +58,14 @@ class DummyDataSeeder extends Seeder
             $customer->save();
         }
 
-        for ($i = 1; $i < 10; $i++) {
-            $activity = new \App\Models\CustomerActivity();
-            $activity->service_id = rand(1,9);
+        for ($i = 1; $i < 100; $i++) {
+            $activity = new \App\Models\CustomerLog();
+            $activity->services_id = rand(1,9);
+            $activity->services = $faker->name;
             $activity->stylist_id = rand(1,9);
             $activity->customer_id = rand(1,29);
+            $activity->products = $faker->paragraph;
+            $activity->total = rand(5,20) * 10;
             $activity->remark = $faker->paragraph;
             $activity->created_at = \Carbon\Carbon::now()->toDateTimeString();
             $activity->updated_at = \Carbon\Carbon::now()->toDateTimeString();

@@ -5,6 +5,13 @@
     </div>
 </div>
 
+<div class="form-group row">
+    {{ Form::label('title', 'Title', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::text('title', old('title'), ['class'=>'form-control', 'required']) }}
+    </div>
+</div>
+
 <!--
 <div class="form-group row">
     {{ Form::label('experience', 'Experience', ['class'=>'col-form-label col-sm-2']) }}
@@ -13,7 +20,7 @@
         <label>{{ Form::radio('experience','Junior') }} Junior</label>
     </div>
 </div>
--->
+
 
 <div class="form-group row">
     {{ Form::label('specialty', 'Specialty', ['class'=>'col-form-label col-sm-2']) }}
@@ -25,7 +32,7 @@
         @endforeach
     </div>
 </div>
-
+-->
 <!--
 <div class="form-group row">
     {{ Form::label('availability', 'Availability', ['class'=>'col-form-label col-sm-2']) }}
@@ -37,16 +44,17 @@
         @endforeach
     </div>
 </div>
--->
+
 <div class="form-group row">
     {{ Form::label('description', 'Description', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::text('description', old('description'), ['class'=>'form-control', 'placeholder'=>'Anything about the stylist...']) }}
     </div>
 </div>
+-->
 
 <div class="form-group row">
-    {{ Form::label('avatar', 'Avatar Image (350 x 900)', ['class'=>'col-form-label col-sm-2']) }}
+    {{ Form::label('avatar', 'Avatar Image (500 x 500)', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::file('avatar', ['class'=>'form-control']) }}
         @if(isset($record) && !is_null($record->avatar_path))

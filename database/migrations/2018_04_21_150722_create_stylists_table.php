@@ -16,11 +16,12 @@ class CreateStylistsTable extends Migration
         Schema::create('stylists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('title');
             $table->string('experience')->nullable();
             $table->string('specialty')->nullable();
             $table->string('availability')->nullable();
             $table->string('avatar_path');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

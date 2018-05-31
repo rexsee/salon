@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutImage;
+use App\Models\Artswork;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Gallery;
@@ -9,6 +11,7 @@ use App\Models\News;
 use App\Models\Service;
 use App\Models\Stylist;
 use App\Models\SystemInformation;
+use App\Models\VisionImage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -24,21 +27,11 @@ class IndexController extends Controller
         $team = Stylist::orderBy('name')->get();
         $service = Service::orderBy('name')->get();
         $gallery = Gallery::orderBy('created_at', 'desc')->get();
+        $slider_images = AboutImage::orderBy('order')->get();
+        $vision_images = VisionImage::orderBy('order')->get();
+        $artwork = Artswork::all();
         $news = News::orderBy('news_date', 'desc')->limit(6)->get();
         $system_info = SystemInformation::first();
-
-        $slider_images = [];
-        if (!empty($system_info->about_slider_path_1)) {
-            $slider_images[] = $system_info->about_slider_path_1;
-        }
-
-        if (!empty($system_info->about_slider_path_2)) {
-            $slider_images[] = $system_info->about_slider_path_2;
-        }
-
-        if (!empty($system_info->about_slider_path_3)) {
-            $slider_images[] = $system_info->about_slider_path_3;
-        }
 
         $color_services = $service->where('type', 'cat-color')->pluck('name', 'id')->toArray();
         $basic_services = $service->where('type', 'cat-basics')->pluck('name', 'id')->toArray();
@@ -46,13 +39,14 @@ class IndexController extends Controller
         $serviceList['Basic'] = $basic_services;
         $tels = explode(',', $system_info->contact_number);
         return view('welcome',
-            compact('team', 'gallery', 'system_info', 'service', 'news', 'slider_images', 'tels', 'serviceList'));
+            compact('team', 'gallery', 'system_info', 'service', 'news', 'slider_images', 'tels', 'serviceList','vision_images','artwork'));
     }
 
     public function news($date, $slug)
     {
+        $is_back = Input::get('ib');
         $news = News::where('slug', $slug)->firstOrFail();
-        return view('news', compact('news'));
+        return view('news', compact('news','is_back'));
     }
 
     public function processing(Request $request)
@@ -62,7 +56,7 @@ class IndexController extends Controller
             'name' => 'required|max:191',
             'email' => 'required_if:type,contact|email',
             'message_c' => 'required_if:type,contact',
-            'phone' => 'required_if:type,booking|digits_between:10,12',
+            'phone' => 'required|digits_between:10,12',
             'stylist' => 'required_if:type,booking|exists:stylists,id',
             'service' => 'required_if:type,booking|array',
             'datetime' => 'required_if:type,booking|date',
@@ -73,21 +67,22 @@ class IndexController extends Controller
         }
 
         try {
+            if (!starts_with($request->phone, '0') && !starts_with($request->phone, '60')) {
+                throw new \Exception("Please submit a valid Malaysia phone number. Eg. 0129876543 or 60129876543");
+            }
+
             if ($request->type == 'contact') {
                 $system_info = SystemInformation::first();
-                Mail::send('emails.contact_us', $request->only(['name', 'email', 'message_c']),
+                Mail::send('emails.contact_us', $request->only(['name', 'email', 'phone', 'message_c']),
                     function ($message) use ($system_info) {
                         $message->to(empty($system_info->email) ? 'sksiang5335@gmail.com' : $system_info->email,
                             env('APP_NAME') . ' Team')
                             ->subject(env('APP_NAME') . ' :: User Feedback');
                     });
             } else {
+                throw new \Exception('Booking feature temporary unavailable');
                 if (!ends_with($request->datetime, '00') && !ends_with($request->datetime, '30')) {
                     throw new \Exception('Booking time must in hourly or in every 30 minute.');
-                }
-
-                if (!starts_with($request->phone, '0') && !starts_with($request->phone, '60')) {
-                    throw new \Exception("Please submit a valid Malaysia phone number. Eg. 0129876543 or 60129876543");
                 }
 
                 $datetime = Carbon::parse($request->datetime);

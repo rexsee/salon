@@ -25,6 +25,7 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
         Route::match(['get','post'],'home', 'Staff\IndexController@home')->name('.home');
+        Route::match(['get','post'],'profile', 'Staff\IndexController@profile')->name('.profile');
         Route::post('logout', 'Auth\LoginController@logout')->name('.logout');
 
         //Stylists
@@ -66,10 +67,13 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
         //Customer
         Route::group(['prefix' => 'customer', 'as'=>'.customer'], function () {
             Route::get('', 'Staff\CustomerController@index');
+            Route::get('export', 'Staff\CustomerController@export')->name('.export');
+            Route::get('export-log/{id}', 'Staff\CustomerController@exportCustomerLog')->name('.export_log');
             Route::match(['get','post'],'add', 'Staff\CustomerController@add')->name('.add');
             Route::match(['get','post'],'edit/{id}', 'Staff\CustomerController@edit')->name('.edit');
             Route::get('detail/{id}', 'Staff\CustomerController@detail')->name('.detail');
-            Route::match(['get','post'],'activity/{id}', 'Staff\CustomerController@activity')->name('.activity');
+            Route::match(['get','post'],'edit-log/{id}', 'Staff\CustomerController@editLog')->name('.edit_log');
+            Route::match(['get','post'],'add-log/{customer_id}', 'Staff\CustomerController@addLog')->name('.add_log');
             Route::match(['get','post'],'sms-blast', 'Staff\CustomerController@sms')->name('.sms_blast');
             Route::get('sms-delete/{id}', 'Staff\CustomerController@deleteSms')->name('.sms_delete');
         });
@@ -80,6 +84,30 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::match(['get','post'],'add', 'Staff\GalleryController@add')->name('.add');
             Route::match(['get','post'],'edit/{id}', 'Staff\GalleryController@edit')->name('.edit');
             Route::get('delete/{id}', 'Staff\GalleryController@delete')->name('.delete');
+        });
+
+        //About Photos
+        Route::group(['prefix' => 'about-img', 'as'=>'.about_img'], function () {
+            Route::get('', 'Staff\AboutImgController@index');
+            Route::match(['get','post'],'add', 'Staff\AboutImgController@add')->name('.add');
+            Route::match(['get','post'],'edit/{id}', 'Staff\AboutImgController@edit')->name('.edit');
+            Route::get('delete/{id}', 'Staff\AboutImgController@delete')->name('.delete');
+        });
+
+        //Vision Photos
+        Route::group(['prefix' => 'vision-img', 'as'=>'.vision_img'], function () {
+            Route::get('', 'Staff\VisionImgController@index');
+            Route::match(['get','post'],'add', 'Staff\VisionImgController@add')->name('.add');
+            Route::match(['get','post'],'edit/{id}', 'Staff\VisionImgController@edit')->name('.edit');
+            Route::get('delete/{id}', 'Staff\VisionImgController@delete')->name('.delete');
+        });
+
+        //Artwork Photos
+        Route::group(['prefix' => 'artwork', 'as'=>'.artwork'], function () {
+            Route::get('', 'Staff\ArtworkController@index');
+            Route::match(['get','post'],'add', 'Staff\ArtworkController@add')->name('.add');
+            Route::match(['get','post'],'edit/{id}', 'Staff\ArtworkController@edit')->name('.edit');
+            Route::get('delete/{id}', 'Staff\ArtworkController@delete')->name('.delete');
         });
     });
 });

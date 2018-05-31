@@ -22,11 +22,23 @@
 </div>
 
 <div class="form-group row">
+    {{ Form::label('image', 'Banner (600 x 400)', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::file('image', ['class'=>'form-control']) }}
+        @if(isset($record) && !is_null($record->image_path))
+            <br /><img src="{{asset($record->image_path)}}" width="100px"/>
+        @endif
+    </div>
+</div>
+
+<!--
+<div class="form-group row">
     {{ Form::label('description', 'Description', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::text('description', old('description'), ['class'=>'form-control', 'placeholder'=>'Short description about this article']) }}
     </div>
 </div>
+-->
 
 <div class="form-group row">
     {{ Form::label('content', 'Content', ['class'=>'col-form-label col-sm-2']) }}

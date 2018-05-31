@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Models\Customer;
-use App\Models\CustomerActivity;
+use App\Models\CustomerLog;
+use App\Models\Service;
 use App\Models\Stylist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redis;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
@@ -24,6 +26,98 @@ class CustomerController extends Controller
         }
 
         return view('staff.customer.index', compact('result','is_birthday_list'));
+    }
+
+    public function export()
+    {
+        $result = Customer::all();
+        $format = Input::get('format','xlsx');
+
+        Excel::create('customers - ' . date('d-m-Y'), function ($excel) use ($result) {
+            $excel->sheet('customers', function ($sheet) use ($result) {
+                $sheet->freezeFirstRow();
+                $sheet->setColumnFormat(['A:L' => '@']);
+                $sheet->row(1, [
+                    'Name',
+                    'Tel.',
+                    'Email',
+                    'Gender',
+                    'DOB',
+                    'Birthday Month',
+                    'Address',
+                    'City',
+                    'Stylist',
+                    'Allergies',
+                    'Remark',
+                    'Total Visit',
+                    'Total Spent'
+                ]);
+                $row = 2;
+
+                foreach ($result as $entry) {
+                    $sheet->row($row, [
+                        $entry->name,
+                        $entry->tel,
+                        $entry->email,
+                        $entry->gender,
+                        $entry->dob->toDateString(),
+                        $entry->dob->format('F'),
+                        $entry->address,
+                        $entry->city,
+                        $entry->stylist->name,
+                        $entry->allergies,
+                        $entry->remark,
+                        $entry->logs()->count(),
+                        $entry->logs()->sum('total'),
+                    ]);
+                    $row++;
+                }
+
+                $sheet->row(1, function ($row) {
+                    $row->setBackground('#337AB7');
+                    $row->setFontColor('#ffffff');
+                    $row->setAlignment('center');
+                });
+
+            });
+            $excel->setTitle('Customer');
+        })->export($format);
+    }
+
+    public function exportCustomerLog($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $result = $customer->logs()->orderBy('log_date')->get();
+        $format = Input::get('format','xlsx');
+
+        Excel::create($customer->name . ' logs ' . date('d-m-Y'), function ($excel) use ($result) {
+            $excel->sheet('customers', function ($sheet) use ($result) {
+                $sheet->freezeFirstRow();
+                $sheet->setColumnFormat(['A:F' => '@']);
+                $sheet->row(1, ['Date', 'Services','Stylist', 'Remark', 'Product', 'Total Price']);
+                $row = 2;
+
+                foreach ($result as $entry) {
+                    $sheet->row($row, [
+                        $entry->log_date->toDayDateTimeString(),
+                        $entry->services,
+                        $entry->stylist->name,
+                        $entry->remark,
+                        $entry->product,
+                        $entry->total,
+                    ]);
+                    $row++;
+                }
+
+                $sheet->row(1, function ($row) {
+                    $row->setBackground('#337AB7');
+                    $row->setFontColor('#ffffff');
+                    $row->setAlignment('center');
+                });
+
+            });
+            $excel->setTitle('Customer');
+        })->export($format);
     }
 
     public function add(Request $request)
@@ -84,30 +178,77 @@ class CustomerController extends Controller
 
     public function detail($id) {
         $record = Customer::findOrFail($id);
-        $activities = $record->activities()->orderBy('created_at','desc')->get();
+        $logs = $record->logs()->orderBy('created_at','desc')->get();
         $bookings = $record->bookings()->whereIn('status',['Confirmed','Postpone'])->orderBy('booking_date','asc')->get();
 
-        return view('staff.customer.detail',compact('record','activities','bookings'));
+        return view('staff.customer.detail',compact('record','logs','bookings'));
     }
 
-    public function activity($id, Request $request)
+    public function editLog($id, Request $request)
     {
-        $record = CustomerActivity::findOrFail($id);
+        $record = CustomerLog::findOrFail($id);
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
-                'remark' => 'required',
+                'remark' => 'nullable',
+                'log_date' => 'required',
+                'log_time' => 'required',
+                'services' => 'required|array',
+                'products' => 'nullable',
+                'total' => 'required|numeric',
                 'stylist' => 'required|exists:stylists,id',
             ]);
 
+            $datetime = Carbon::createFromFormat('d/m/Y g:i A',$inputs['log_date'] . ' ' .$inputs['log_time']);
             $record->remark = $inputs['remark'];
+            $record->products = $inputs['products'];
             $record->stylist_id = $inputs['stylist'];
+            $record->services = implode(', ',Service::whereIn('id',$inputs['services'])->pluck('name')->toArray());
+            $record->total = $inputs['total'];
+            $record->log_date = $datetime->toDateTimeString();
+            $record->services_id = implode(',',$inputs['services']);
             $record->save();
 
             flash('Updated')->success();
             return redirect()->route('staff.customer.detail',[$record->customer_id]);
         } else {
             $stylistList = Stylist::pluck('name', 'id')->toArray();
-            return view('staff.customer.activity', compact('stylistList', 'record'));
+            $serviceList = Service::pluck('name','id')->toArray();
+            $services = explode(',',$record->services_id);
+            return view('staff.customer.log_edit', compact('stylistList', 'record', 'serviceList', 'services'));
+        }
+    }
+
+    public function addLog($customer_id, Request $request)
+    {
+        if ($request->method() == 'POST') {
+            $inputs = $request->validate([
+                'remark' => 'nullable',
+                'log_date' => 'required',
+                'log_time' => 'required',
+                'services' => 'required|array',
+                'products' => 'nullable',
+                'total' => 'required|numeric',
+                'stylist' => 'required|exists:stylists,id',
+            ]);
+
+            $record = new CustomerLog();
+            $datetime = Carbon::createFromFormat('d/m/Y g:i A',$inputs['log_date'] . ' ' .$inputs['log_time']);
+            $record->remark = $inputs['remark'];
+            $record->products = $inputs['products'];
+            $record->stylist_id = $inputs['stylist'];
+            $record->services = implode(', ',Service::whereIn('id',$inputs['services'])->pluck('name')->toArray());
+            $record->total = $inputs['total'];
+            $record->customer_id = $customer_id;
+            $record->log_date = $datetime->toDateTimeString();
+            $record->services_id = implode(',',$inputs['services']);
+            $record->save();
+
+            flash('Added')->success();
+            return redirect()->route('staff.customer.detail',[$record->customer_id]);
+        } else {
+            $stylistList = Stylist::pluck('name', 'id')->toArray();
+            $serviceList = Service::pluck('name','id')->toArray();
+            return view('staff.customer.log_add', compact('stylistList', 'serviceList'));
         }
     }
 

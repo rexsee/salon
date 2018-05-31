@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomerActivitiesTable extends Migration
+class CreateCustomerLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateCustomerActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer_activities', function (Blueprint $table) {
+        Schema::create('customer_logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('services')->index();
+            $table->timestamp('log_date');
             $table->string('services_id')->index();
+            $table->string('services')->nullable();
+            $table->text('products')->nullable();
             $table->text('remark')->nullable();
+            $table->float('total')->default(0);
             $table->unsignedInteger('stylist_id')->index();
             $table->unsignedInteger('customer_id')->index();
             $table->timestamps();
@@ -31,6 +34,6 @@ class CreateCustomerActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_activities');
+        Schema::dropIfExists('customer_logs');
     }
 }

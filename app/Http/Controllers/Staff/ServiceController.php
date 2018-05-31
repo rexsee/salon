@@ -21,7 +21,7 @@ class ServiceController extends Controller
                 'name' => 'required|max:191',
                 'type' => 'required|max:191',
                 'price' => 'required|numeric',
-                'minutes_needed' => 'required|numeric',
+//                'minutes_needed' => 'required|numeric',
                 'description' => 'required|max:60',
             ]);
 
@@ -43,7 +43,7 @@ class ServiceController extends Controller
                 'name' => 'required|max:191',
                 'type' => 'required|max:191',
                 'price' => 'required|numeric',
-                'minutes_needed' => 'required|numeric',
+//                'minutes_needed' => 'required|numeric',
                 'description' => 'required|max:60',
             ]);
 

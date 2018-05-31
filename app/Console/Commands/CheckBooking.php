@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Booking;
-use App\Models\CustomerActivity;
+use App\Models\CustomerLog;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -47,7 +47,7 @@ class CheckBooking extends Command
             $until = Carbon::parse($booking->booking_date->toDateTimeString());
             if($until->addMinutes($booking->minutes_take)->toDateTimeString() < Carbon::now()->toDateTimeString())
             {
-                $activity = new CustomerActivity();
+                $activity = new CustomerLog();
                 $activity->services_id = $booking->services_id;
                 $activity->services = $booking->services;
                 $activity->stylist_id = $booking->stylist_id;

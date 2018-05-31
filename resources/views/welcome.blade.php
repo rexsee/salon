@@ -31,25 +31,30 @@
                 @if(count($service))
                 <li><a href="#services" data-panel="services">Services</a></li>
                 @endif
+                @if(count($artwork))
+                <li><a href="#brands" data-panel="brands">Artwork</a></li>
+                @endif
                 @if(count($gallery))
                 <li><a href="#snapshots" data-panel="snapshots">Snap Shots</a></li>
                 @endif
                 @if(count($news))
                 <li><a href="#news" data-panel="news">News</a></li>
                 @endif
-                <li><a href="#booking" data-panel="booking">Booking</a></li>
+                {{--<li><a href="#booking" data-panel="booking">Booking</a></li>--}}
                 <li><a href="#contact" data-panel="contact">Contact</a></li>
             </ul>
         </nav>
 
         <div id="socialshare">
-            <a id="socialshare_trigger" class="icon-"></a>
-            <nav class="animated">
-                <ul>
-                    <li><a href="https://www.instagram.com/alphstudio/" target="_blank">Instagram</a></li>
-                    <li><a href="https://www.facebook.com/Alphstudioplus/" target="_blank">Facebook</a></li>
-                </ul>
-            </nav>
+            <a class="socialicon socialicon-insta" href="https://www.instagram.com/alphstudio/" target="_blank"><img src="{{asset('images/insta.png')}}" /> </a>
+            <a class="socialicon socialicon-fb" href="https://www.facebook.com/Alphstudioplus/" target="_blank"><img src="{{asset('images/fb.png')}}" /></a>
+            {{--<a id="socialshare_trigger" class="icon-" target="_blank"></a>--}}
+            {{--<nav class="animated">--}}
+                {{--<ul>--}}
+                    {{--<li><a href="https://www.instagram.com/alphstudio/" target="_blank">Instagram</a></li>--}}
+                    {{--<li><a href="https://www.facebook.com/Alphstudioplus/" target="_blank">Facebook</a></li>--}}
+                {{--</ul>--}}
+            {{--</nav>--}}
         </div>
 
     </header>
@@ -66,7 +71,7 @@
                     <div class="slick">
                     @foreach($slider_images as $image)
                         <div class="slide imgLiquid">
-                            <img src="{{$image}}" />
+                            <img src="{{$image->image_path}}" alt="{{$image->title}}" />
                         </div>
                     @endforeach
                     </div>
@@ -75,14 +80,23 @@
         </article>
     </section>
 
-    <section id="mastersvision" data-panel="mastersvision" class="col-3 pic-hl-text">
+    <section id="mastersvision" data-panel="mastersvision" class="col-3 slider hl-text-slider">
         <article>
-            <div class="pic">
-                <img src="{{asset($system_info->vision_image_path)}}" alt="Master">
-            </div><div class="hlblock">
-                <h1>The masters vision</h1>
-            </div><div class="content">
+            <div class="sliderwrapper slickexpandable">
+                @if(!empty($vision_images))
+                    <div class="slick">
+                        @foreach($vision_images as $image)
+                            <div class="slide imgLiquid">
+                                <img src="{{$image->image_path}}" alt="{{$image->title}}" />
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+            <div class="content" style="background-color: #f9f9f9">
                 {!! nl2br($system_info->vision_desc) !!}
+            </div><div class="hlblock">
+                <h1>The Master Vision</h1>
             </div>
         </article>
     </section>
@@ -118,17 +132,43 @@
                     <li><a class="filter active" data-filter="all">All</a></li>
                     <li><a class="filter" data-filter=".cat-basics">Basics</a></li>
                     <li><a class="filter" data-filter=".cat-color">Color</a></li>
+                    <li><a class="filter" data-filter=".cat-texturize">Texturize</a></li>
+                    <li><a class="filter" data-filter=".cat-treatments">Treatments</a></li>
                 </ul>
             </div>
             <div class="filteritems services">
                 @foreach($service as $item)
                 <div class="item {{$item->type}}">
                     <h3>{{$item->name}}</h3>
-                    <p>{{$item->description}}</p><a href="#booking"><i>book now</i><span class="price">RM {{number_format($item->price)}} ++</span></a>
+                    {{--<p>{{$item->description}}</p><a href="#booking"><i>book now</i><span class="price">RM {{number_format($item->price)}} ++</span></a>--}}
+                    <p>{{$item->description}}</p><a><span class="price">RM {{number_format($item->price)}} ++</span></a>
                 </div>
                 @endforeach
             </div><!--slickcarousel-->
+            <div class="services-note"><i>* additional charges applicable if by director</i></div>
             <div class="pagerlist dark"></div>
+        </article>
+    </section>
+    @endif
+
+    @if(count($artwork))
+    <section id="brands" data-panel="brands" class="col-2 grid grid-right">
+        <article>
+            <div class="content slick">
+                @foreach($artwork->chunk(16) as $artwork_slide)
+                    <div class="slide">
+                        <ul class="grid4x4">
+                            @foreach($artwork_slide as $item)
+                                <li class="artwork_image" data-title="{{$item->title}}" data-imgurl="{{$item->image_path}}">
+                                    <img src="{{$item->image_path}}" alt="{{$item->title}}" />
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            </div><div class="hlblock">
+                <h1>Artwork</h1>
+            </div>
         </article>
     </section>
     @endif
@@ -136,7 +176,7 @@
     @if(count($gallery))
         <section id="snapshots" data-panel="snapshots" class="tophead polaroid">
             <article><div class="hlblock">
-                    <h1>Client snap shots</h1>
+                    <h1>Snap shots</h1>
                 </div>
                 <div class="polaroidgallery photostack hidebullets">
                     <div>
@@ -174,9 +214,9 @@
                     <div class="meta">
                         <a class="category">{{ucfirst($item->type)}}</a><i>/</i><span class="date">{{$item->news_date->toFormattedDateString()}}</span>
                     </div>
-                    <h2>{{str_limit($item->title,49)}}</h2>
-                    <p>{{$item->description}}</p>
-                    <a class="more icon-salon_plus" href="{{route('news',['date'=>$item->news_date->toDateString(),'slug'=>$item->slug])}}">read more</a>
+                    <h2>{{str_limit($item->title,40)}}</h2>
+                    <p><a href="{{route('news',['date'=>$item->news_date->toDateString(),'slug'=>$item->slug, 'ib'=>1])}}"><img src="{{asset($item->image_path)}}" width="100%" /></a></p>
+                    <a class="more icon-salon_plus" href="{{route('news',['date'=>$item->news_date->toDateString(),'slug'=>$item->slug, 'ib'=>1])}}">read more</a>
                 </div>
                 @endforeach
             </div><!--slickcarousel-->
@@ -185,6 +225,7 @@
     </section>
     @endif
 
+    <!--
     <section id="booking" data-panel="booking" class="col-2 default-left">
         <article><div class="hlblock">
                 <h1>Request Appointment</h1>
@@ -226,6 +267,7 @@
             </div>
         </article>
     </section>
+    -->
 
     <section id="contact" data-panel="contact" class="col-3 stripes stripes-1">
         <article>
@@ -271,6 +313,10 @@
                         {{ Form::email('email', null, ['data-validetta'=>'required,email','placeholder'=>'Your Email']) }}
                     </fieldset>
                     <fieldset>
+                        {{ Form::label('phone', 'Your Phone No.') }}
+                        {{ Form::text('phone', null, ['data-validetta'=>'required,tel','placeholder'=>'Your Phone No.']) }}
+                    </fieldset>
+                    <fieldset>
                         {{ Form::label('message_c', 'Your Message') }}
                         {{ Form::textarea('message_c', null, ['class'=>'autosize','data-validetta'=>'required','placeholder'=>'Your Message']) }}
                     </fieldset>
@@ -308,6 +354,26 @@
             maxTime: "20:00",
             allowTimes:['10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30']
         });
-        $('#datetimed').datetimepicker('reset')
+        $('#datetimed').datetimepicker('reset');
+
+        @if(count($artwork))
+        $('.artwork_image').on('click', function () {
+            tt = $(this).attr('data-title');
+            imgurl = $(this).attr('data-imgurl');
+            $.confirm({
+                title: tt,
+                content: '<img src="'+imgurl+'">',
+                animation: 'scale',
+                animationClose: 'top',
+                escapeKey: true,
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: function () {
+                        // lets the user close the modal.
+                    }
+                }
+            });
+        });
+        @endif
     </script>
 @stop

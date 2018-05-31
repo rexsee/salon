@@ -20,7 +20,7 @@
                                 <th>Title</th>
                                 <th>Type</th>
                                 <th>Post Date</th>
-                                <th>Description</th>
+                                <th>Banner</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,7 @@
                                     <td>{{$data->title}}</td>
                                     <td>{{$data->type}}</td>
                                     <td>{{$data->news_date->toDateString()}}</td>
-                                    <td>{{str_limit($data->description,100)}}</td>
+                                    <td><img src="{{asset($data->image_path)}}" width="100px"/></td>
                                 </tr>
                             @endforeach
                             </tbody>

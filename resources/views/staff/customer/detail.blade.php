@@ -89,6 +89,7 @@
                                 </table>
                             </div>
                             <div class="col-md-8">
+                                <!--
                                 <div class="panel-warning">
                                     <div class="panel-heading">
                                         Upcoming Bookings
@@ -116,9 +117,11 @@
                                     </div>
                                 </div>
                                 <br />
+                                -->
                                 <div class="panel-info">
                                     <div class="panel-heading">
-                                        Served Activities
+                                        Logs
+                                        <a href="{{route('staff.customer.export_log',[$record->id])}}" class="pull-right">Export</a>
                                     </div>
                                     <div class="panel-body">
 
@@ -132,12 +135,12 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($activities as $activity)
+                                            @foreach($logs as $log)
                                                 <tr>
-                                                    <td width="100px"><a href="{{route('staff.customer.activity',[$activity->id])}}">{{$activity->created_at->toFormattedDateString()}}</a></td>
-                                                    <td width="150px">{{$activity->services}}</td>
-                                                    <td class="small">{!! nl2br($activity->remark) !!}</td>
-                                                    <td width="100px">{{$activity->stylist->name}}</td>
+                                                    <td width="100px"><a href="{{route('staff.customer.edit_log',[$log->id])}}">{{$log->log_date->toFormattedDateString()}}</a></td>
+                                                    <td width="150px">{{$log->services}}</td>
+                                                    <td class="small">{!! nl2br($log->remark) !!}</td>
+                                                    <td width="100px">{{$log->stylist->name}}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>

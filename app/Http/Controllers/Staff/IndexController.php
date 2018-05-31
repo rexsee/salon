@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\SystemInformation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
@@ -118,6 +119,34 @@ class IndexController extends Controller
 
             $birthday_customer = Customer::where('dob','like','%-' . date('m') . '-%')->count();
             return view('home',compact('record','birthday_customer','sms_balance'));
+        }
+    }
+
+    public function profile(Request $request)
+    {
+        if($request->method() == 'POST') {
+            $inputs = $request->validate([
+                'name' => 'required|max:191',
+                'current_password' => 'required|max:191',
+                'new_password' => 'required|max:191|confirmed',
+            ]);
+
+            if (!Hash::check($inputs['current_password'], auth()->user()->password)) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors('Wrong Current Password');
+            }
+
+            auth()->user()->name = $inputs['name'];
+            auth()->user()->password = Hash::make($inputs['new_password']);
+            auth()->user()->save();
+
+            flash('Profile updated')->success();
+            return redirect()->route('staff.home');
+        }
+        else {
+            return view('profile');
         }
     }
 }
