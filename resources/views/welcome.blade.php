@@ -82,6 +82,9 @@
 
     <section id="mastersvision" data-panel="mastersvision" class="col-3 slider hl-text-slider">
         <article>
+            <div class="hlblock display-mobile">
+                <h1>The Master Vision</h1>
+            </div>
             <div class="sliderwrapper slickexpandable">
                 @if(!empty($vision_images))
                     <div class="slick">
@@ -95,7 +98,7 @@
             </div>
             <div class="content" style="background-color: #f9f9f9">
                 {!! nl2br($system_info->vision_desc) !!}
-            </div><div class="hlblock">
+            </div><div class="hlblock display-desktop">
                 <h1>The Master Vision</h1>
             </div>
         </article>
@@ -112,14 +115,14 @@
                         <div class="pic imgLiquidTopCenter" style="filter:none"><img src="{{asset($item->avatar_path)}}" alt="{{$item->name}}"></div>
                         <div class="text">
                             <h3>{{$item->name}}</h3>
-                            <span class="sub-info">{{format_specialty($item->specialty)}}</span>
-                            <p>{{$item->description}}</p>
-                            <a href="#booking" class="button">Book Appointment</a>
+                            <span class="sub-info">{{$item->title}}</span>
+                            {{--<p>{{$item->description}}</p>--}}
+                            {{--<a href="#booking" class="button">Book Appointment</a>--}}
                         </div>
                     </div>{!! $count < (count($team) - 1) ? '<!--' : '' !!}
                     @endforeach
                 </div>
-                <div class="pagerlist dark"></div>
+                <div class="pagerlist dark" style="bottom: -10px;"></div>
             </article>
         </section>
     @endif
@@ -178,7 +181,7 @@
             <article><div class="hlblock">
                     <h1>Snap shots</h1>
                 </div>
-                <div class="polaroidgallery photostack hidebullets">
+                <div class="polaroidgallery photostack hidebullets" style="background-color: #f8f8f9">
                     <div>
                         @foreach($gallery as $item)
                             <figure>

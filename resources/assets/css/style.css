@@ -257,13 +257,13 @@ a.button_dark:hover {
   cursor: pointer;
   outline: 0;
   border: 0;
-  width: 3.75rem;
-  height: 3.75rem;
-  line-height: 3.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
   -webkit-animation: fadeIn 0.5s ease;
   animation: fadeIn 0.5s ease;
   bottom: 0;
-  font-size: 2rem;
+  font-size: 1rem;
   text-align: center;
   -webkit-font-smoothing: antialiased;
 }
@@ -278,7 +278,7 @@ a.button_dark:hover {
   font-family: 'Lato', sans-serif;
   font-weight: 700;
   font-size: 0.6875rem;
-  line-height: 3.75rem;
+  line-height: 2.5rem;
 }
 .pagerlist.dark .page-next span {
   display: none;
@@ -1262,7 +1262,7 @@ section {
   position: relative;
 }
 section.active article {
-  background-color: #f8f8f9;
+  background-color: #fff;
 }
 section.grid.active article {
   background-color: #fff;
@@ -2312,7 +2312,7 @@ section.carousel .carouselitems .item .text .sub-info {
   line-height: 1.75rem;
   display: block;
   text-align: center;
-  visibility: hidden;
+  /*visibility: hidden;*/
   margin-bottom: 2.5rem;
 }
 section.carousel .carouselitems .item .text p {
@@ -2418,7 +2418,7 @@ section.tophead .hlblock {
   display: inline-block;
   position: relative;
   width: 100%;
-  height: 25%;
+  height: 20%;
   vertical-align: top;
   background-color: #222326;
   color: #fff;
@@ -2785,7 +2785,7 @@ section.tophead.mixitup .filteritems.team .item .text {
   overflow: hidden;
   cursor: pointer;
   z-index: 9;
-  bottom: 3.75rem;
+  bottom: 0;
   height: 3.75rem;
   -webkit-transition: all 0.1s ease-in;
   transition: all 0.1s ease-in;
@@ -2796,7 +2796,7 @@ section.tophead.mixitup .filteritems.team .item .text h3 {
   font-size: 1.125rem;
   line-height: 1.875rem;
   font-weight: normal;
-  margin: 1.0625rem 0 0 0;
+  margin: 0;
   padding: 0;
   text-align: center;
   text-transform: none;
@@ -2804,11 +2804,11 @@ section.tophead.mixitup .filteritems.team .item .text h3 {
 section.tophead.mixitup .filteritems.team .item .text .sub-info {
   font-family: 'Rambla', sans-serif;
   font-size: 0.8125rem;
-  line-height: 1.75rem;
+  line-height: .5rem;
   display: block;
   text-align: center;
-  visibility: hidden;
-  margin-bottom: 2.5rem;
+  /*visibility: hidden;*/
+  /*margin-bottom: 2.5rem;*/
 }
 section.tophead.mixitup .filteritems.team .item .text p {
   padding: 0 1.875rem 3rem 1.875rem;
@@ -2829,8 +2829,8 @@ section.tophead.mixitup .filteritems.team .item:hover .pic {
   -webkit-filter: grayscale(0%);
 }
 section.tophead.mixitup .filteritems.team .item:hover .text {
-  height: 24.0625rem;
-  padding-top: 1.6875rem;
+  /*height: 24.0625rem;*/
+  /*padding-top: 1.6875rem;*/
   bottom: 0;
 }
 section.tophead.mixitup .filteritems.team .item:hover .text .sub-info {
@@ -3091,6 +3091,7 @@ section.tophead.mixitup .services-note {
   display: inline-block;
   background: #222326;
   padding: 1.875rem;
+  padding-bottom: 5rem;
   text-align: center;
   margin: 0.3125rem;
 }
@@ -3138,12 +3139,12 @@ section.tophead.mixitup .services-note {
   transition: opacity 0.3s;
 }
 .photostack nav button {
-  width: 3.75rem;
-  height: 3.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background: #222326;
   color: #919191;
   font-size: 2rem;
-  line-height: 1.875rem;
+  line-height: 2.5rem;
   border: none;
   outline: none;
   text-align: center;
@@ -3155,10 +3156,10 @@ section.tophead.mixitup .services-note {
 .photostack nav span {
   position: relative;
   display: inline-block;
-  width: 3.75rem;
-  height: 3.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   cursor: pointer;
-  line-height: 3.75rem;
+  line-height: 2.5rem;
   text-align: center;
   -webkit-transition: -webkit-transform 0.6s ease-in-out, background 0.3s;
   -webkit-transition: background 0.3s, -webkit-transform 0.6s ease-in-out;
@@ -3554,6 +3555,13 @@ header:after {
 #mobilenav {
   display: none;
 }
+
+.display-mobile{
+  display: none !important;
+}
+.display-desktop{
+  display: inline-block !important;
+}
 @media only screen and (max-height: 767px) {
   header:after {
     content: 'nosnapres';
@@ -3569,13 +3577,13 @@ header:after {
     content: 'res_nbl';
   }
   section.tophead .hlblock {
-    height: 20%;
+    height: 18%;
   }
   section.tophead.mixitup .filteritems {
     height: 80%;
   }
   section.tophead.mixitup .filteritems.team .item {
-    width: 33.333%;
+    width: 25%;
   }
   section.tophead.mixitup .filteritems.news .item {
     width: 33.333%;
@@ -3675,21 +3683,21 @@ header:after {
     font-size: 2rem;
     line-height: 2.5rem;
   }
-  .photostack nav button,
-  .photostack nav span {
-    width: 2.5rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
-  }
-  .pagerlist.dark .pager {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1rem;
-    line-height: 2.5rem;
-  }
-  .pagerlist.dark .pager span {
-    line-height: 2.5rem;
-  }
+  /*.photostack nav button,*/
+  /*.photostack nav span {*/
+    /*width: 2.5rem;*/
+    /*height: 2.5rem;*/
+    /*line-height: 2.5rem;*/
+  /*}*/
+  /*.pagerlist.dark .pager {*/
+    /*width: 2.5rem;*/
+    /*height: 2.5rem;*/
+    /*font-size: 1rem;*/
+    /*line-height: 2.5rem;*/
+  /*}*/
+  /*.pagerlist.dark .pager span {*/
+    /*line-height: 2.5rem;*/
+  /*}*/
   #end,
   #intro {
     border: 1.25rem solid #fff;
@@ -3736,7 +3744,7 @@ header:after {
     bottom: 2.5rem;
   }
   section.tophead .hlblock {
-    height: 20%;
+    height: 16%;
   }
   section.tophead .hlblock h1 {
     -webkit-transform: none;
@@ -3747,10 +3755,10 @@ header:after {
     height: 80%;
   }
   section.tophead.mixitup .filteritems.team .item {
-    width: 50%;
+    width: 33.333%;
   }
   section.tophead.mixitup .filteritems.team .item .text {
-    bottom: 2.5rem;
+    /*bottom: 2.5rem;*/
   }
   section.tophead.mixitup .filteritems.news .item {
     width: 50%;
@@ -3961,6 +3969,14 @@ header:after {
   section.col-3.single-post.slider-hl-text .commentsform {
     margin-left: 0;
   }
+
+  .display-mobile{
+    display: block !important;
+  }
+
+  .display-desktop{
+    display: none !important;
+  }
 }
 @media screen and (max-width: 800px) {
   body:after {
@@ -4064,7 +4080,7 @@ header:after {
     width: 100%;
     height: auto;
     text-align: center;
-    padding: 2.5rem 1.25rem;
+    padding: 1.25rem;
   }
   section.col-3 .hlblock h1 {
     top: auto;
@@ -4151,7 +4167,7 @@ header:after {
     height: auto;
   }
   section.tophead .hlblock h1 {
-    padding: 3.125rem 1.25rem 2.5rem 1.25rem;
+    padding: 1.25rem;
     top: 0;
     -webkit-transform: none;
     transform: none;
@@ -4277,7 +4293,7 @@ header:after {
     -ms-filter: none;
     -webkit-filter: none;
             filter: none;
-    padding-top: 1.6875rem;
+    /*padding-top: 1.6875rem;*/
     padding-bottom: 2.5rem;
     bottom: auto;
     top: 0;

@@ -54,7 +54,7 @@
 -->
 
 <div class="form-group row">
-    {{ Form::label('avatar', 'Avatar Image (500 x 500)', ['class'=>'col-form-label col-sm-2']) }}
+    {{ Form::label('avatar', 'Avatar Image (500 x 700)', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::file('avatar', ['class'=>'form-control']) }}
         @if(isset($record) && !is_null($record->avatar_path))
