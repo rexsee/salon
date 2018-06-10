@@ -21,8 +21,10 @@ class ServiceController extends Controller
                 'name' => 'required|max:191',
                 'type' => 'required|max:191',
                 'price' => 'required|numeric',
+                'order' => 'integer',
+                'price_type' => 'required|in:Estimate,Net',
 //                'minutes_needed' => 'required|numeric',
-                'description' => 'required|max:60',
+                'description' => 'max:60',
             ]);
 
             Service::create($inputs);
@@ -43,8 +45,10 @@ class ServiceController extends Controller
                 'name' => 'required|max:191',
                 'type' => 'required|max:191',
                 'price' => 'required|numeric',
+                'order' => 'integer',
+                'price_type' => 'required|in:Estimate,Net',
 //                'minutes_needed' => 'required|numeric',
-                'description' => 'required|max:60',
+                'description' => 'max:60',
             ]);
 
             $record->update($inputs);

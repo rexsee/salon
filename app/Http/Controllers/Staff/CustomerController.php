@@ -46,6 +46,7 @@ class CustomerController extends Controller
                     'Birthday Month',
                     'Address',
                     'City',
+                    'Handle By',
                     'Stylist',
                     'Allergies',
                     'Remark',
@@ -64,6 +65,7 @@ class CustomerController extends Controller
                         $entry->dob->format('F'),
                         $entry->address,
                         $entry->city,
+                        $entry->handle_by,
                         $entry->stylist->name,
                         $entry->allergies,
                         $entry->remark,
@@ -94,13 +96,14 @@ class CustomerController extends Controller
             $excel->sheet('customers', function ($sheet) use ($result) {
                 $sheet->freezeFirstRow();
                 $sheet->setColumnFormat(['A:F' => '@']);
-                $sheet->row(1, ['Date', 'Services','Stylist', 'Remark', 'Product', 'Total Price']);
+                $sheet->row(1, ['Date', 'Services','Handle By','Stylist', 'Remark', 'Product', 'Total Price']);
                 $row = 2;
 
                 foreach ($result as $entry) {
                     $sheet->row($row, [
                         $entry->log_date->toDayDateTimeString(),
                         $entry->services,
+                        $entry->handle_by,
                         $entry->stylist->name,
                         $entry->remark,
                         $entry->product,
@@ -133,6 +136,7 @@ class CustomerController extends Controller
                 'city' => 'required',
                 'allergies' => 'nullable',
                 'remark' => 'nullable',
+                'handle_by' => 'nullable',
                 'stylist_id' => 'required|exists:stylists,id',
             ]);
 
@@ -162,6 +166,7 @@ class CustomerController extends Controller
                 'city' => 'required',
                 'allergies' => 'nullable',
                 'remark' => 'nullable',
+                'handle_by' => 'nullable',
                 'stylist_id' => 'required|exists:stylists,id',
             ]);
 
@@ -194,6 +199,7 @@ class CustomerController extends Controller
                 'log_time' => 'required',
                 'services' => 'required|array',
                 'products' => 'nullable',
+                'handle_by' => 'nullable',
                 'total' => 'required|numeric',
                 'stylist' => 'required|exists:stylists,id',
             ]);
@@ -204,6 +210,7 @@ class CustomerController extends Controller
             $record->stylist_id = $inputs['stylist'];
             $record->services = implode(', ',Service::whereIn('id',$inputs['services'])->pluck('name')->toArray());
             $record->total = $inputs['total'];
+            $record->handle_by = $inputs['handle_by'];
             $record->log_date = $datetime->toDateTimeString();
             $record->services_id = implode(',',$inputs['services']);
             $record->save();
@@ -227,6 +234,7 @@ class CustomerController extends Controller
                 'log_time' => 'required',
                 'services' => 'required|array',
                 'products' => 'nullable',
+                'handle_by' => 'nullable',
                 'total' => 'required|numeric',
                 'stylist' => 'required|exists:stylists,id',
             ]);
@@ -238,6 +246,7 @@ class CustomerController extends Controller
             $record->stylist_id = $inputs['stylist'];
             $record->services = implode(', ',Service::whereIn('id',$inputs['services'])->pluck('name')->toArray());
             $record->total = $inputs['total'];
+            $record->handle_by = $inputs['handle_by'];
             $record->customer_id = $customer_id;
             $record->log_date = $datetime->toDateTimeString();
             $record->services_id = implode(',',$inputs['services']);
@@ -248,7 +257,8 @@ class CustomerController extends Controller
         } else {
             $stylistList = Stylist::pluck('name', 'id')->toArray();
             $serviceList = Service::pluck('name','id')->toArray();
-            return view('staff.customer.log_add', compact('stylistList', 'serviceList'));
+            $customer = Customer::FindOrFail($customer_id);
+            return view('staff.customer.log_add', compact('stylistList', 'serviceList','customer'));
         }
     }
 

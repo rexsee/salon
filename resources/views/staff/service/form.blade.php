@@ -15,6 +15,28 @@
     </div>
 </div>
 
+<div class="form-group row">
+    {{ Form::label('price', 'Price', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::text('price', old('price'), ['class'=>'form-control','required']) }}
+    </div>
+</div>
+
+<div class="form-group row">
+    {{ Form::label('price_type', 'Price Type', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        <label>{{ Form::radio('price_type','Estimate') }} Estimate Price</label> &nbsp;
+        <label>{{ Form::radio('price_type','Net') }} Net Price</label>
+    </div>
+</div>
+
+<div class="form-group row">
+    {{ Form::label('order', 'Order', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::tel('order', old('order'), ['class'=>'form-control', 'placeholder'=>'The order for display in customer site']) }}
+    </div>
+</div>
+
 {{--<div class="form-group row">--}}
     {{--{{ Form::label('minutes_needed', 'Time Needed', ['class'=>'col-form-label col-sm-2']) }}--}}
     {{--<div class="col-sm-10">--}}
@@ -31,12 +53,5 @@
     {{ Form::label('description', 'Description', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::text('description', old('description'), ['class'=>'form-control', 'placeholder'=>'Short description about this service, max length 60']) }}
-    </div>
-</div>
-
-<div class="form-group row">
-    {{ Form::label('price', 'Price', ['class'=>'col-form-label col-sm-2']) }}
-    <div class="col-sm-10">
-        {{ Form::text('price', old('price'), ['class'=>'form-control','required']) }}
     </div>
 </div>

@@ -63,7 +63,14 @@
 </div>
 
 <div class="form-group row">
-    {{ Form::label('stylist_id', 'Handle By', ['class'=>'col-form-label col-sm-2']) }}
+    {{ Form::label('handle_by', 'Handle By', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::text('handle_by', old('handle_by'), ['class'=>'form-control']) }}
+    </div>
+</div>
+
+<div class="form-group row">
+    {{ Form::label('stylist_id', 'Stylist', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::select('stylist_id', $stylistList, null, ['class'=>'form-control']) }}
     </div>

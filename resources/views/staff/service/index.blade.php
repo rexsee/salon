@@ -19,8 +19,9 @@
                                 <th width="80px"></th>
                                 <th>Name</th>
                                 <th>Type</th>
-                                <th>Price</th>
                                 <th>Description</th>
+                                <th>Price</th>
+                                <th>Order</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,8 +33,9 @@
                                     </td>
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->type}}</td>
+                                    <td>{{$data->description}}</td>
                                     <td>{{$data->price}}</td>
-                                    <td>{{str_limit($data->description,50)}}</td>
+                                    <td>{{$data->order}}</td>
                                 </tr>
                             @endforeach
                             </tbody>

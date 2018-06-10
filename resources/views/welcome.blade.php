@@ -105,7 +105,7 @@
     </section>
 
     @if(count($team))
-        <section id="team" data-panel="team" class="tophead mixitup sixmix">
+        <section id="team" data-panel="team" class="tophead mixitup simplemix">
             <article><div class="hlblock controls">
                     <h1>Team</h1>
                 </div>
@@ -141,10 +141,12 @@
             </div>
             <div class="filteritems services">
                 @foreach($service as $item)
-                <div class="item {{$item->type}}">
-                    <h3>{{$item->name}}</h3>
+                <div class="item {{$item['type']}}" data-mh="same-height-group-1">
+                    <h3>{{$item['name']}}</h3>
                     {{--<p>{{$item->description}}</p><a href="#booking"><i>book now</i><span class="price">RM {{number_format($item->price)}} ++</span></a>--}}
-                    <p>{{$item->description}}</p><a><span class="price">RM {{number_format($item->price)}} ++</span></a>
+                    @foreach($item['data'] as $desc)
+                        <p>{{$desc['description']}}</p><a><span class="price">{{$desc['price']}}</span></a>
+                    @endforeach
                 </div>
                 @endforeach
             </div><!--slickcarousel-->

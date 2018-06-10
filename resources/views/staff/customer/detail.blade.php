@@ -52,10 +52,10 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-lg-4">
                                 <table width="100%" class="customer-info">
                                     <tr>
-                                        <td align="right" valign="top"><b>Name</b></td>
+                                        <td align="right" valign="top" width="90px"><b>Name</b></td>
                                         <td> : {{$record->name}}</td>
                                     </tr>
                                     <tr>
@@ -86,9 +86,17 @@
                                         <td align="right" valign="top"><b>Remark</b></td>
                                         <td> : {{$record->remark}}</td>
                                     </tr>
+                                    <tr>
+                                        <td align="right" valign="top"><b>Handle By</b></td>
+                                        <td> : {{$record->handle_by}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" valign="top"><b>Stylist</b></td>
+                                        <td> : {{$record->stylist->name}}</td>
+                                    </tr>
                                 </table>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-lg-8">
                                 <!--
                                 <div class="panel-warning">
                                     <div class="panel-heading">
@@ -131,6 +139,7 @@
                                                 <th>Date</th>
                                                 <th>Service</th>
                                                 <th>Remark</th>
+                                                <th>Handle By</th>
                                                 <th>Stylist</th>
                                             </tr>
                                             </thead>
@@ -140,6 +149,7 @@
                                                     <td width="100px"><a href="{{route('staff.customer.edit_log',[$log->id])}}">{{$log->log_date->toFormattedDateString()}}</a></td>
                                                     <td width="150px">{{$log->services}}</td>
                                                     <td class="small">{!! nl2br($log->remark) !!}</td>
+                                                    <td width="100px">{{$log->handle_by}}</td>
                                                     <td width="100px">{{$log->stylist->name}}</td>
                                                 </tr>
                                             @endforeach

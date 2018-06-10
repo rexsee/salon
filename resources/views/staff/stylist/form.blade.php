@@ -62,3 +62,10 @@
         @endif
     </div>
 </div>
+
+<div class="form-group row">
+    {{ Form::label('order', 'Order', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::tel('order', old('order'), ['class'=>'form-control', 'placeholder'=>'The order for display in customer site']) }}
+    </div>
+</div>

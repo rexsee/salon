@@ -24,8 +24,8 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $team = Stylist::orderBy('name')->get();
-        $service = Service::orderBy('name')->get();
+        $team = Stylist::orderBy('order')->get();
+        $service_raw = Service::orderBy('order')->get()->toArray();
         $gallery = Gallery::orderBy('created_at', 'desc')->get();
         $slider_images = AboutImage::orderBy('order')->get();
         $vision_images = VisionImage::orderBy('order')->get();
@@ -33,10 +33,21 @@ class IndexController extends Controller
         $news = News::orderBy('news_date', 'desc')->limit(6)->get();
         $system_info = SystemInformation::first();
 
-        $color_services = $service->where('type', 'cat-color')->pluck('name', 'id')->toArray();
-        $basic_services = $service->where('type', 'cat-basics')->pluck('name', 'id')->toArray();
-        $serviceList['Color'] = $color_services;
-        $serviceList['Basic'] = $basic_services;
+        $service = [];
+        foreach ($service_raw as $item) {
+            $service[str_slug($item['name'])]['data'][] = [
+              'description'=>$item['description'],
+              'price'=>'RM ' . number_format($item['price']) . ($item['price_type'] == 'Estimate' ? '++' : ''),
+            ];
+            $service[str_slug($item['name'])]['name'] = $item['name'];
+            $service[str_slug($item['name'])]['type'] = $item['type'];
+        }
+
+//        $color_services = $service->where('type', 'cat-color')->pluck('name', 'id')->toArray();
+//        $basic_services = $service->where('type', 'cat-basics')->pluck('name', 'id')->toArray();
+//        $serviceList['Color'] = $color_services;
+//        $serviceList['Basic'] = $basic_services;
+        $serviceList = [];
         $tels = explode(',', $system_info->contact_number);
         return view('welcome',
             compact('team', 'gallery', 'system_info', 'service', 'news', 'slider_images', 'tels', 'serviceList','vision_images','artwork'));

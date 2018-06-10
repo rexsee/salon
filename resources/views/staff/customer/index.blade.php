@@ -21,7 +21,7 @@
                     <div class="card-body">
                         @include('flash::message')
 
-                        <table id="datatable" class="table table-list">
+                        <table id="datatable" class="table table-list small">
                             <thead>
                             <tr>
                                 <th width="80px"></th>
@@ -30,6 +30,7 @@
                                 <th>Gender</th>
                                 <th>City</th>
                                 <th>DOB</th>
+                                <th>H. By</th>
                                 <th>Stylist</th>
                             </tr>
                             </thead>
@@ -53,6 +54,7 @@
                                     <td>{{$data->gender}}</td>
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
+                                    <td>{{$data->handle_by}}</td>
                                     <td>{{$data->stylist->name}}</td>
                                 </tr>
                             @endforeach

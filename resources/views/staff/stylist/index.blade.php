@@ -19,6 +19,7 @@
                                 <th width="80px"></th>
                                 <th>Name</th>
                                 <th>Title</th>
+                                <th>Order</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -31,6 +32,7 @@
                                     </td>
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->title}}</td>
+                                    <td>{{$data->order}}</td>
                                     <td><img src="{{asset($data->avatar_path)}}" width="100px"/></td>
                                 </tr>
                             @endforeach
