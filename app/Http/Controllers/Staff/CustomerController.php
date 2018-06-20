@@ -183,7 +183,7 @@ class CustomerController extends Controller
 
     public function detail($id) {
         $record = Customer::findOrFail($id);
-        $logs = $record->logs()->orderBy('created_at','desc')->get();
+        $logs = $record->logs()->orderBy('log_date','desc')->get();
         $bookings = $record->bookings()->whereIn('status',['Confirmed','Postpone'])->orderBy('booking_date','asc')->get();
 
         return view('staff.customer.detail',compact('record','logs','bookings'));
