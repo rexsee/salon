@@ -42,7 +42,8 @@ class CheckBirthday extends Command
         $customers = Customer::where('dob','like','%-' . date('m') . '-%')->get();
         foreach ($customers as $customer) {
             if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_MT_URL'))){
-                $message = urlencode('Happy Birthday ' . $customer->name . '. Warmest birthday wishes from ' . env('APP_NAME') . '. Check our website for special offer for you.');
+                $message = urlencode('Happy Birthday! We will love to treat you a 20% off from all our chemical services. All you have to do is just PM ' . env('APP_NAME') . ' or ring us at 0379824200.');
+//                $message = urlencode('Happy Birthday ' . $customer->name . '. Warmest birthday wishes from ' . env('APP_NAME') . '. Check our website for special offer for you.');
 
                 $sms_url = env('SMS_MT_URL') . '?';
                 $sms_url.= 'apiusername=' . env('SMS_USERNAME');
