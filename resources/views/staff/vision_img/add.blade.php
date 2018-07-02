@@ -13,7 +13,7 @@
                     <div class="card-body">
                         @include('error_list')
 
-                        {{ Form::open(['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) }}
+                        {{ Form::open(['class' => 'form-horizontal', 'id'=>'dform', 'enctype' => 'multipart/form-data']) }}
                         @include('staff.vision_img.form')
 
                         <div class="form-group row">

@@ -39,7 +39,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title" style="color: blue;">Postpone Booking</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">postpone booking to the given date below</h6>
-                                        {{ Form::model($record,['class' => 'form-horizontal']) }}
+                                        {{ Form::model($record,['class' => 'form-horizontal', 'id'=>'dform']) }}
 
                                         <div class="form-group">
                                             {{ Form::label('postpone_date', 'Date', ['class'=>'col-form-label']) }}

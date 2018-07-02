@@ -22,7 +22,7 @@
 <div class="form-group row">
     {{ Form::label('dob', 'Customer\'s Birthday', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::text('dob', !empty($record->dob) ? $record->dob->format('m/d/Y') : old('dob'), ['class'=>'form-control datepicker', 'required','placeholder'=>'MM/DD/YYYY']) }}
+        {{ Form::text('dob', !empty($record->dob) ? $record->dob->format('m/d/Y') : old('dob'), ['class'=>'form-control datepicker','placeholder'=>'MM/DD/YYYY, Optional']) }}
     </div>
 </div>
 

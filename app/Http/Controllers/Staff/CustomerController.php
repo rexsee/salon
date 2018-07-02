@@ -61,8 +61,8 @@ class CustomerController extends Controller
                         $entry->tel,
                         $entry->email,
                         $entry->gender,
-                        $entry->dob->toDateString(),
-                        $entry->dob->format('F'),
+                        empty($entry->dob) ? '-' : $entry->dob->toDateString(),
+                        empty($entry->dob) ? '-' : $entry->dob->format('F'),
                         $entry->address,
                         $entry->city,
                         $entry->handle_by,
@@ -131,7 +131,7 @@ class CustomerController extends Controller
                 'tel' => 'required|max:191',
                 'email' => 'email|nullable',
                 'gender' => 'in:Female,Male|nullable',
-                'dob' => 'required|date',
+                'dob' => 'nullable|date',
                 'address' => 'max:191|nullable',
                 'city' => 'required',
                 'allergies' => 'nullable',
@@ -140,7 +140,9 @@ class CustomerController extends Controller
                 'stylist_id' => 'required|exists:stylists,id',
             ]);
 
-            $inputs['dob'] = Carbon::parse($inputs['dob'])->toDateString();
+            if (!empty($inputs['dob'])) {
+                $inputs['dob'] = Carbon::parse($inputs['dob'])->toDateString();
+            }
             Customer::create($inputs);
 
             flash('Record added')->success();
@@ -160,7 +162,7 @@ class CustomerController extends Controller
                 'name' => 'required|max:191',
                 'tel' => 'required|max:191',
                 'email' => 'email|nullable',
-                'dob' => 'required|date',
+                'dob' => 'nullable|date',
                 'gender' => 'in:Female,Male|nullable',
                 'address' => 'max:191|nullable',
                 'city' => 'required',
@@ -170,7 +172,9 @@ class CustomerController extends Controller
                 'stylist_id' => 'required|exists:stylists,id',
             ]);
 
-            $inputs['dob'] = Carbon::parse($inputs['dob'])->toDateString();
+            if (!empty($inputs['dob'])) {
+                $inputs['dob'] = Carbon::parse($inputs['dob'])->toDateString();
+            }
             $record->update($inputs);
 
             flash('Record updated')->success();

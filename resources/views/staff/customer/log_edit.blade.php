@@ -17,7 +17,7 @@
                         @include('flash::message')
                         @include('error_list')
 
-                        {{ Form::model($record,['class' => 'form-horizontal']) }}
+                        {{ Form::model($record,['class' => 'form-horizontal', 'id'=>'dform']) }}
 
                         @include('staff.customer.form_log')
 

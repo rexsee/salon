@@ -16,7 +16,7 @@
                     <div class="card-body">
                         @include('error_list')
 
-                        {{ Form::open(['class' => 'form-horizontal']) }}
+                        {{ Form::open(['class' => 'form-horizontal', 'id'=>'dform']) }}
                         @include('staff.customer.form')
 
                         <div class="form-group row">

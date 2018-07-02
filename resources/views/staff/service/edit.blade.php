@@ -13,7 +13,7 @@
                     <div class="card-body">
                         @include('error_list')
 
-                        {{ Form::model($record,['class' => 'form-horizontal']) }}
+                        {{ Form::model($record,['class' => 'form-horizontal', 'id'=>'dform']) }}
                         @include('staff.service.form')
 
                         <div class="form-group row">

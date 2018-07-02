@@ -17,7 +17,7 @@
                         @include('flash::message')
                         @include('error_list')
 
-                        {{ Form::open(['class' => 'form-horizontal']) }}
+                        {{ Form::open(['class' => 'form-horizontal', 'id'=>'dform']) }}
                         <div class="form-group row">
                             {{ Form::label('name', 'Name', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
