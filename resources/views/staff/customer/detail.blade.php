@@ -39,7 +39,7 @@
 @stop
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="card">
@@ -139,6 +139,7 @@
                                             <tr>
                                                 <th>Date</th>
                                                 <th>Service</th>
+                                                <th>Product</th>
                                                 <th>Remark</th>
                                                 <th>Handle By</th>
                                                 <th>Stylist</th>
@@ -149,6 +150,7 @@
                                                 <tr>
                                                     <td width="100px"><a href="{{route('staff.customer.edit_log',[$log->id])}}">{{$log->log_date->toFormattedDateString()}}</a></td>
                                                     <td width="150px">{{$log->services}}</td>
+                                                    <td width="150px">{{$log->products}}</td>
                                                     <td class="small">{!! nl2br($log->remark) !!}</td>
                                                     <td width="100px">{{$log->handle_by}}</td>
                                                     <td width="100px">{{$log->stylist->name}}</td>

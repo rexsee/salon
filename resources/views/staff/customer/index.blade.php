@@ -30,7 +30,7 @@
                                 <th>Gender</th>
                                 <th>City</th>
                                 <th>DOB</th>
-                                <th>H. By</th>
+                                <th>Remark</th>
                                 <th>Stylist</th>
                             </tr>
                             </thead>
@@ -54,7 +54,7 @@
                                     <td>{{$data->gender}}</td>
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
-                                    <td>{{$data->handle_by}}</td>
+                                    <td>{{$data->remark}}</td>
                                     <td>{{$data->stylist->name}}</td>
                                 </tr>
                             @endforeach

@@ -40,14 +40,14 @@
 <div class="form-group row">
     {{ Form::label('handle_by', 'Handle By', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::text('handle_by', empty($customer) ? '' : $customer->handle_by, ['class'=>'form-control']) }}
+        {{ Form::text('handle_by', empty($record) ? '' : $record->handle_by, ['class'=>'form-control']) }}
     </div>
 </div>
 
 <div class="form-group row">
     {{ Form::label('stylist', 'Stylist', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::select('stylist', $stylistList, empty($customer) ? null : $customer->stylist_id, ['class'=>'form-control']) }}
+        {{ Form::select('stylist', $stylistList, empty($record) ? null : $record->stylist_id, ['class'=>'form-control']) }}
     </div>
 </div>
 
