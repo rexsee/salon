@@ -55,7 +55,7 @@
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
                                     <td>{{$data->remark}}</td>
-                                    <td>{{$data->stylist->name}}</td>
+                                    <td>{{empty($data->stylist) ? ' - ' : $data->stylist->name}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
