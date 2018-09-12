@@ -93,7 +93,7 @@
                                     </tr>
                                     <tr>
                                         <td align="right" valign="top"><b>Stylist</b></td>
-                                        <td> : {{$record->stylist->name}}</td>
+                                        <td> : {{empty($record->stylist) ? '' : $record->stylist->name}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -153,7 +153,7 @@
                                                     <td width="150px">{{$log->products}}</td>
                                                     <td class="small">{!! nl2br($log->remark) !!}</td>
                                                     <td width="100px">{{$log->handle_by}}</td>
-                                                    <td width="100px">{{$log->stylist->name}}</td>
+                                                    <td width="100px">{{empty($log->stylist) ? '' : $log->stylist->name}}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
