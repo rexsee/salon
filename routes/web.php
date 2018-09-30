@@ -72,6 +72,7 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::match(['get','post'],'add', 'Staff\CustomerController@add')->name('.add');
             Route::match(['get','post'],'edit/{id}', 'Staff\CustomerController@edit')->name('.edit');
             Route::get('detail/{id}', 'Staff\CustomerController@detail')->name('.detail');
+            Route::get('delete/{id}', 'Staff\CustomerController@deleteCustomer')->name('.delete');
             Route::match(['get','post'],'edit-log/{id}', 'Staff\CustomerController@editLog')->name('.edit_log');
             Route::match(['get','post'],'add-log/{customer_id}', 'Staff\CustomerController@addLog')->name('.add_log');
             Route::match(['get','post'],'sms-blast', 'Staff\CustomerController@sms')->name('.sms_blast');

@@ -350,4 +350,10 @@ class CustomerController extends Controller
         flash('Record deleted')->warning()->important();
         return redirect()->back();
     }
+
+    public function deleteCustomer($id){
+        Customer::destroy($id);
+        flash('Customer deleted')->warning()->important();
+        return redirect()->route('staff.customer');
+    }
 }
