@@ -18,6 +18,17 @@
     <!-- Styles -->
     <link href="{{ asset('css/front.css') }}" rel="stylesheet">
     @yield('css')
+
+    @if(env('APP_ENV') == 'production')
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131352123-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-131352123-1');
+        </script>
+    @endif
 </head>
 <body class="panelsnap onepage flexheader">
 @yield('content')
