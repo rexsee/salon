@@ -18,6 +18,9 @@ class Customer extends Model
     public function logs() {
         return $this->hasMany('App\Models\CustomerLog');
     }
+    public function last_log() {
+        return $this->hasMany('App\Models\CustomerLog')->latest()->first();
+    }
 
     public function bookings() {
         return $this->hasMany('App\Models\Booking');

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="card">
@@ -30,6 +30,7 @@
                                 <th>Gender</th>
                                 <th>City</th>
                                 <th>DOB</th>
+                                <th>Last Visit</th>
                                 <th>Remark</th>
                                 <th>Stylist</th>
                             </tr>
@@ -54,6 +55,7 @@
                                     <td>{{$data->gender}}</td>
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
+                                    <td>{{$data->last_visit}}</td>
                                     <td>{{$data->remark}}</td>
                                     <td>{{empty($data->stylist) ? ' - ' : $data->stylist->name}}</td>
                                 </tr>

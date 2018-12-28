@@ -25,6 +25,11 @@ class CustomerController extends Controller
             $result = Customer::all();
         }
 
+        foreach ($result as $key=>$item) {
+            $last_visit = $item->last_log();
+            $result[$key]['last_visit'] = empty($last_visit) ? '-' : $last_visit->log_date->toDayDateTimeString();
+        }
+
         return view('staff.customer.index', compact('result','is_birthday_list'));
     }
 
@@ -227,6 +232,15 @@ class CustomerController extends Controller
             $services = explode(',',$record->services_id);
             return view('staff.customer.log_edit', compact('stylistList', 'record', 'serviceList', 'services'));
         }
+    }
+
+    public function deleteLog($id)
+    {
+        $record = CustomerLog::findOrFail($id);
+        $record->delete();
+
+        flash('Record deleted')->warning()->important();
+        return redirect()->back();
     }
 
     public function addLog($customer_id, Request $request)

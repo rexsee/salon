@@ -138,6 +138,7 @@
                                         <table class="table">
                                             <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Date</th>
                                                 <th>Service</th>
                                                 <th>Product</th>
@@ -149,7 +150,12 @@
                                             <tbody>
                                             @foreach($logs as $log)
                                                 <tr>
-                                                    <td width="100px"><a href="{{route('staff.customer.edit_log',[$log->id])}}">{{$log->log_date->toFormattedDateString()}}</a></td>
+                                                    <td width="30px">
+                                                        <a href="{{route('staff.customer.delete_log',[$log->id])}}" onclick="return confirm('Are you sure to delete?')" class="btn btn-sm-2"><img src="{{asset('images/icons/trash.png')}}" width="20px"> </a>
+                                                    </td>
+                                                    <td width="100px">
+                                                        <a href="{{route('staff.customer.edit_log',[$log->id])}}">{{$log->log_date->toFormattedDateString()}}</a>
+                                                    </td>
                                                     <td width="150px">{{$log->services}}</td>
                                                     <td width="150px">{{$log->products}}</td>
                                                     <td class="small">{!! nl2br($log->remark) !!}</td>
