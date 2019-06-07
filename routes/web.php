@@ -18,21 +18,6 @@ Route::get('booking', 'IndexController@booking')->name('booking');
 
 Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
 
-    Route::get('sync_last_visit', function () {
-
-        $customers = \App\Models\Customer::whereNull('last_visit_at')->limit(1000)->get();
-        $updated_records = 0;
-        foreach ($customers as $customer) {
-            $customer_last_visit = $customer->last_log();
-            if (!empty($customer_last_visit)) {
-                $customer->last_visit_at = $customer_last_visit->log_date;
-                $customer->save();
-                $updated_records++;
-            }
-        }
-        echo $updated_records . ' record updated.';
-    });
-
     Route::group(['middleware' => 'guest'], function () {
         Route::get('/', 'Auth\LoginController@showLoginForm')->name('.login');
         Route::post('/', 'Auth\LoginController@login')->name('.login');
