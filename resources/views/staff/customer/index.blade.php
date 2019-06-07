@@ -55,7 +55,7 @@
                                     <td>{{$data->gender}}</td>
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
-                                    <td>{{$data->last_visit}}</td>
+                                    <td>{{$data->last_visit_at}}</td>
                                     <td>{{$data->remark}}</td>
                                     <td>{{empty($data->stylist) ? ' - ' : $data->stylist->name}}</td>
                                 </tr>

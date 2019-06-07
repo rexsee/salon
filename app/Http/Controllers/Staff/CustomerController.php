@@ -17,26 +17,21 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        if(Input::get('type') == 'birthday') {
-            $result = Customer::where('dob','like','%-' . date('m') . '-%')->get();
+        if (Input::get('type') == 'birthday') {
+            $result = Customer::where('dob', 'like', '%-' . date('m') . '-%')->get();
             $is_birthday_list = true;
-        }
-        else {
+        } else {
             $result = Customer::all();
+            $is_birthday_list = false;
         }
 
-        foreach ($result as $key=>$item) {
-            $last_visit = $item->last_log();
-            $result[$key]['last_visit'] = empty($last_visit) ? '-' : $last_visit->log_date->toDayDateTimeString();
-        }
-
-        return view('staff.customer.index', compact('result','is_birthday_list'));
+        return view('staff.customer.index', compact('result', 'is_birthday_list'));
     }
 
     public function export()
     {
         $result = Customer::all();
-        $format = Input::get('format','xlsx');
+        $format = Input::get('format', 'xlsx');
 
         Excel::create('customers - ' . date('d-m-Y'), function ($excel) use ($result) {
             $excel->sheet('customers', function ($sheet) use ($result) {
@@ -55,6 +50,7 @@ class CustomerController extends Controller
                     'Stylist',
                     'Allergies',
                     'Remark',
+                    'Last Visit',
                     'Total Visit',
                     'Total Spent'
                 ]);
@@ -74,6 +70,7 @@ class CustomerController extends Controller
                         empty($entry->stylist) ? '-' : $entry->stylist->name,
                         $entry->allergies,
                         $entry->remark,
+                        $entry->last_visit_at,
                         $entry->logs()->count(),
                         $entry->logs()->sum('total'),
                     ]);
@@ -95,13 +92,13 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $result = $customer->logs()->orderBy('log_date')->get();
-        $format = Input::get('format','xlsx');
+        $format = Input::get('format', 'xlsx');
 
         Excel::create($customer->name . ' logs ' . date('d-m-Y'), function ($excel) use ($result) {
             $excel->sheet('customers', function ($sheet) use ($result) {
                 $sheet->freezeFirstRow();
                 $sheet->setColumnFormat(['A:F' => '@']);
-                $sheet->row(1, ['Date', 'Services','Handle By','Stylist', 'Remark', 'Product', 'Total Price']);
+                $sheet->row(1, ['Date', 'Services', 'Handle By', 'Stylist', 'Remark', 'Product', 'Total Price']);
                 $row = 2;
 
                 foreach ($result as $entry) {
@@ -153,8 +150,8 @@ class CustomerController extends Controller
             flash('Record added')->success();
             return redirect()->route('staff.customer');
         } else {
-            $stylistList = Stylist::pluck('name','id')->toArray();
-            return view('staff.customer.add',compact('stylistList'));
+            $stylistList = Stylist::pluck('name', 'id')->toArray();
+            return view('staff.customer.add', compact('stylistList'));
         }
 
     }
@@ -185,17 +182,18 @@ class CustomerController extends Controller
             flash('Record updated')->success();
             return redirect()->route('staff.customer');
         } else {
-            $stylistList = Stylist::pluck('name','id')->toArray();
-            return view('staff.customer.edit', compact('record','stylistList'));
+            $stylistList = Stylist::pluck('name', 'id')->toArray();
+            return view('staff.customer.edit', compact('record', 'stylistList'));
         }
     }
 
-    public function detail($id) {
+    public function detail($id)
+    {
         $record = Customer::findOrFail($id);
-        $logs = $record->logs()->orderBy('log_date','desc')->get();
-        $bookings = $record->bookings()->whereIn('status',['Confirmed','Postpone'])->orderBy('booking_date','asc')->get();
+        $logs = $record->logs()->orderBy('log_date', 'desc')->get();
+        $bookings = $record->bookings()->whereIn('status', ['Confirmed', 'Postpone'])->orderBy('booking_date', 'asc')->get();
 
-        return view('staff.customer.detail',compact('record','logs','bookings'));
+        return view('staff.customer.detail', compact('record', 'logs', 'bookings'));
     }
 
     public function editLog($id, Request $request)
@@ -213,23 +211,24 @@ class CustomerController extends Controller
                 'stylist' => 'required|exists:stylists,id',
             ]);
 
-            $datetime = Carbon::createFromFormat('d/m/Y g:i A',$inputs['log_date'] . ' ' .$inputs['log_time']);
+            $datetime = Carbon::createFromFormat('d/m/Y g:i A', $inputs['log_date'] . ' ' . $inputs['log_time']);
+            $this->recordCustomerLastVisit($record->customer_id, $datetime->toDateTimeString());
             $record->remark = $inputs['remark'];
             $record->products = $inputs['products'];
             $record->stylist_id = $inputs['stylist'];
-            $record->services = implode(', ',Service::whereIn('id',$inputs['services'])->pluck('name')->toArray());
+            $record->services = implode(', ', Service::whereIn('id', $inputs['services'])->pluck('name')->toArray());
             $record->total = $inputs['total'];
             $record->handle_by = $inputs['handle_by'];
             $record->log_date = $datetime->toDateTimeString();
-            $record->services_id = implode(',',$inputs['services']);
+            $record->services_id = implode(',', $inputs['services']);
             $record->save();
 
             flash('Updated')->success();
-            return redirect()->route('staff.customer.detail',[$record->customer_id]);
+            return redirect()->route('staff.customer.detail', [$record->customer_id]);
         } else {
             $stylistList = Stylist::pluck('name', 'id')->toArray();
-            $serviceList = Service::pluck('name','id')->toArray();
-            $services = explode(',',$record->services_id);
+            $serviceList = Service::pluck('name', 'id')->toArray();
+            $services = explode(',', $record->services_id);
             return view('staff.customer.log_edit', compact('stylistList', 'record', 'serviceList', 'services'));
         }
     }
@@ -258,47 +257,49 @@ class CustomerController extends Controller
             ]);
 
             $record = new CustomerLog();
-            $datetime = Carbon::createFromFormat('d/m/Y g:i A',$inputs['log_date'] . ' ' .$inputs['log_time']);
+            $datetime = Carbon::createFromFormat('d/m/Y g:i A', $inputs['log_date'] . ' ' . $inputs['log_time']);
+            $this->recordCustomerLastVisit($customer_id, $datetime->toDateTimeString());
             $record->remark = $inputs['remark'];
             $record->products = $inputs['products'];
             $record->stylist_id = $inputs['stylist'];
-            $record->services = implode(', ',Service::whereIn('id',$inputs['services'])->pluck('name')->toArray());
+            $record->services = implode(', ', Service::whereIn('id', $inputs['services'])->pluck('name')->toArray());
             $record->total = $inputs['total'];
             $record->handle_by = $inputs['handle_by'];
             $record->customer_id = $customer_id;
             $record->log_date = $datetime->toDateTimeString();
-            $record->services_id = implode(',',$inputs['services']);
+            $record->services_id = implode(',', $inputs['services']);
             $record->save();
 
             flash('Added')->success();
-            return redirect()->route('staff.customer.detail',[$record->customer_id]);
+            return redirect()->route('staff.customer.detail', [$record->customer_id]);
         } else {
             $stylistList = Stylist::pluck('name', 'id')->toArray();
-            $serviceList = Service::pluck('name','id')->toArray();
+            $serviceList = Service::pluck('name', 'id')->toArray();
             $customer = Customer::FindOrFail($customer_id);
-            return view('staff.customer.log_add', compact('stylistList', 'serviceList','customer'));
+            return view('staff.customer.log_add', compact('stylistList', 'serviceList', 'customer'));
         }
     }
 
-    public function sms(Request $request) {
+    public function sms(Request $request)
+    {
 
-        if($request->method() == 'POST') {
+        if ($request->method() == 'POST') {
             $inputs = $request->validate([
-                'title'=>'required',
-                'customer_group'=>'required',
-                'message'=>'required',
+                'title' => 'required',
+                'customer_group' => 'required',
+                'message' => 'required',
             ]);
 
             $tels = [];
             switch ($inputs['customer_group']) {
                 case 'male':
-                    $tels = Customer::where('gender','Male')->pluck('tel')->toArray();
+                    $tels = Customer::where('gender', 'Male')->pluck('tel')->toArray();
                     break;
                 case 'female':
-                    $tels = Customer::where('gender','Female')->pluck('tel')->toArray();
+                    $tels = Customer::where('gender', 'Female')->pluck('tel')->toArray();
                     break;
                 case 'birthday':
-                    $tels = Customer::where('dob','like','%-' . date('m') . '-%')->pluck('tel')->toArray();
+                    $tels = Customer::where('dob', 'like', '%-' . date('m') . '-%')->pluck('tel')->toArray();
                     break;
                 case 'all':
                     $tels = Customer::pluck('tel')->toArray();
@@ -307,32 +308,30 @@ class CustomerController extends Controller
 
             if (!empty($tels)) {
                 $key = 'sms_blast||' . time() . '||' . str_slug($inputs['title']);
-                foreach ($tels as $tel){
+                foreach ($tels as $tel) {
                     Redis::command('SADD', [$key, $tel . '||' . $inputs['message'] . '||0']);
                 }
             }
 
             flash('Blast created, a total ' . count($tels) . ' SMS is sending now...')->success();
             return redirect()->route('staff.customer.sms_blast');
-        }
-        else {
+        } else {
             $blast_list_raw = Redis::keys('sms_blast||*');
             $blast_list = [];
-            foreach ($blast_list_raw as $item)
-            {
-                $blast_arr = explode('||',$item);
+            foreach ($blast_list_raw as $item) {
+                $blast_arr = explode('||', $item);
                 $blast_list[] = [
                     'key' => $item,
                     'title' => $blast_arr[2],
                     'created_at' => Carbon::createFromTimestamp($blast_arr[1])->toDayDateTimeString(),
-                    'count' => Redis::command('SCARD',[$item])
+                    'count' => Redis::command('SCARD', [$item])
                 ];
             }
 
-            $blast_fail_list_raw = Redis::command('SMEMBERS',['sms_blast_fail']);
+            $blast_fail_list_raw = Redis::command('SMEMBERS', ['sms_blast_fail']);
             $blast_fail_list = [];
             foreach ($blast_fail_list_raw as $item) {
-                $blast_fail_arr = explode('||',$item);
+                $blast_fail_arr = explode('||', $item);
                 $blast_fail_list[] = [
                     'tel' => $blast_fail_arr[0],
                     'message' => $blast_fail_arr[1],
@@ -341,33 +340,47 @@ class CustomerController extends Controller
             }
 
             $customers = Customer::all();
-            $count_female = $customers->where('gender','Female')->count();
-            $count_male = $customers->where('gender','Male')->count();
+            $count_female = $customers->where('gender', 'Female')->count();
+            $count_male = $customers->where('gender', 'Male')->count();
             $count_all = $customers->count();
-            $count_birthday = Customer::where('dob','like','%-' . date('m') . '-%')->count();
+            $count_birthday = Customer::where('dob', 'like', '%-' . date('m') . '-%')->count();
 
-            if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_BALANCE_URL'))){
+            if (!empty(env('SMS_USERNAME')) && !empty(env('SMS_BALANCE_URL'))) {
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, env('SMS_BALANCE_URL') . '?apiusername='.env('SMS_USERNAME').'&apipassword='.env('SMS_PASSWORD'));
+                curl_setopt($ch, CURLOPT_URL, env('SMS_BALANCE_URL') . '?apiusername=' . env('SMS_USERNAME') . '&apipassword=' . env('SMS_PASSWORD'));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $sms_balance = curl_exec($ch);
                 curl_close($ch);
             }
 
-            return view('staff.customer.sms_blast',compact('blast_list','blast_fail_list','count_all','count_female','count_male','count_birthday','sms_balance'));
+            return view('staff.customer.sms_blast', compact('blast_list', 'blast_fail_list', 'count_all', 'count_female', 'count_male', 'count_birthday', 'sms_balance'));
         }
     }
 
-    public function deleteSms($key) {
+    public function deleteSms($key)
+    {
         Redis::del($key);
         flash('Record deleted')->warning()->important();
         return redirect()->back();
     }
 
-    public function deleteCustomer($id){
+    public function deleteCustomer($id)
+    {
         Customer::destroy($id);
         flash('Customer deleted')->warning()->important();
         return redirect()->route('staff.customer');
+    }
+
+    private function recordCustomerLastVisit($customer_id, $date)
+    {
+        $customer = Customer::find($customer_id);
+        if (!empty($customer)) {
+            $customer_last_visit = $customer->last_log();
+            if (!empty($customer_last_visit) && $customer_last_visit->log_date < $date) {
+                $customer->last_visit_at = $date;
+                $customer->save();
+            }
+        }
     }
 }

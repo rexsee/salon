@@ -9,7 +9,7 @@ class Customer extends Model
 {
     use SoftDeletes;
     protected $fillable = ['name', 'tel', 'email', 'dob', 'gender', 'handle_by', 'address', 'city', 'allergies', 'remark', 'stylist_id'];
-    protected $dates = ['dob'];
+    protected $dates = ['dob','last_visit_at'];
 
     public function stylist() {
         return $this->belongsTo('App\Models\Stylist');
