@@ -81,6 +81,16 @@ function format_specialty($string)
     return substr($return_string, 0, -2);
 }
 
+function format_phone($phone){
+    $phone = str_replace('-','',$phone);
+    $phone = str_replace('(','',$phone);
+    $phone = str_replace(')','',$phone);
+    $phone = str_replace(' ','',$phone);
+    $phone = str_replace('.','',$phone);
+    $phone = str_replace('_','',$phone);
+    return $phone;
+}
+
 function telegram_send_message($message){
     \RicardoFontanelli\LaravelTelegram\TelegramFacade::sendMessage('default', $message);
 }

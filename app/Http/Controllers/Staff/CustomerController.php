@@ -17,15 +17,26 @@ class CustomerController extends Controller
 {
     public function index()
     {
+        $new = Input::get('new');
         if (Input::get('type') == 'birthday') {
-            $result = Customer::where('dob', 'like', '%-' . date('m') . '-%')->get();
+            $query = Customer::where('dob', 'like', '%-' . date('m') . '-%');
             $is_birthday_list = true;
         } else {
-            $result = Customer::all();
+            $query = Customer::query();
             $is_birthday_list = false;
         }
 
-        return view('staff.customer.index', compact('result', 'is_birthday_list'));
+        if (!empty($new)) {
+            if ($new == '7days') {
+                $query->where('created_at','>',Carbon::now()->subDays(7)->toDateString());
+            } else {
+                $query->where('created_at','>',Carbon::now()->subDay()->toDateString());
+            }
+        }
+
+        $result = $query->paginate(50);
+
+        return view('staff.customer.index', compact('result', 'is_birthday_list','new'));
     }
 
     public function export()
@@ -44,6 +55,7 @@ class CustomerController extends Controller
                     'Gender',
                     'DOB',
                     'Birthday Month',
+                    'Occupation',
                     'Address',
                     'City',
                     'Handle By',
@@ -51,6 +63,7 @@ class CustomerController extends Controller
                     'Allergies',
                     'Remark',
                     'Last Visit',
+                    'Created At',
                     'Total Visit',
                     'Total Spent'
                 ]);
@@ -64,6 +77,7 @@ class CustomerController extends Controller
                         $entry->gender,
                         empty($entry->dob) ? '-' : $entry->dob->toDateString(),
                         empty($entry->dob) ? '-' : $entry->dob->format('F'),
+                        $entry->occupation,
                         $entry->address,
                         $entry->city,
                         $entry->handle_by,
@@ -71,6 +85,7 @@ class CustomerController extends Controller
                         $entry->allergies,
                         $entry->remark,
                         $entry->last_visit_at,
+                        $entry->created_at->toDateString(),
                         $entry->logs()->count(),
                         $entry->logs()->sum('total'),
                     ]);
@@ -134,6 +149,7 @@ class CustomerController extends Controller
                 'email' => 'email|nullable',
                 'gender' => 'in:Female,Male|nullable',
                 'dob' => 'nullable|date',
+                'occupation' => 'nullable',
                 'address' => 'max:191|nullable',
                 'city' => 'required',
                 'allergies' => 'nullable',
@@ -165,6 +181,7 @@ class CustomerController extends Controller
                 'tel' => 'required|max:191',
                 'email' => 'email|nullable',
                 'dob' => 'nullable|date',
+                'occupation' => 'nullable',
                 'gender' => 'in:Female,Male|nullable',
                 'address' => 'max:191|nullable',
                 'city' => 'required',

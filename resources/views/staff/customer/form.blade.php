@@ -27,6 +27,13 @@
 </div>
 
 <div class="form-group row">
+    {{ Form::label('occupation', 'Occupation', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::text('occupation', old('occupation'), ['class'=>'form-control', 'placeholder'=>'Optional']) }}
+    </div>
+</div>
+
+<div class="form-group row">
     {{ Form::label('gender', 'Gender', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         <label>{{ Form::radio('gender','Male') }} Male</label> &nbsp;

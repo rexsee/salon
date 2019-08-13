@@ -12,6 +12,14 @@
     </div>
 </div>
 
+<div class="form-group row">
+    {{ Form::label('is_stylist', 'Is Stylist?', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        <label>{{ Form::radio('is_stylist',1) }} Yes</label> &nbsp;
+        <label>{{ Form::radio('is_stylist',0) }} No</label>
+    </div>
+</div>
+
 <!--
 <div class="form-group row">
     {{ Form::label('experience', 'Experience', ['class'=>'col-form-label col-sm-2']) }}

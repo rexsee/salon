@@ -73,6 +73,10 @@
                                         <td> : {{$record->dob ? $record->dob->toFormattedDateString() : ''}}</td>
                                     </tr>
                                     <tr>
+                                        <td align="right" valign="top"><b>Occupation</b></td>
+                                        <td> : {{$record->occupation}}</td>
+                                    </tr>
+                                    <tr>
                                         <td align="right" valign="top"><b>Address</b></td>
                                         <td> : {{$record->address}}</td>
                                     </tr>
@@ -91,6 +95,10 @@
                                     <tr>
                                         <td align="right" valign="top"><b>Handle By</b></td>
                                         <td> : {{$record->handle_by}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" valign="top"><b>Created At</b></td>
+                                        <td> : {{$record->created_at}}</td>
                                     </tr>
                                     <tr>
                                         <td align="right" valign="top"><b>Stylist</b></td>

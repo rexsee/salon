@@ -60,6 +60,65 @@ class IndexController extends Controller
         return view('news', compact('news','is_back'));
     }
 
+    public function newCustomer(Request $request){
+        if (!session()->has('customer_form')) {
+            return redirect()->route('newCustomerAuth');
+        }
+        if ($request->method() == 'POST') {
+            $inputs = $request->validate([
+                'first-name' => 'required',
+                'last-name' => 'required',
+                'dob-day' => 'required|numeric|min:1|max:31',
+                'dob-month' => 'required|numeric|min:1|max:12',
+                'dob-year' => 'required|numeric',
+                'tel' => 'required',
+                'occupation' => 'nullable',
+                'stylist' => 'required|exists:stylists,id',
+                'remark' => 'nullable',
+            ]);
+
+            $insert = [];
+            $insert['name'] = $inputs['first-name'] . ' ' . $inputs['last-name'];
+            $insert['tel'] = $inputs['tel'];
+            $insert['dob'] = Carbon::parse($inputs['dob-year']. '-'. $inputs['dob-month']. '-'. $inputs['dob-day'])->toDateString();
+            $insert['occupation'] = $inputs['occupation'];
+            $insert['stylist_id'] = $inputs['stylist'];
+            $insert['remark'] = $inputs['remark'];
+            Customer::create($insert);
+            return redirect()->route('thankYou');
+        } else {
+            $stylists = Stylist::where('is_stylist',1)->orderBy('order')->pluck('name','id');
+            return view('newCustomer',compact('stylists'));
+        }
+    }
+
+    public function newCustomerAuth(Request $request){
+        if (session()->has('customer_form')) {
+            return redirect()->route('newCustomer');
+        }
+
+        if (auth()->check()) {
+            session(['customer_form'=>1]);
+            return redirect()->route('newCustomer');
+        }
+
+        if ($request->method() == 'POST') {
+            if (md5($request->get('password')) == env('NEW_CUSTOMER_AUTH_TOKEN','X')) {
+                session(['customer_form'=>1]);
+                return redirect()->route('newCustomer');
+            } else {
+
+                return redirect()->back()->withErrors(['password'=>'Wrong passcode']);
+            }
+        } else {
+            return view('newCustomerAuth');
+        }
+    }
+
+    public function thankYou(){
+        return view('thankYou');
+    }
+
     public function processing(Request $request)
     {
         $validator = Validator::make($request->all(), [
