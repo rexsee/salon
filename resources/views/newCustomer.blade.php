@@ -120,21 +120,6 @@
                 </div>
             </div>
 
-            <div class="dis-flex size1 p-b-47">
-                <div class="txt1 p-r-25">
-                    <span class="lnr lnr-gift"></span>
-                </div>
-
-                <div class="flex-col size2">
-						<span class="txt1 p-b-20">
-							Message
-						</span>
-
-                    <span class="txt2">
-							Some message to customer... bla bla bla
-						</span>
-                </div>
-            </div>
         </div>
     </div>
 </div>

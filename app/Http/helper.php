@@ -94,3 +94,27 @@ function format_phone($phone){
 function telegram_send_message($message){
     \RicardoFontanelli\LaravelTelegram\TelegramFacade::sendMessage('default', $message);
 }
+
+function component_sort_link($link, $display_name, $name, $sort_by = '', $sort = 'asc'){
+    $need_to_sort_by = $sort;
+    if ($name == $sort_by) {
+        if ($sort == 'asc') {
+            $img_path = asset('images/sort_asc.png');
+            $need_to_sort_by = 'desc';
+        } else {
+            $img_path = asset('images/sort_desc.png');
+            $need_to_sort_by = 'asc';
+        }
+    } else {
+        $img_path = asset('images/sort_both.png');
+    }
+
+    if (str_contains($link,'?')){
+        $str = "<a href='$link&sort_by=$name&sort=$need_to_sort_by'>$display_name <img src='$img_path' /> </a>";
+    } else {
+        $str = "<a href='$link?sort_by=$name&sort=$need_to_sort_by'>$display_name <img src='$img_path' /></a>";
+    }
+
+    return $str;
+
+}

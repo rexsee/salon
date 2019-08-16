@@ -18,12 +18,31 @@ class CustomerController extends Controller
     public function index()
     {
         $new = Input::get('new');
-        if (Input::get('type') == 'birthday') {
+        $type = Input::get('type');
+        $sort_by = Input::get('sort_by','name');
+        $sort = Input::get('sort','asc');
+        $page = Input::get('page');
+        $search = Input::get('search');
+        if ($type) {
             $query = Customer::where('dob', 'like', '%-' . date('m') . '-%');
-            $is_birthday_list = true;
         } else {
             $query = Customer::query();
-            $is_birthday_list = false;
+        }
+
+        if (!empty($sort_by) && !empty($sort)){
+            $query->orderBy($sort_by,$sort);
+        }
+
+        if (!empty($search)) {
+            $stylist = Stylist::where('name','like',"%$search%")->first();
+            if (!empty($stylist)) {
+                $query->where('stylist_id',$stylist->id);
+            } else {
+                $query->where('name','like',"%$search%")
+                    ->orWhere('tel','like',"%$search%")
+                    ->orWhere('city','like',"%$search%")
+                ;
+            }
         }
 
         if (!empty($new)) {
@@ -36,7 +55,7 @@ class CustomerController extends Controller
 
         $result = $query->paginate(50);
 
-        return view('staff.customer.index', compact('result', 'is_birthday_list','new'));
+        return view('staff.customer.index', compact('result', 'type','new','sort_by','sort','page','search'));
     }
 
     public function export()
