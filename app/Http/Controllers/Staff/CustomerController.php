@@ -53,7 +53,8 @@ class CustomerController extends Controller
             }
         }
 
-        $result = $query->paginate(50);
+//        $result = $query->paginate(50);
+        $result = $query->get();
 
         return view('staff.customer.index', compact('result', 'type','new','sort_by','sort','page','search'));
     }

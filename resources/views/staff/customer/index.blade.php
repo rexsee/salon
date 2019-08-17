@@ -25,27 +25,34 @@
                     <div class="card-body">
                         @include('flash::message')
 
-                        <form method="get">
-                            <input style="width: 300px" name="search" value="{{$search}}" type="text" placeholder="search by name, tel, city, or stylist" />
-                            <input type="hidden" name="type" value="{{$type}}" />
-                            <input type="hidden" name="new" value="{{$new}}" />
-                            <input type="hidden" name="sort_by" value="{{$sort_by}}" />
-                            <input type="hidden" name="sort" value="{{$sort}}" />
+{{--                        <form method="get">--}}
+{{--                            <input style="width: 300px" name="search" value="{{$search}}" type="text" placeholder="search by name, tel, city, or stylist" />--}}
+{{--                            <input type="hidden" name="type" value="{{$type}}" />--}}
+{{--                            <input type="hidden" name="new" value="{{$new}}" />--}}
+{{--                            <input type="hidden" name="sort_by" value="{{$sort_by}}" />--}}
+{{--                            <input type="hidden" name="sort" value="{{$sort}}" />--}}
 
-                            <input type="submit" value="Search" />
-                        </form>
+{{--                            <input type="submit" value="Search" />--}}
+{{--                        </form>--}}
 
-                        <table class="table table-list small">
+                        <table id="datatable" class="table table-list small">
                             <thead>
                             <tr>
                                 <th width="80px"></th>
-                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Name','name',$sort_by,$sort) !!}</th>
-                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Tel','tel',$sort_by,$sort) !!}</th>
-                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Gender','gender',$sort_by,$sort) !!}</th>
-                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'City','city',$sort_by,$sort) !!}</th>
-                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'DOB','dob',$sort_by,$sort) !!}</th>
-                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Last Visit','last_visit_at',$sort_by,$sort) !!}</th>
-                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Created At','created_at',$sort_by,$sort) !!}</th>
+{{--                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Name','name',$sort_by,$sort) !!}</th>--}}
+{{--                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Tel','tel',$sort_by,$sort) !!}</th>--}}
+{{--                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Gender','gender',$sort_by,$sort) !!}</th>--}}
+{{--                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'City','city',$sort_by,$sort) !!}</th>--}}
+{{--                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'DOB','dob',$sort_by,$sort) !!}</th>--}}
+{{--                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Last Visit','last_visit_at',$sort_by,$sort) !!}</th>--}}
+{{--                                <th>{!! component_sort_link(route('staff.customer',['type'=>$type,'new'=>$new,'search'=>$search]),'Created At','created_at',$sort_by,$sort) !!}</th>--}}
+                                <th>Name</th>
+                                <th>Tel</th>
+                                <th>Gender</th>
+                                <th>City</th>
+                                <th>DOB</th>
+                                <th>Last Visit</th>
+                                <th>Created At</th>
                                 <th>Remark</th>
                                 <th>Stylist</th>
                             </tr>
@@ -79,10 +86,24 @@
                             </tbody>
                         </table>
 
-                        {{ $result->appends(['type'=>$type,'new'=>$new,'sort_by'=>$sort_by,'sort'=>$sort,'search'=>$search])->links() }}
+{{--                        {{ $result->appends(['type'=>$type,'new'=>$new,'sort_by'=>$sort_by,'sort'=>$sort,'search'=>$search])->links() }}--}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable({
+                autoWidth: false,
+                responsive: true,
+                pageLength: 50,
+                columnDefs : [{ orderable: false, targets: 0 }],
+                order:[3,'desc']
+            });
+        } );
+    </script>
+@stop
