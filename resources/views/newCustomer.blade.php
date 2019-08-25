@@ -62,7 +62,7 @@
                 <input class="input100" type="tel" name="dob-month" value="{{old('dob-month')}}" placeholder="Month">
                 <span class="focus-input100"></span>
             </div>
-            <div class="wrap-input100 rss2-wrap-input100 validate-input" data-validate="Enter year of birth">
+            <div class="wrap-input100 rss2-wrap-input100" data-validate="Enter year of birth">
                 <input class="input100" type="tel" name="dob-year" value="{{old('dob-year')}}" placeholder="Year">
                 <span class="focus-input100"></span>
             </div>

@@ -70,17 +70,18 @@ class IndexController extends Controller
                 'last-name' => 'required',
                 'dob-day' => 'required|numeric|min:1|max:31',
                 'dob-month' => 'required|numeric|min:1|max:12',
-                'dob-year' => 'required|numeric',
+                'dob-year' => 'nullable|numeric',
                 'tel' => 'required',
                 'occupation' => 'nullable',
                 'stylist' => 'required|exists:stylists,id',
                 'remark' => 'nullable',
             ]);
+            $year = empty($inputs['dob-year']) ? date('Y') : $inputs['dob-year'];
 
             $insert = [];
             $insert['name'] = $inputs['first-name'] . ' ' . $inputs['last-name'];
             $insert['tel'] = $inputs['tel'];
-            $insert['dob'] = Carbon::parse($inputs['dob-year']. '-'. $inputs['dob-month']. '-'. $inputs['dob-day'])->toDateString();
+            $insert['dob'] = Carbon::parse($year. '-'. $inputs['dob-month']. '-'. $inputs['dob-day'])->toDateString();
             $insert['occupation'] = $inputs['occupation'];
             $insert['stylist_id'] = $inputs['stylist'];
             $insert['remark'] = $inputs['remark'];
