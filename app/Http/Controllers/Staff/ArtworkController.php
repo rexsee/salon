@@ -21,7 +21,7 @@ class ArtworkController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'title' => 'max:191|nullable',
-                'image' => 'required|mimes:jpeg,jpg,png,gif|max:2048'
+                'image' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             $image = $request->file('image');
@@ -48,7 +48,7 @@ class ArtworkController extends Controller
         if ($request->method() == 'POST') {
             $inputs = $request->validate([
                 'title' => 'max:191|nullable',
-                'image' => 'mimes:jpeg,jpg,png,gif|max:2048'
+                'image' => 'mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             if (!empty($request->image)) {
