@@ -28,7 +28,7 @@ class StylistController extends Controller
 //                'specialty' => 'required|array|nullable',
 //                'availability' => 'required|array|nullable',
 //                'description' => 'required',
-                'avatar' => 'required|mimes:jpeg,jpg,png,gif|max:1024'
+                'avatar' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             if (!empty($inputs['availability'])) {
@@ -82,7 +82,7 @@ class StylistController extends Controller
 //                'specialty' => 'required|max:191',
 //                'availability' => 'required|array|nullable',
 //                'description' => 'required',
-                'avatar' => 'mimes:jpeg,jpg,png,gif|max:1024'
+                'avatar' => 'mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             if (!empty($inputs['availability'])) {
