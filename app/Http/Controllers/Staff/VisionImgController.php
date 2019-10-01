@@ -22,7 +22,7 @@ class VisionImgController extends Controller
             $inputs = $request->validate([
                 'title' => 'max:191|nullable',
                 'order' => 'integer',
-                'image' => 'required|mimes:jpeg,jpg,png,gif|max:2048'
+                'image' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             $image = $request->file('image');
@@ -50,7 +50,7 @@ class VisionImgController extends Controller
             $inputs = $request->validate([
                 'title' => 'max:191|nullable',
                 'order' => 'integer',
-                'image' => 'mimes:jpeg,jpg,png,gif|max:2048'
+                'image' => 'mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             if (!empty($request->image)) {
