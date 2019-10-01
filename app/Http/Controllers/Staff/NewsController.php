@@ -25,7 +25,7 @@ class NewsController extends Controller
                 'news_date' => 'required|date_format:d/m/Y',
                 'type' => 'required',
                 'content' => 'required',
-                'image' => 'required|mimes:jpeg,jpg,png,gif|max:2048'
+                'image' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             $slug = str_slug($inputs['title']);
@@ -61,7 +61,7 @@ class NewsController extends Controller
                 'news_date' => 'required|date_format:d/m/Y',
                 'type' => 'required',
                 'content' => 'required',
-                'image' => 'required|mimes:jpeg,jpg,png,gif|max:2048'
+                'image' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
             $slug = str_slug($inputs['title']);
