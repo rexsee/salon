@@ -21,7 +21,7 @@
                             </div>
                         @endif
 
-                        @if(!empty($sms_balance) && $sms_balance < 200)
+                        @if($sms_balance != 'X' && $sms_balance < 200)
                             <div class="jumbotron" style="padding: 2rem 2rem;background-color: #eec4cd">
                                 <h1>Running out of SMS quota</h1>
                                 <p>You've remaining SMS quota <b>{{$sms_balance}}</b>, please contact your tech support for topup.</p>

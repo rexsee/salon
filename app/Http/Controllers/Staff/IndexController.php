@@ -108,13 +108,17 @@ class IndexController extends Controller
             return redirect()->route('staff.home');
         }
         else {
-            $sms_balance = '';
+            $sms_balance = 'X';
             if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_BALANCE_URL'))){
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, env('SMS_BALANCE_URL') . '?apiusername='.env('SMS_USERNAME').'&apipassword='.env('SMS_PASSWORD'));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $sms_balance = curl_exec($ch);
+                if (curl_errno($ch)) {
+                    $error_msg = curl_error($ch);
+                    dd($error_msg);
+                }
                 curl_close($ch);
             }
 
