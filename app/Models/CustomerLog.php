@@ -13,4 +13,9 @@ class CustomerLog extends Model
     {
         return $this->belongsTo('App\Models\Stylist');
     }
+
+    public function customer()
+    {
+        return $this->belongsTo('App\Models\Customer');
+    }
 }

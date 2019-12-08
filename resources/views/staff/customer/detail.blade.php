@@ -57,7 +57,7 @@
                             <div class="col-lg-4">
                                 <table width="100%" class="customer-info">
                                     <tr>
-                                        <td align="right" valign="top" width="90px"><b>Name</b></td>
+                                        <td align="right" valign="top" width="120px"><b>Name</b></td>
                                         <td> : {{$record->name}}</td>
                                     </tr>
                                     <tr>
@@ -101,8 +101,16 @@
                                         <td> : {{$record->created_at}}</td>
                                     </tr>
                                     <tr>
+                                        <td align="right" valign="top"><b>Follow Up Date</b></td>
+                                        <td> : {{empty($record->follow_up_date) ? '-' : $record->follow_up_date->toDateString()}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" valign="top"><b>Last Visit</b></td>
+                                        <td> : {{empty($record->last_visit_at) ? '-' : $record->last_visit_at->toDateTimeString()}}</td>
+                                    </tr>
+                                    <tr>
                                         <td align="right" valign="top"><b>Stylist</b></td>
-                                        <td> : {{empty($record->stylist) ? '' : $record->stylist->name}}</td>
+                                        <td> : {{empty($record->stylist) ? '-' : $record->stylist->name}}</td>
                                     </tr>
                                 </table>
                             </div>

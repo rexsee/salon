@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Customer extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name', 'tel', 'email', 'dob', 'occupation', 'gender', 'handle_by', 'address', 'city', 'allergies', 'remark', 'stylist_id'];
-    protected $dates = ['dob','last_visit_at'];
+    protected $fillable = ['name', 'tel', 'email', 'dob', 'occupation', 'gender', 'handle_by', 'address', 'city', 'allergies', 'remark', 'follow_up_date','stylist_id'];
+    protected $dates = ['dob','last_visit_at','follow_up_date'];
 
     public function stylist() {
         return $this->belongsTo('App\Models\Stylist');

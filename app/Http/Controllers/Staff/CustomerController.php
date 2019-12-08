@@ -23,10 +23,20 @@ class CustomerController extends Controller
         $sort = Input::get('sort','asc');
         $page = Input::get('page');
         $search = Input::get('search');
+        $from_date = Input::get('from_date');
+        $to_date = Input::get('to_date');
+
         if ($type) {
             $query = Customer::where('dob', 'like', '%-' . date('m') . '-%');
         } else {
             $query = Customer::query();
+        }
+
+        if (!empty($from_date) && !empty($to_date)) {
+            $query->whereBetween('follow_up_date',[
+                Carbon::createFromFormat('d/m/Y', $from_date)->toDateString(),
+                Carbon::createFromFormat('d/m/Y', $to_date)->toDateString()
+            ]);
         }
 
         if (!empty($sort_by) && !empty($sort)){
@@ -56,7 +66,7 @@ class CustomerController extends Controller
 //        $result = $query->paginate(50);
         $result = $query->get();
 
-        return view('staff.customer.index', compact('result', 'type','new','sort_by','sort','page','search'));
+        return view('staff.customer.index', compact('result', 'type','new','sort_by','sort','page','search','from_date','to_date'));
     }
 
     public function export()
@@ -84,6 +94,7 @@ class CustomerController extends Controller
                     'Remark',
                     'Last Visit',
                     'Created At',
+                    'Follow Up Date',
                     'Total Visit',
                     'Total Spent'
                 ]);
@@ -106,6 +117,7 @@ class CustomerController extends Controller
                         $entry->remark,
                         $entry->last_visit_at,
                         $entry->created_at->toDateString(),
+                        empty($entry->follow_up_date) ? '-' : $entry->follow_up_date->toDateString(),
                         $entry->logs()->count(),
                         $entry->logs()->sum('total'),
                     ]);
@@ -240,6 +252,7 @@ class CustomerController extends Controller
             $inputs = $request->validate([
                 'remark' => 'nullable',
                 'log_date' => 'required',
+                'follow_up_date' => 'nullable|date_format:d/m/Y',
                 'log_time' => 'required',
                 'services' => 'required|array',
                 'products' => 'nullable',
@@ -259,6 +272,10 @@ class CustomerController extends Controller
             $record->log_date = $datetime->toDateTimeString();
             $record->services_id = implode(',', $inputs['services']);
             $record->save();
+
+            if (!empty($request->follow_up_date)) {
+                Customer::where('id',$record->customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date)]);
+            }
 
             flash('Updated')->success();
             return redirect()->route('staff.customer.detail', [$record->customer_id]);
@@ -285,6 +302,7 @@ class CustomerController extends Controller
             $inputs = $request->validate([
                 'remark' => 'nullable',
                 'log_date' => 'required',
+                'follow_up_date' => 'nullable|date_format:d/m/Y',
                 'log_time' => 'required',
                 'services' => 'required|array',
                 'products' => 'nullable',
@@ -306,6 +324,10 @@ class CustomerController extends Controller
             $record->log_date = $datetime->toDateTimeString();
             $record->services_id = implode(',', $inputs['services']);
             $record->save();
+
+            if (!empty($request->follow_up_date)) {
+                Customer::where('id',$customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date)]);
+            }
 
             flash('Added')->success();
             return redirect()->route('staff.customer.detail', [$record->customer_id]);

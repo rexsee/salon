@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+    <link href="{{asset('css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet">
+@stop
+
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -24,6 +28,15 @@
 
                     <div class="card-body">
                         @include('flash::message')
+                        <div class="text-right">
+                            <form method="get">
+                                Follow Up Date Range :
+                                {{ Form::text('from_date', empty($from_date) ? '' : $from_date, ['class'=>'datepicker', 'placeholder'=>'From Date']) }} to
+                                {{ Form::text('to_date', empty($to_date) ? '' : $to_date, ['class'=>'datepicker', 'placeholder'=>'To Date']) }}
+                                <input type="submit" value="Filter" />
+                            </form>
+                            <br />
+                        </div>
 
 {{--                        <form method="get">--}}
 {{--                            <input style="width: 300px" name="search" value="{{$search}}" type="text" placeholder="search by name, tel, city, or stylist" />--}}
@@ -52,8 +65,8 @@
                                 <th>City</th>
                                 <th>DOB</th>
                                 <th>Last Visit</th>
-                                <th>Created At</th>
-                                <th>Remark</th>
+                                <th>Follow Up</th>
+                                <th>Last Log Remark</th>
                                 <th>Stylist</th>
                             </tr>
                             </thead>
@@ -76,10 +89,10 @@
                                     <td>{{$data->tel}}</td>
                                     <td>{{$data->gender}}</td>
                                     <td>{{$data->city}}</td>
-                                    <td>{{$data->dob ? $data->dob->toFormattedDateString() : '-'}}</td>
+                                    <td>{{$data->dob ? $data->dob->toFormattedDateString() : ' - '}}</td>
                                     <td>{{$data->last_visit_at}}</td>
-                                    <td>{{$data->created_at->toDateString()}}</td>
-                                    <td>{{$data->remark}}</td>
+                                    <td>{{$data->follow_up_date ? $data->follow_up_date->toDateString() : ' - '}}</td>
+                                    <td>{{empty($data->logs()->latest()->first()->remark) ? ' - ' : $data->logs()->latest()->first()->remark}}</td>
                                     <td>{{empty($data->stylist) ? ' - ' : $data->stylist->name}}</td>
                                 </tr>
                             @endforeach
@@ -95,6 +108,8 @@
 @endsection
 
 @section('js')
+    <script type="text/javascript" src="{{asset('js/moment.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <script>
         $(document).ready(function() {
             $('#datatable').DataTable({
@@ -105,5 +120,8 @@
                 order:[3,'desc']
             });
         } );
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
     </script>
 @stop
