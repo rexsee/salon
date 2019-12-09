@@ -71,6 +71,8 @@
                             @endforeach
                             </tbody>
                         </table>
+                        @else
+                            <p style="text-align: center">No record found</p>
                         @endif
                     </div>
                 </div>
