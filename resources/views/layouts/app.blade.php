@@ -19,6 +19,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
+    <link href="{{ asset('css/fontawesome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('css')
 </head>
@@ -139,6 +140,7 @@
 </div>
 
 @if(auth()->check() && !empty(env('PUSHER_APP_KEY')))
+    <script src="{{ asset('js/fontawesome.js') }}"></script>
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <script>
         @if(env('APP_ENV') != 'production')

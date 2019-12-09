@@ -22,6 +22,7 @@
                         <a href="{{route('staff.customer.add')}}" class="btn btn-sm btn-success pull-right" style="margin-left: 10px;">Add New</a>
                         <a href="{{route('staff.customer',['type'=>$type,'search'=>$search,'new'=>'7days'])}}" class="btn btn-sm btn-default pull-right {{ $new == '7days' ? 'text-dark' : ''}}" style="margin-left: 10px;">7 Days New Customer List</a>
                         <a href="{{route('staff.customer',['type'=>$type,'search'=>$search,'new'=>'today'])}}" class="btn btn-sm btn-default pull-right {{$new == 'today' ? 'text-dark' : ''}}" style="margin-left: 10px;">Today New Customer List</a>
+{{--                        <a href="{{route('staff.customer.follow_up')}}" class="btn btn-sm btn-default pull-right">Follow Up List</a>--}}
                         <a href="{{route('staff.customer',['type'=>$type,'search'=>$search,'new'=>''])}}" class="btn btn-sm btn-default pull-right {{empty($new) ? 'text-dark' : ''}}">All Customer List</a>
 
                     </div>
@@ -29,10 +30,10 @@
                     <div class="card-body">
                         @include('flash::message')
                         <div class="text-right">
-                            <form method="get">
+                            <form method="get" action="{{route('staff.customer.follow_up')}}">
                                 Follow Up Date Range :
-                                {{ Form::text('from_date', empty($from_date) ? '' : $from_date, ['class'=>'datepicker', 'placeholder'=>'From Date']) }} to
-                                {{ Form::text('to_date', empty($to_date) ? '' : $to_date, ['class'=>'datepicker', 'placeholder'=>'To Date']) }}
+                                {{ Form::text('from_date', '', ['class'=>'datepicker', 'placeholder'=>'From Date']) }} to
+                                {{ Form::text('to_date', '', ['class'=>'datepicker', 'placeholder'=>'To Date']) }}
                                 <input type="submit" value="Filter" />
                             </form>
                             <br />
@@ -65,8 +66,8 @@
                                 <th>City</th>
                                 <th>DOB</th>
                                 <th>Last Visit</th>
-                                <th>Follow Up</th>
-                                <th>Last Log Remark</th>
+                                <th>Created At</th>
+                                <th>Remark</th>
                                 <th>Stylist</th>
                             </tr>
                             </thead>
@@ -91,8 +92,8 @@
                                     <td>{{$data->city}}</td>
                                     <td>{{$data->dob ? $data->dob->toFormattedDateString() : ' - '}}</td>
                                     <td>{{$data->last_visit_at}}</td>
-                                    <td>{{$data->follow_up_date ? $data->follow_up_date->toDateString() : ' - '}}</td>
-                                    <td>{{empty($data->logs()->latest()->first()->remark) ? ' - ' : $data->logs()->latest()->first()->remark}}</td>
+                                    <td>{{$data->created_at ? $data->created_at->toDateString() : ' - '}}</td>
+                                    <td>{{empty($data->remark) ? ' - ' : $data->remark}}</td>
                                     <td>{{empty($data->stylist) ? ' - ' : $data->stylist->name}}</td>
                                 </tr>
                             @endforeach

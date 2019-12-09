@@ -70,6 +70,8 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
         //Customer
         Route::group(['prefix' => 'customer', 'as'=>'.customer'], function () {
             Route::get('', 'Staff\CustomerController@index');
+            Route::get('follow-up', 'Staff\CustomerController@followUp')->name('.follow_up');
+            Route::get('follow-up-update/{id}', 'Staff\CustomerController@followUpUpdate')->name('.follow_up_update');
             Route::get('export', 'Staff\CustomerController@export')->name('.export');
             Route::get('export-log/{id}', 'Staff\CustomerController@exportCustomerLog')->name('.export_log');
             Route::match(['get','post'],'add', 'Staff\CustomerController@add')->name('.add');

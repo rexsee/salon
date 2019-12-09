@@ -100,10 +100,23 @@
                                         <td align="right" valign="top"><b>Created At</b></td>
                                         <td> : {{$record->created_at}}</td>
                                     </tr>
-                                    <tr>
-                                        <td align="right" valign="top"><b>Follow Up Date</b></td>
-                                        <td> : {{empty($record->follow_up_date) ? '-' : $record->follow_up_date->toDateString()}}</td>
-                                    </tr>
+                                    @if(!empty($record->follow_up_date) && $record->follow_up_date < \Carbon\Carbon::now() && !$record->is_follow_up)
+                                        <tr style="background-color: red;font-weight: bold">
+                                            <td align="right" valign="top"><b>Follow Up Date</b></td>
+                                            <td> : {{$record->follow_up_date->toDateString()}} (Haven't follow up yet.)<br /><small><a href="{{route('staff.customer.follow_up_update',[$record->id])}}">click here</a> to mark as followed up.</small></td>
+                                        </tr>
+                                    @elseif(!empty($record->follow_up_date) && $record->is_follow_up)
+                                        <tr style="background-color: green;">
+                                            <td align="right" valign="top"><b>Follow Up Date</b></td>
+                                            <td> : {{$record->follow_up_date->toDateString()}} (Followed up)</td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td align="right" valign="top"><b>Follow Up Date</b></td>
+                                            <td> : {{empty($record->follow_up_date) ? '-' : $record->follow_up_date->toDateString()}}</td>
+                                        </tr>
+                                    @endif
+
                                     <tr>
                                         <td align="right" valign="top"><b>Last Visit</b></td>
                                         <td> : {{empty($record->last_visit_at) ? '-' : $record->last_visit_at->toDateTimeString()}}</td>

@@ -69,6 +69,32 @@ class CustomerController extends Controller
         return view('staff.customer.index', compact('result', 'type','new','sort_by','sort','page','search','from_date','to_date'));
     }
 
+    public function followUp()
+    {
+        $from_date = Input::get('from_date');
+        $to_date = Input::get('to_date');
+
+        if (!empty($from_date) && !empty($to_date)) {
+            $result = Customer::whereBetween('follow_up_date',[
+                Carbon::createFromFormat('d/m/Y', $from_date)->toDateString(),
+                Carbon::createFromFormat('d/m/Y', $to_date)->toDateString()
+            ])->get();
+        } else {
+            $result = [];
+        }
+
+        return view('staff.customer.follow_up', compact('result', 'from_date','to_date'));
+    }
+
+    public function followUpUpdate($id) {
+        $customer = Customer::findOrFail($id);
+        $customer->is_follow_up = 1;
+        $customer->save();
+
+        flash('Updated')->success();
+        return redirect()->back();
+    }
+
     public function export()
     {
         $result = Customer::all();
@@ -274,7 +300,7 @@ class CustomerController extends Controller
             $record->save();
 
             if (!empty($request->follow_up_date)) {
-                Customer::where('id',$record->customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date)]);
+                Customer::where('id',$record->customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date),'is_follow_up' => 0]);
             }
 
             flash('Updated')->success();
@@ -326,7 +352,7 @@ class CustomerController extends Controller
             $record->save();
 
             if (!empty($request->follow_up_date)) {
-                Customer::where('id',$customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date)]);
+                Customer::where('id',$customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date),'is_follow_up' => 0]);
             }
 
             flash('Added')->success();
