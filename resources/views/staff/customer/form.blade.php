@@ -22,7 +22,7 @@
 <div class="form-group row">
     {{ Form::label('dob', 'Customer\'s Birthday', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::text('dob', !empty($record->dob) ? $record->dob->format('m/d/Y') : old('dob'), ['class'=>'form-control datepicker','placeholder'=>'MM/DD/YYYY, Optional']) }}
+        {{ Form::text('dob', !empty($record->dob) ? $record->dob->format('d/m/Y') : old('dob'), ['class'=>'form-control datepicker','placeholder'=>'DD/MM/YYYY, Optional']) }}
     </div>
 </div>
 
@@ -80,5 +80,12 @@
     {{ Form::label('stylist_id', 'Stylist', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::select('stylist_id', $stylistList, null, ['class'=>'form-control']) }}
+    </div>
+</div>
+
+<div class="form-group row">
+    {{ Form::label('follow_up_date', 'Follow Up Date', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::text('follow_up_date', empty($record->follow_up_date) ? '' : $record->follow_up_date->format('d/m/Y'), ['class'=>'form-control datepicker']) }}
     </div>
 </div>

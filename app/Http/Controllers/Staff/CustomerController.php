@@ -206,7 +206,8 @@ class CustomerController extends Controller
                 'tel' => 'required|max:191',
                 'email' => 'email|nullable',
                 'gender' => 'in:Female,Male|nullable',
-                'dob' => 'nullable|date',
+                'follow_up_date' => 'nullable|date_format:d/m/Y',
+                'dob' => 'nullable|date_format:d/m/Y',
                 'occupation' => 'nullable',
                 'address' => 'max:191|nullable',
                 'city' => 'required',
@@ -217,8 +218,14 @@ class CustomerController extends Controller
             ]);
 
             if (!empty($inputs['dob'])) {
-                $inputs['dob'] = Carbon::parse($inputs['dob'])->toDateString();
+                $inputs['dob'] = Carbon::createFromFormat('d/m/Y', $inputs['dob']);
             }
+
+            if (!empty($inputs['follow_up_date'])) {
+                $inputs['follow_up_date'] = Carbon::createFromFormat('d/m/Y', $inputs['follow_up_date']);
+                $inputs['is_follow_up'] = 0;
+            }
+
             Customer::create($inputs);
 
             flash('Record added')->success();
@@ -238,7 +245,8 @@ class CustomerController extends Controller
                 'name' => 'required|max:191',
                 'tel' => 'required|max:191',
                 'email' => 'email|nullable',
-                'dob' => 'nullable|date',
+                'dob' => 'nullable|date_format:d/m/Y',
+                'follow_up_date' => 'nullable|date_format:d/m/Y',
                 'occupation' => 'nullable',
                 'gender' => 'in:Female,Male|nullable',
                 'address' => 'max:191|nullable',
@@ -250,8 +258,14 @@ class CustomerController extends Controller
             ]);
 
             if (!empty($inputs['dob'])) {
-                $inputs['dob'] = Carbon::parse($inputs['dob'])->toDateString();
+                $inputs['dob'] = Carbon::createFromFormat('d/m/Y', $inputs['dob']);
             }
+
+            if (!empty($inputs['follow_up_date'])) {
+                $inputs['follow_up_date'] = Carbon::createFromFormat('d/m/Y', $inputs['follow_up_date']);
+                $inputs['is_follow_up'] = 0;
+            }
+
             $record->update($inputs);
 
             flash('Record updated')->success();
@@ -278,7 +292,6 @@ class CustomerController extends Controller
             $inputs = $request->validate([
                 'remark' => 'nullable',
                 'log_date' => 'required',
-                'follow_up_date' => 'nullable|date_format:d/m/Y',
                 'log_time' => 'required',
                 'services' => 'required|array',
                 'products' => 'nullable',
@@ -298,10 +311,6 @@ class CustomerController extends Controller
             $record->log_date = $datetime->toDateTimeString();
             $record->services_id = implode(',', $inputs['services']);
             $record->save();
-
-            if (!empty($request->follow_up_date)) {
-                Customer::where('id',$record->customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date),'is_follow_up' => 0]);
-            }
 
             flash('Updated')->success();
             return redirect()->route('staff.customer.detail', [$record->customer_id]);
@@ -328,7 +337,6 @@ class CustomerController extends Controller
             $inputs = $request->validate([
                 'remark' => 'nullable',
                 'log_date' => 'required',
-                'follow_up_date' => 'nullable|date_format:d/m/Y',
                 'log_time' => 'required',
                 'services' => 'required|array',
                 'products' => 'nullable',
@@ -350,10 +358,6 @@ class CustomerController extends Controller
             $record->log_date = $datetime->toDateTimeString();
             $record->services_id = implode(',', $inputs['services']);
             $record->save();
-
-            if (!empty($request->follow_up_date)) {
-                Customer::where('id',$customer_id)->update(['follow_up_date'=>Carbon::createFromFormat('d/m/Y', $request->follow_up_date),'is_follow_up' => 0]);
-            }
 
             flash('Added')->success();
             return redirect()->route('staff.customer.detail', [$record->customer_id]);

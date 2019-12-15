@@ -6,13 +6,6 @@
 </div>
 
 <div class="form-group row">
-    {{ Form::label('follow_up_date', 'Follow Up Date', ['class'=>'col-form-label col-sm-2']) }}
-    <div class="col-sm-10">
-        {{ Form::text('follow_up_date', empty($record->customer->follow_up_date) ? '' : $record->customer->follow_up_date->format('d/m/Y'), ['class'=>'form-control datepicker']) }}
-    </div>
-</div>
-
-<div class="form-group row">
     {{ Form::label('log_time', 'Time', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         {{ Form::text('log_time', empty($record) ? date('H:i') : $record->log_date->format('H:i'), ['class'=>'form-control timepicker', 'required']) }}
