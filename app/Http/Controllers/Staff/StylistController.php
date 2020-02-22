@@ -22,6 +22,7 @@ class StylistController extends Controller
             $inputs = $request->validate([
                 'name' => 'required|max:191',
                 'title' => 'required|max:191',
+                'status' => 'required|in:Active,Disable',
                 'order' => 'integer',
                 'is_stylist' => 'boolean',
 //                'experience' => 'required|max:191',
@@ -78,6 +79,7 @@ class StylistController extends Controller
                 'title' => 'required|max:191',
                 'order' => 'integer',
                 'is_stylist' => 'boolean',
+                'status' => 'required|in:Active,Disable',
 //                'experience' => 'required|max:191',
 //                'specialty' => 'required|max:191',
 //                'availability' => 'required|array|nullable',

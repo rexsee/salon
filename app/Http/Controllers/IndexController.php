@@ -24,7 +24,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $team = Stylist::orderBy('order')->get();
+        $team = Stylist::where('status','Active')->orderBy('order')->get();
         $service_raw = Service::orderBy('order')->get()->toArray();
         $gallery = Gallery::orderBy('created_at', 'desc')->get();
         $slider_images = AboutImage::orderBy('order')->get();
@@ -88,7 +88,7 @@ class IndexController extends Controller
             Customer::create($insert);
             return redirect()->route('thankYou');
         } else {
-            $stylists = Stylist::where('is_stylist',1)->orderBy('order')->pluck('name','id');
+            $stylists = Stylist::where('is_stylist',1)->where('status','Active')->orderBy('order')->pluck('name','id');
             return view('newCustomer',compact('stylists'));
         }
     }

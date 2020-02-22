@@ -14,6 +14,7 @@ class SystemInformation extends Model
         'head_line',
         'slogan',
         'image_path',
+        'hover_image_path',
         'about_us_desc',
         'vision_desc'
     ];

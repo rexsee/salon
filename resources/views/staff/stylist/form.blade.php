@@ -20,6 +20,14 @@
     </div>
 </div>
 
+<div class="form-group row">
+    {{ Form::label('status', 'Status', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        <label>{{ Form::radio('status','Active') }} Active</label> &nbsp;
+        <label>{{ Form::radio('status','Disable') }} Disable</label>
+    </div>
+</div>
+
 <!--
 <div class="form-group row">
     {{ Form::label('experience', 'Experience', ['class'=>'col-form-label col-sm-2']) }}

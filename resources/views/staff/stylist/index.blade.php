@@ -17,6 +17,7 @@
                             <thead>
                             <tr>
                                 <th width="80px"></th>
+                                <th>Status</th>
                                 <th>Name</th>
                                 <th>Title</th>
                                 <th>Is Stylist</th>
@@ -29,8 +30,9 @@
                                 <tr>
                                     <td>
                                         <a href="{{route('staff.stylist.edit',[$data->id])}}" class="btn btn-sm-2 btn-info">Edit</a>
-                                        <a href="{{route('staff.stylist.delete',[$data->id])}}" onclick="return confirm('Are you sure to delete?')" class="btn btn-sm-2 btn-danger">Delete</a>
+{{--                                        <a href="{{route('staff.stylist.delete',[$data->id])}}" onclick="return confirm('Are you sure to delete?')" class="btn btn-sm-2 btn-danger">Delete</a>--}}
                                     </td>
+                                    <td>{{$data->status}}</td>
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->title}}</td>
                                     <td>{{$data->is_stylist ? 'Yes' : 'No'}}</td>

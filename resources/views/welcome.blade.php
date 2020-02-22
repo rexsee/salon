@@ -1,5 +1,25 @@
 @extends('layouts.front')
 @section('title') - {{$system_info->slogan}}@stop
+@section('css')
+    <style>
+        #cover_img_container{
+            background: url('{{$system_info->image_path}}');
+            background-size:cover;
+            background-repeat:   no-repeat;
+            background-position: center center;
+        }
+    </style>
+    @if(!empty($system_info->hover_image_path))
+        <style>
+            #cover_img_container:hover{
+                background: url('{{$system_info->hover_image_path}}');
+                background-size:cover;
+                background-repeat:   no-repeat;
+                background-position: center center;
+            }
+        </style>
+    @endif
+@stop
 @section('content')
     @if(env('APP_ENV') == 'production')
     <div id="intro">
@@ -11,12 +31,12 @@
     @endif
 
     <section id="hero" data-panel="hero">
-        <div class="content imgLiquid">
+        <div id="cover_img_container" class="content imgLiquid">
             <div class="tagline">
                 <h1>{{$system_info->head_line}}</h1>
                 <h2>{{$system_info->slogan}}</h2>
             </div>
-            <img src="{{asset($system_info->image_path)}}" alt="Welcome to {{$system_info->head_line}}">
+{{--            <img src="{{asset($system_info->image_path)}}" alt="Welcome to {{$system_info->head_line}}">--}}
         </div>
     </section>
 

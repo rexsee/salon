@@ -85,6 +85,16 @@
                         </div>
 
                         <div class="form-group row">
+                            {{ Form::label('hover_image', 'Cover Hover Image (1600 x 1067)', ['class'=>'col-form-label col-sm-2']) }}
+                            <div class="col-sm-10">
+                                {{ Form::file('hover_image', ['class'=>'form-control']) }}
+                                @if(!is_null($record->hover_image_path))
+                                    <br /><img src="{{asset($record->hover_image_path)}}" width="150px"/>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             {{ Form::label('about_us_desc', 'About Us Description', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
                                 {{ Form::textarea('about_us_desc', old('about_us_desc'), ['class'=>'form-control','rows'=>'5']) }}

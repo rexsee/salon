@@ -26,6 +26,7 @@ class IndexController extends Controller
                 'fax_number' => 'max:191|nullable',
                 'email' => 'email|nullable',
                 'image' => 'mimes:jpeg,jpg,png,gif|max:2048',
+                'hover_image' => 'mimes:jpeg,jpg,png,gif|max:2048',
                 'vision_image' => 'mimes:jpeg,jpg,png,gif|max:1024',
                 'about_image_1' => 'mimes:jpeg,jpg,png,gif|max:2048',
                 'about_image_2' => 'mimes:jpeg,jpg,png,gif|max:2048',
@@ -44,6 +45,20 @@ class IndexController extends Controller
                 Image::make('storage/' . $full_file_name)->fit('1600', '1067')->save();
                 Image::make('storage/' . $full_file_name)->save('storage/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
                 $inputs['image_path'] = 'storage/' . $full_file_name;
+            }
+
+            if (!empty($request->hover_image)) {
+                if (File::exists($record->hover_image_path)) {
+                    File::delete($record->hover_image_path);
+                }
+
+                $image = $request->file('hover_image');
+                $file_name = 'COVER_HOVER_' . time();
+                $full_file_name = $file_name . '.' . $image->getClientOriginalExtension();
+                $image->move('storage', $full_file_name);
+                Image::make('storage/' . $full_file_name)->fit('1600', '1067')->save();
+                Image::make('storage/' . $full_file_name)->save('storage/' . $file_name . '@2x.' . $image->getClientOriginalExtension());
+                $inputs['hover_image_path'] = 'storage/' . $full_file_name;
             }
 
             if (!empty($request->about_image_1)) {
