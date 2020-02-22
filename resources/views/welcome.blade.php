@@ -7,6 +7,7 @@
             background-size:cover;
             background-repeat:   no-repeat;
             background-position: center center;
+            transition: .8s;
         }
     </style>
     @if(!empty($system_info->hover_image_path))
@@ -16,6 +17,7 @@
                 background-size:cover;
                 background-repeat:   no-repeat;
                 background-position: center center;
+                transition: .8s;
             }
         </style>
     @endif
