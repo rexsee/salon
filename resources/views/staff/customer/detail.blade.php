@@ -46,6 +46,7 @@
                     <div class="card-header">
                         Detail about {{$record->name}}
                         <a href="{{route('staff.customer')}}" class="btn btn-sm btn-outline-dark pull-right">Back</a>
+                        <a href="{{route('staff.customer.sms_blast',['id'=>$record->id])}}" class="btn btn-sm btn-primary pull-right" style="margin-right: 10px;">Send SMS</a>
                         <a href="{{route('staff.customer.add_log',[$record->id])}}" class="btn btn-sm btn-outline-success pull-right" style="margin-right: 10px;">Add Log</a>
                         <a  onclick="return confirm('Are you sure to delete this customer?')" href="{{route('staff.customer.delete',[$record->id])}}" class="btn btn-sm btn-outline-danger pull-right" style="margin-right: 10px;">Delete</a>
                     </div>

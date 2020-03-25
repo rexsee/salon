@@ -26,6 +26,7 @@
                             </div>
                         </div>
 
+                        @if(empty($id))
                         <div class="form-group row">
                             {{ Form::label('customer_group', 'Customer Group', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
@@ -35,6 +36,10 @@
                                 <label>{{ Form::radio('customer_group','all') }} All Customer ({{$count_all}} SMS will send)</label> <br />
                             </div>
                         </div>
+                        @else
+                            <input type="hidden" name="customer_group" value="id">
+                            <input type="hidden" name="id" value="{{$id}}">
+                        @endif
 
                         <div class="form-group row">
                             {{ Form::label('message', 'SMS Message', ['class'=>'col-form-label col-sm-2']) }}

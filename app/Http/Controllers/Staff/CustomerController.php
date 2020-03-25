@@ -377,6 +377,7 @@ class CustomerController extends Controller
                 'title' => 'required',
                 'customer_group' => 'required',
                 'message' => 'required',
+                'id' => 'required_if:customer_group,id',
             ]);
 
             $tels = [];
@@ -393,7 +394,11 @@ class CustomerController extends Controller
                 case 'all':
                     $tels = Customer::pluck('tel')->toArray();
                     break;
+                case 'id':
+                    $tels = Customer::where('id',$inputs['id'])->pluck('tel')->toArray();
+                    break;
             }
+
 
             if (!empty($tels)) {
                 $key = 'sms_blast||' . time() . '||' . str_slug($inputs['title']);
@@ -405,6 +410,7 @@ class CustomerController extends Controller
             flash('Blast created, a total ' . count($tels) . ' SMS is sending now...')->success();
             return redirect()->route('staff.customer.sms_blast');
         } else {
+            $id = Input::get('id');
             $blast_list_raw = Redis::keys('sms_blast||*');
             $blast_list = [];
             foreach ($blast_list_raw as $item) {
@@ -434,6 +440,7 @@ class CustomerController extends Controller
             $count_all = $customers->count();
             $count_birthday = Customer::where('dob', 'like', '%-' . date('m') . '-%')->count();
 
+            $sms_balance = 0;
             if (!empty(env('SMS_USERNAME')) && !empty(env('SMS_BALANCE_URL'))) {
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, env('SMS_BALANCE_URL') . '?apiusername=' . env('SMS_USERNAME') . '&apipassword=' . env('SMS_PASSWORD'));
@@ -443,7 +450,7 @@ class CustomerController extends Controller
                 curl_close($ch);
             }
 
-            return view('staff.customer.sms_blast', compact('blast_list', 'blast_fail_list', 'count_all', 'count_female', 'count_male', 'count_birthday', 'sms_balance'));
+            return view('staff.customer.sms_blast', compact('blast_list', 'blast_fail_list', 'count_all', 'count_female', 'count_male', 'count_birthday', 'sms_balance','id'));
         }
     }
 
