@@ -57,7 +57,7 @@ class SmsBlastJob extends Command
                         $sms_url.= '&mobileno=6' . $tel_arr[0];
                         $sms_url.= '&senderid=INFO';
                         $sms_url.= '&languagetype=1';
-                        $sms_url.= '&message=' . urlencode($tel_arr[1]);
+                        $sms_url.= '&message=' . urlencode("RM0.00 ALPH STUDIO: " . $tel_arr[1]);
 
                         $ch = curl_init();
                         curl_setopt($ch, CURLOPT_URL, $sms_url);
