@@ -44,7 +44,8 @@
                         <div class="form-group row">
                             {{ Form::label('message', 'SMS Message', ['class'=>'col-form-label col-sm-2']) }}
                             <div class="col-sm-10">
-                                {{ Form::textarea('message', null, ['class'=>'form-control', 'required','rows'=>3,'placeholder'=>'Make it within 160 letters for send using one SMS...']) }}
+                                {{ Form::textarea('message', null, ['class'=>'form-control', 'id'=>'message', 'required','rows'=>3,'placeholder'=>'Make it within 140 letters for send using one SMS...']) }}
+                                <small id="sms-count-msg"></small>
                             </div>
                         </div>
 
@@ -121,3 +122,30 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script>
+        var smscount = 0;
+        $('#message').on('input', function () {
+            smscount = $(this).val().length;
+            calSmsLimit()
+        });
+
+
+
+        function calSmsLimit() {
+            if(smscount <= 140) {
+                sms = 1;
+            } else if (smscount <= 285) {
+                sms = 2;
+            } else if (sms <= 438) {
+                sms = 3;
+            } else {
+                sms = 4;
+            }
+
+            $('#sms-count-msg').html('Message length : ' + smscount + ' <b>('+sms+' SMS)</b>');
+        }
+
+    </script>
+@stop
