@@ -42,7 +42,9 @@ class ProductController extends Controller
             flash('Record added')->success();
             return redirect()->route('staff.product');
         } else {
-            return view('staff.product.add');
+            $lastOrder = Product::orderBy('order','desc')->first();
+            $lastOrder = empty($lastOrder) ? 1 : ($lastOrder->order + 1);
+            return view('staff.product.add',compact('lastOrder'));
         }
 
     }

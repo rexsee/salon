@@ -37,7 +37,7 @@
 <div class="form-group row">
     {{ Form::label('order', 'Display order', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::text('order', old('order'), ['class'=>'form-control']) }}
+        {{ Form::text('order', old('order',$lastOrder), ['class'=>'form-control']) }}
     </div>
 </div>
 
