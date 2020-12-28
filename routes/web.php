@@ -116,6 +116,14 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::match(['get','post'],'edit/{id}', 'Staff\ArtworkController@edit')->name('.edit');
             Route::get('delete/{id}', 'Staff\ArtworkController@delete')->name('.delete');
         });
+
+        //Product
+        Route::group(['prefix' => 'product', 'as'=>'.product'], function () {
+            Route::get('', 'Staff\ProductController@index');
+            Route::match(['get','post'],'add', 'Staff\ProductController@add')->name('.add');
+            Route::match(['get','post'],'edit/{id}', 'Staff\ProductController@edit')->name('.edit');
+            Route::get('delete/{id}', 'Staff\ProductController@delete')->name('.delete');
+        });
     });
 });
 

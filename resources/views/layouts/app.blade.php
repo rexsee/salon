@@ -59,7 +59,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             @if(auth()->check())
                 <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav mr-auto" style="font-size: .9rem;">
                         <li class="nav-item {{\request()->segment(2) == 'home' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.home')}}">Dashboard</a>
                         </li>
@@ -89,6 +89,9 @@
                         <li class="nav-item {{\request()->segment(2) == 'artwork' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.artwork')}}">Artwork</a>
                         </li>
+                        <li class="nav-item {{\request()->segment(2) == 'product' ? 'active' : ''}}">
+                            <a class="nav-link" href="{{route('staff.product')}}">Products</a>
+                        </li>
                         <li class="nav-item {{\request()->segment(2) == 'service' ? 'active' : ''}}">
                             <a class="nav-link" href="{{route('staff.service')}}">Services</a>
                         </li>
@@ -103,7 +106,7 @@
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                <i class="fa fa-user"></i> <span class="caret"></span>
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
