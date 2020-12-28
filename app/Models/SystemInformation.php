@@ -13,6 +13,7 @@ class SystemInformation extends Model
         'email',
         'head_line',
         'slogan',
+        'promo_link',
         'image_path',
         'hover_image_path',
         'about_us_desc',

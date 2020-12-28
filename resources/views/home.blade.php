@@ -73,6 +73,12 @@
                                 {{ Form::text('slogan', old('slogan'), ['class'=>'form-control','required']) }}
                             </div>
                         </div>
+                        <div class="form-group row">
+                            {{ Form::label('promo_link', 'Promo Link', ['class'=>'col-form-label col-sm-2']) }}
+                            <div class="col-sm-10">
+                                {{ Form::url('promo_link', old('promo_link'), ['class'=>'form-control','placeholder'=>'optional']) }}
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             {{ Form::label('image', 'Cover Image (1600 x 1067)', ['class'=>'col-form-label col-sm-2']) }}

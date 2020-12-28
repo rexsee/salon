@@ -25,6 +25,7 @@ class IndexController extends Controller
                 'vision_desc' => 'required',
                 'fax_number' => 'max:191|nullable',
                 'email' => 'email|nullable',
+                'promo_link' => 'url|nullable',
                 'image' => 'mimes:jpeg,jpg,png,gif|max:2048',
                 'hover_image' => 'mimes:jpeg,jpg,png,gif|max:2048',
                 'vision_image' => 'mimes:jpeg,jpg,png,gif|max:1024',

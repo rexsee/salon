@@ -9,6 +9,28 @@
             background-position: center center;
             transition: .8s;
         }
+
+        .blink_me {
+            animation: blinker 2s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        header #socialshare .socialicon-promo{
+            right: 7rem;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            header #socialshare .socialicon-promo {
+                height: 4.2rem;
+                right: 8rem;
+            }
+        }
+
     </style>
     @if(!empty($system_info->hover_image_path))
         <style>
@@ -38,7 +60,6 @@
                 <h1>{{$system_info->head_line}}</h1>
                 <h2>{{$system_info->slogan}}</h2>
             </div>
-{{--            <img src="{{asset($system_info->image_path)}}" alt="Welcome to {{$system_info->head_line}}">--}}
         </div>
     </section>
 
@@ -68,6 +89,9 @@
         </nav>
 
         <div id="socialshare">
+            @if(!empty($system_info->promo_link))
+                <a class="socialicon socialicon-promo blink_me" href="{{$system_info->promo_link}}" target="_blank"><img src="{{asset('images/promo2.png')}}" /> </a>
+            @endif
             <a class="socialicon socialicon-insta" href="https://www.instagram.com/alphstudio/" target="_blank"><img src="{{asset('images/insta.png')}}" /> </a>
             <a class="socialicon socialicon-fb" href="https://www.facebook.com/Alphstudioplus/" target="_blank"><img src="{{asset('images/fb.png')}}" /></a>
             {{--<a id="socialshare_trigger" class="icon-" target="_blank"></a>--}}
