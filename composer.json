@@ -13,7 +13,7 @@
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.6",
-        "maatwebsite/excel": "2.1.*",
+        "maatwebsite/excel": "3.0.*",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^3.0",
         "ricardofontanelli/laravel-telegram": "1.0"

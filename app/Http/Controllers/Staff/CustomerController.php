@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Staff;
 
+use App\Exports\CustomerExport;
+use App\Exports\CustomerLogExport;
 use App\Models\Customer;
 use App\Models\CustomerLog;
 use App\Models\Service;
@@ -97,9 +99,9 @@ class CustomerController extends Controller
 
     public function export()
     {
-        $result = Customer::all();
-        $format = Input::get('format', 'xlsx');
+        return Excel::download(new CustomerExport, 'customers - ' . date('d-m-Y') . ".xlsx");
 
+        /*
         Excel::create('customers - ' . date('d-m-Y'), function ($excel) use ($result) {
             $excel->sheet('customers', function ($sheet) use ($result) {
                 $sheet->freezeFirstRow();
@@ -159,14 +161,15 @@ class CustomerController extends Controller
             });
             $excel->setTitle('Customer');
         })->export($format);
+        */
     }
 
     public function exportCustomerLog($id)
     {
         $customer = Customer::findOrFail($id);
-        $result = $customer->logs()->orderBy('log_date')->get();
-        $format = Input::get('format', 'xlsx');
+        return Excel::download(new CustomerLogExport($id), $customer->name . ' logs - ' . date('d-m-Y') . ".xlsx");
 
+        /*
         Excel::create($customer->name . ' logs ' . date('d-m-Y'), function ($excel) use ($result) {
             $excel->sheet('customers', function ($sheet) use ($result) {
                 $sheet->freezeFirstRow();
@@ -196,6 +199,7 @@ class CustomerController extends Controller
             });
             $excel->setTitle('Customer');
         })->export($format);
+        */
     }
 
     public function add(Request $request)
