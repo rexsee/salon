@@ -82,7 +82,8 @@ class ProductController extends Controller
             flash('Record updated')->success();
             return redirect()->route('staff.product');
         } else {
-            return view('staff.product.edit', compact('record'));
+            $lastOrder = $record->order;
+            return view('staff.product.edit', compact('record','lastOrder'));
         }
     }
 
