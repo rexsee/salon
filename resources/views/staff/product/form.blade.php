@@ -6,6 +6,13 @@
 </div>
 
 <div class="form-group row">
+    {{ Form::label('collection', 'Collection', ['class'=>'col-form-label col-sm-2']) }}
+    <div class="col-sm-10">
+        {{ Form::select('collection', ['morphosis'=>'MORPHOSIS','viege'=>'Viege','framesi'=>'FRAMESI','others'=>'Others'], empty($record->collection) ? 'others' : $record->collection, ['class'=>'form-control']) }}
+    </div>
+</div>
+
+<div class="form-group row">
     {{ Form::label('is_active', 'Is Active?', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
         <label>{{ Form::radio('is_active','1') }} Yes</label> &nbsp;

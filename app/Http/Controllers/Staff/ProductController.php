@@ -24,6 +24,7 @@ class ProductController extends Controller
                 'is_active' => 'boolean',
                 'price' => 'required',
                 'description' => 'nullable',
+                'collection' => 'nullable',
                 'size' => 'nullable',
                 'order' => 'nullable|integer',
                 'image' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
@@ -58,6 +59,7 @@ class ProductController extends Controller
                 'is_active' => 'boolean',
                 'price' => 'required',
                 'description' => 'nullable',
+                'collection' => 'nullable',
                 'size' => 'nullable',
                 'order' => 'nullable|integer',
                 'image' => 'mimes:jpeg,jpg,png,gif|max:5120'
