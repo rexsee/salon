@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Gallery;
 use App\Models\News;
+use App\Models\Product;
 use App\Models\Service;
 use App\Models\Stylist;
 use App\Models\SystemInformation;
@@ -25,6 +26,7 @@ class IndexController extends Controller
     public function index()
     {
         $team = Stylist::where('status','Active')->orderBy('order')->get();
+        $product = Product::where('is_active','1')->orderBy('order')->get();
         $service_raw = Service::orderBy('order')->get()->toArray();
         $gallery = Gallery::orderBy('created_at', 'desc')->get();
         $slider_images = AboutImage::orderBy('order')->get();
@@ -50,7 +52,7 @@ class IndexController extends Controller
         $serviceList = [];
         $tels = explode(',', $system_info->contact_number);
         return view('welcome',
-            compact('team', 'gallery', 'system_info', 'service', 'news', 'slider_images', 'tels', 'serviceList','vision_images','artwork'));
+            compact('team', 'gallery', 'system_info', 'service', 'news', 'slider_images', 'tels', 'serviceList','vision_images','artwork','product'));
     }
 
     public function news($date, $slug)
@@ -58,6 +60,33 @@ class IndexController extends Controller
         $is_back = Input::get('ib');
         $news = News::where('slug', $slug)->firstOrFail();
         return view('news', compact('news','is_back'));
+    }
+
+    public function productDetail(Request $request)
+    {
+        $system_info = SystemInformation::first();
+
+        $inputs = $request->validate(['id'=>'required|integer']);
+        $product = Product::findOrFail($inputs['id'])->toArray();
+        $whatsapp_inquiry_msg = 'Product : ' . $product['name'];
+        $email_inquiry_msg = 'Product : ' . str_replace('&','and',$product['name']);
+
+        if (!empty($product['collection'])) {
+            $product['collection'] = getProductCollections($product['collection']);
+        }
+
+        $product['price'] = 'RM ' . number_format($product['price'],2);
+        if (!empty($product['size'])) {
+            $product['price'] .= " / " . $product['size'];
+            $whatsapp_inquiry_msg .= "\nSize : " . $product['size'];
+            $email_inquiry_msg .= '%0D%0A Size : ' . $product['size'];
+        }
+        $whatsapp_inquiry_msg .= "\n\n Your Message : ";
+        $email_inquiry_msg .= "%0D%0A %0D%0A Your Message : ";
+
+        $product['whatsapp_link'] = 'https://api.whatsapp.com/send?phone=0164891212&text=' . urlencode($whatsapp_inquiry_msg);
+        $product['mail_link'] = 'mailto:'.$system_info->email.'?subject=Product Inquiry #' . date('Ymdhi'). '&body=' . $email_inquiry_msg;
+        return $product;
     }
 
     public function newCustomer(Request $request){

@@ -118,3 +118,18 @@ function component_sort_link($link, $display_name, $name, $sort_by = '', $sort =
     return $str;
 
 }
+
+function getProductCollections($key = ''){
+    $data = [
+        'morphosis'=>'MORPHOSIS',
+        'viege'=>'Viege',
+        'framesi'=>'FRAMESI',
+        'others'=>'Others'
+    ];
+
+    if (!empty($key)) {
+        return @$data[$key];
+    } else {
+        return $data;
+    }
+}

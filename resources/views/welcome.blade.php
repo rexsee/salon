@@ -9,28 +9,6 @@
             background-position: center center;
             transition: .8s;
         }
-
-        .blink_me {
-            animation: blinker 2s linear infinite;
-        }
-
-        @keyframes blinker {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        header #socialshare .socialicon-promo{
-            right: 7rem;
-        }
-
-        @media only screen and (max-width: 1024px) {
-            header #socialshare .socialicon-promo {
-                height: 4.2rem;
-                right: 8rem;
-            }
-        }
-
     </style>
     @if(!empty($system_info->hover_image_path))
         <style>
@@ -74,6 +52,9 @@
                 @if(count($service))
                 <li><a href="#services" data-panel="services">Services</a></li>
                 @endif
+                @if(count($product))
+                <li><a href="#product" data-panel="product">Products</a></li>
+                @endif
                 @if(count($artwork))
                 <li><a href="#brands" data-panel="brands">Artwork</a></li>
                 @endif
@@ -105,7 +86,7 @@
 
     </header>
 
-    <section id="about" data-panel="about" class="col-3 slider hl-text-slider">
+    <section id="about" data-panel="about" class="colx-3 slider hl-text-slider">
         <article>
             <div class="hlblock">
                 <h1>About the salon</h1>
@@ -126,7 +107,7 @@
         </article>
     </section>
 
-    <section id="mastersvision" data-panel="mastersvision" class="col-3 slider hl-text-slider">
+    <section id="mastersvision" data-panel="mastersvision" class="colx-3 slider hl-text-slider">
         <article>
             <div class="hlblock display-mobile">
                 <h1>The Master Vision</h1>
@@ -202,8 +183,42 @@
     </section>
     @endif
 
+    @if(count($product))
+        <section id="product" data-panel="product" class="tophead mixitup simplemix">
+            <article>
+                <div class="hlblock">
+                    <h1>Products</h1>
+                    <ul class="filterlist" data-label="Filter: " data-default="All">
+                        <li><a class="filter active" data-filter="all">All</a></li>
+                        @foreach(getProductCollections() as $pk => $pv)
+                            <li><a class="filter" data-filter=".cat-{{$pk}}">{{$pv}}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="filteritems news">
+                    @foreach($product as $item)
+                        <div class="item cat-{{$item->collection}}">
+                            <h2 style="margin-top: 0;margin-bottom: 0;font-size: 1.2rem;line-height: 1.2rem;height: 45px;">{{$item->name}}</h2>
+                            <div class="meta" style="line-height: 0;margin-bottom: 10px">
+                                <a class="category">RM {{number_format($item->price,2)}}</a>
+                                @if(!empty($item->size))
+                                    <i>/</i><span class="date">{{$item->size}}</span>
+                                @endif
+                            </div>
+                            <p style="margin: 0"><a class="product-detail" data-productid="{{$item->id}}" href="javascript:void(0)"><img src="{{asset($item->image_path)}}" width="100%" /></a></p>
+                            <div style="text-align: right">
+                                <a class="more icon-salon_plus product-detail" data-productid="{{$item->id}}" href="javascript:void(0)">view detail</a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="pagerlist dark"></div>
+            </article>
+        </section>
+    @endif
+
     @if(count($artwork))
-    <section id="brands" data-panel="brands" class="col-2 grid grid-right">
+    <section id="brands" data-panel="brands" class="colx-2 grid grid-right">
         <article>
             <div class="content slick">
                 @foreach($artwork->chunk(16) as $artwork_slide)
@@ -277,7 +292,7 @@
     @endif
 
     <!--
-    <section id="booking" data-panel="booking" class="col-2 default-left">
+    <section id="booking" data-panel="booking" class="colx-2 default-left">
         <article><div class="hlblock">
                 <h1>Request Appointment</h1>
                 <p>
@@ -320,7 +335,7 @@
     </section>
     -->
 
-    <section id="contact" data-panel="contact" class="col-3 stripes stripes-1">
+    <section id="contact" data-panel="contact" class="colx-3 stripes stripes-1">
         <article>
             <div class="hlblock">
                 <h2>Opening hours</h2>
@@ -393,6 +408,34 @@
         </article>
     </section>
 
+    <div id="productDetailModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5"><img id="pdetail-img" src="" style="width: 100%"></div>
+                        <div class="col-md-7">
+                            <small id="pdetail-category" style="background: #000;color: #fff;padding: 1px 10px;border-radius: 3px;"></small>
+                            <h5 id="pdetail-name" class="mt-2 mb-0" style="line-height: 1rem;"></h5>
+                            <small id="pdetail-price" style="display: block;color:#999;padding-bottom: 10px;font-weight: bold;"></small>
+                            <p id="pdetail-description" style="line-height: 1.25em"></p>
+                            <hr />
+                            <b>Product Inquiry</b>
+                            <div class="product-inquiry-box">
+                                <a target="_blank" id="productInquiryWhatsapp" href="" style="display: inline-block;margin-right: 10px;margin-top: 10px;background: #25D366;border-radius: 50%;height: 50px;font-size: 30px;width: 50px;text-align: center;padding-top: 3px;color: #fff;"><i class="fa fa-whatsapp"></i></a> &nbsp;
+                                <a target="_blank" id="productInquiryEmail" href="" style="display: inline-block;margin-right: 10px;margin-top: 10px;background: #000;border-radius: 50%;height: 50px;font-size: 25px;width: 50px;text-align: center;padding-top: 6px;color: #fff;position: relative;top: -3px;"><i class="fa fa-envelope"></i></a> &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="justify-content: center;">
+                    <button type="button" class="btn btn-link btn-sm" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('footer')
 @stop
 
@@ -426,5 +469,39 @@
             });
         });
         @endif
+
+        $("body").on("click", "a.product-detail", function () {
+            var productid = $(this).data('productid');
+            var pdetail_img = $('#pdetail-img');
+            var pdetail_name = $('#pdetail-name');
+            var pdetail_category = $('#pdetail-category');
+            var pdetail_price = $('#pdetail-price');
+            var pdetail_whatsapp = $('#productInquiryWhatsapp');
+            var pdetail_email = $('#productInquiryEmail');
+            var pdetail_description = $('#pdetail-description');
+
+            pdetail_name.html('');
+            pdetail_category.html('');
+            pdetail_price.html('');
+            pdetail_description.html('');
+            pdetail_img.attr("src", "");
+            pdetail_whatsapp.attr("href", "");
+            pdetail_email.attr("href", "");
+
+            $.ajax({
+                url: "{{route('productDetail')}}?id=" + productid,
+                success: function (data) {
+                    pdetail_name.html(data.name);
+                    pdetail_category.html(data.collection);
+                    pdetail_price.html(data.price);
+                    pdetail_description.html(data.description);
+                    pdetail_img.attr("src", data.image_path);
+                    pdetail_whatsapp.attr("href", data.whatsapp_link);
+                    pdetail_email.attr("href", data.mail_link);
+                }
+            });
+
+            $('#productDetailModal').modal();
+        });
     </script>
 @stop

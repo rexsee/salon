@@ -8,7 +8,7 @@
 <div class="form-group row">
     {{ Form::label('collection', 'Collection', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::select('collection', ['morphosis'=>'MORPHOSIS','viege'=>'Viege','framesi'=>'FRAMESI','others'=>'Others'], empty($record->collection) ? 'others' : $record->collection, ['class'=>'form-control']) }}
+        {{ Form::select('collection', getProductCollections(), empty($record->collection) ? 'others' : $record->collection, ['class'=>'form-control']) }}
     </div>
 </div>
 

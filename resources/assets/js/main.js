@@ -119,7 +119,7 @@ jQuery(document).ready(function ($) {
 
     function d(e) {
         var t = "";
-        "show" === e ? t = "block" : "hide" === e && (t = "none"), $(".col-3.hl-text-pic .imgLiquid_ready img").css("display", t), $(".col-3.hl-pic-text .imgLiquid_ready img").css("display", t), $(".col-3.pic-text-hl .imgLiquid_ready img").css("display", t), $(".col-3.pic-hl-text .imgLiquid_ready img").css("display", t), $(".col-3.text-hl-pic .imgLiquid_ready img").css("display", t), $(".col-3.text-pic-pic .imgLiquid_ready img").css("display", t), $(".col-2.grid .imgLiquid_ready img").css("display", t), $(".carousel .imgLiquid_ready img").css("display", t), $(".mixitup .imgLiquid_ready img").css("display", t)
+        "show" === e ? t = "block" : "hide" === e && (t = "none"), $(".colx-3.hl-text-pic .imgLiquid_ready img").css("display", t), $(".colx-3.hl-pic-text .imgLiquid_ready img").css("display", t), $(".colx-3.pic-text-hl .imgLiquid_ready img").css("display", t), $(".colx-3.pic-hl-text .imgLiquid_ready img").css("display", t), $(".colx-3.text-hl-pic .imgLiquid_ready img").css("display", t), $(".colx-3.text-pic-pic .imgLiquid_ready img").css("display", t), $(".colx-2.grid .imgLiquid_ready img").css("display", t), $(".colx-2 .artwork_image img").css("display", t), $(".carousel .imgLiquid_ready img").css("display", t), $(".mixitup .imgLiquid_ready img").css("display", t)
     }
 
     function p(e) {
@@ -137,7 +137,7 @@ jQuery(document).ready(function ($) {
             0 == $(this).find(".repos-clone").length && $(this).find(".hlblock").hide().clone().addClass("repos-clone").insertBefore($(this).find(".sliderwrapper")).show()
         }), $(".text-hl-slider").each(function () {
             0 == $(this).find(".repos-clone").length && $(this).find(".hlblock").hide().clone().addClass("repos-clone").insertBefore($(this).find(".content:first-child")).show()
-        })) : "restore" === e && ($(".col-3 .repos-clone").remove(), $(".col-3").each(function () {
+        })) : "restore" === e && ($(".colx-3 .repos-clone").remove(), $(".colx-3").each(function () {
             $(this).hasClass("stripes") || $(this).find(".hlblock").show()
         }))
     }
@@ -153,16 +153,16 @@ jQuery(document).ready(function ($) {
             0 == $(this).find(".repos-clone").length && $(this).find(".hlblock").hide().clone().addClass("repos-clone").insertBefore($(this).find(".content")).show()
         }), $(".testimonials-right").each(function () {
             0 == $(this).find(".repos-clone").length && $(this).find(".hlblock").hide().clone().addClass("repos-clone").insertBefore($(this).find(".content")).show()
-        })) : "restore" === e && ($(".col-2 .repos-clone").remove(), $(".col-2 .hlblock").show())
+        })) : "restore" === e && ($(".colx-2 .repos-clone").remove(), $(".colx-2 .hlblock").show())
     }
 
     function u(e) {
-        "repos" === e ? $(".col-3.stripes").each(function () {
+        "repos" === e ? $(".colx-3.stripes").each(function () {
             if (!$(this).hasClass("stripes-original") && !$(this).hasClass("stripes-clone")) {
                 var e = $(this).clone().addClass("stripes-clone");
                 $(this).before(e).addClass("stripes-original")
             }
-        }) : "restore" === e && ($(".col-3.stripes-clone").remove(), $(".col-3.stripes").removeClass("stripes-original"))
+        }) : "restore" === e && ($(".colx-3.stripes-clone").remove(), $(".colx-3.stripes").removeClass("stripes-original"))
     }
 
     function f(e) {
@@ -217,7 +217,7 @@ jQuery(document).ready(function ($) {
         horizontalAlign: "center",
         verticalAlign: "center",
         fill: !1
-    }), $(".col-3 .pic").imgLiquid({
+    }), $(".colx-3 .pic").imgLiquid({
         horizontalAlign: "center",
         verticalAlign: "center"
     }), $(".imgLiquid").imgLiquid(), $(".imgLiquidCenterLeft").imgLiquid({

@@ -14,6 +14,7 @@
 Route::get('/', 'IndexController@index')->name('index');
 Route::post('processing', 'IndexController@processing')->name('processing')->middleware('throttle:20,1');
 Route::get('news/{date}/{slug}', 'IndexController@news')->name('news');
+Route::post('product-detail', 'IndexController@productDetail')->name('productDetail');
 Route::match(['get','post'],'new', 'IndexController@newCustomerAuth')->name('newCustomerAuth');
 Route::match(['get','post'],'new-customer', 'IndexController@newCustomer')->name('newCustomer');
 Route::get('thank-you', 'IndexController@thankYou')->name('thankYou');

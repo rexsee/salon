@@ -25,14 +25,14 @@
 14. Sections General Styles
 15. Hero section / #hero
 16. Section Modules
-	16.1. 2 Columns / .col-2
+	16.1. 2 Columns / .colx-2
 		16.1.1. Default / .default-left, .default-right
 		16.1.2. Panorama / .panorama-left, .panorama-right
 		16.1.3. Testimonials / .testimonials-left, .testimonials-right
 		16.1.4. Slider / .slider-left, .slider-right
 		16.1.4. Grid / .grid-left, .grid-right
 
-	16.2. 3 Columns / .col-3
+	16.2. 3 Columns / .colx-3
 		16.2.1.  Headline - Text - Picture / .hl-text-pic
 		16.2.2.  Headline - Picture - Text / .hl-pic-text
 		16.2.3.  Picture - Text - Headline / .pic-text-hl
@@ -1449,7 +1449,7 @@ body.topheader #hero {
   overflow: hidden;
 }
 /* Section Modules */
-section.col-2 .hlblock {
+section.colx-2 .hlblock {
   display: inline-block;
   position: relative;
   width: 33.333%;
@@ -1460,19 +1460,19 @@ section.col-2 .hlblock {
   padding-top: 10%;
   padding-bottom: 2%;
 }
-section.col-2 .hlblock h1 {
+section.colx-2 .hlblock h1 {
   margin: 0;
   padding: 0 0 10% 0;
   color: #fff;
 }
-section.col-2 .hlblock a {
+section.colx-2 .hlblock a {
   text-decoration: none;
   color: #919191;
 }
-section.col-2 .hlblock a:hover {
+section.colx-2 .hlblock a:hover {
   color: #fff;
 }
-section.col-2 .content {
+section.colx-2 .content {
   display: inline-block;
   position: relative;
   width: 66.6666%;
@@ -1758,7 +1758,7 @@ section.grid ul.grid4x4 li.item-15,
 section.grid ul.grid4x4 li.item-16 {
   border-bottom: 0;
 }
-section.col-3 .hlblock {
+section.colx-3 .hlblock {
   display: inline-block;
   position: relative;
   width: 33.333%;
@@ -1769,22 +1769,22 @@ section.col-3 .hlblock {
   padding-top: 10%;
   padding-bottom: 2%;
 }
-section.col-3 .hlblock h1 {
+section.colx-3 .hlblock h1 {
   color: #fff;
   margin: 0;
   padding: 0;
 }
-section.col-3 .hlblock h1 span {
+section.colx-3 .hlblock h1 span {
   color: #fff;
 }
-section.col-3 .hlblock a {
+section.colx-3 .hlblock a {
   text-decoration: none;
   color: #919191;
 }
-section.col-3 .hlblock a:hover {
+section.colx-3 .hlblock a:hover {
   color: #fff;
 }
-section.col-3 .content {
+section.colx-3 .content {
   display: inline-block;
   position: relative;
   width: 33.333%;
@@ -1794,17 +1794,17 @@ section.col-3 .content {
   overflow-y: auto;
   z-index: 8;
 }
-section.col-3 .content p:first-child {
+section.colx-3 .content p:first-child {
   margin-top: 1.83em;
 }
-section.col-3 .pic {
+section.colx-3 .pic {
   display: inline-block;
   position: relative;
   width: 33.333%;
   height: 100%;
   vertical-align: top;
 }
-section.col-3 .sliderwrapper {
+section.colx-3 .sliderwrapper {
   display: block;
   position: absolute;
   top: 0;
@@ -1815,39 +1815,39 @@ section.col-3 .sliderwrapper {
   transition: all 1s;
   z-index: 9;
 }
-section.col-3 .slickexpandable {
+section.colx-3 .slickexpandable {
   width: 33.333%;
 }
-section.col-3 .slickexpandable .slick {
+section.colx-3 .slickexpandable .slick {
   height: 100%;
   width: 200%;
 }
-section.col-3 .slickexpandable .slider-hide {
+section.colx-3 .slickexpandable .slider-hide {
   display: none;
 }
-section.col-3 .slickexpandable .slick-prev {
+section.colx-3 .slickexpandable .slick-prev {
   visibility: hidden;
 }
-section.col-3 .slickexpandable .slick-next {
+section.colx-3 .slickexpandable .slick-next {
   visibility: hidden;
 }
-section.col-3 .slickexpanded {
+section.colx-3 .slickexpanded {
   width: 66.666%;
 }
-section.col-3 .slickexpanded .slick {
+section.colx-3 .slickexpanded .slick {
   height: 100%;
   width: 100%;
 }
-section.col-3 .slickexpanded .slider-init {
+section.colx-3 .slickexpanded .slider-init {
   display: none;
 }
-section.col-3 .slickexpanded .slide,
-section.col-3 .slickexpanded .slick-list,
-section.col-3 .slickexpanded .slick-track {
+section.colx-3 .slickexpanded .slide,
+section.colx-3 .slickexpanded .slick-list,
+section.colx-3 .slickexpanded .slick-track {
   width: 100%;
 }
-section.col-3 .slider-init,
-section.col-3 .slider-hide {
+section.colx-3 .slider-init,
+section.colx-3 .slider-hide {
   background-color: rgba(34,35,38,.5);
   color: #000;
   position: absolute;
@@ -3562,7 +3562,7 @@ header:after {
 .display-desktop{
   display: inline-block !important;
 }
-section.col-3 .slider-hide, section.col-3 .slider-init, .pan_controls, .slick-next-dark, .slick-prev-dark{
+section.colx-3 .slider-hide, section.colx-3 .slider-init, .pan_controls, .slick-next-dark, .slick-prev-dark{
   color: #ffffff;
 }
 @media only screen and (max-height: 767px) {
@@ -3775,201 +3775,201 @@ section.col-3 .slider-hide, section.col-3 .slider-init, .pan_controls, .slick-ne
   section.tophead .gmap {
     height: 80%;
   }
-  section.col-3 .hlblock {
+  section.colx-3 .hlblock {
     height: 20%;
     width: 100%;
     padding-top: 0;
     padding-bottom: 0;
     z-index: 8;
   }
-  section.col-3 .hlblock h1 {
+  section.colx-3 .hlblock h1 {
     text-align: center;
     position: relative;
     top: 50%;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
   }
-  section.col-3 .hlblock h1 span {
+  section.colx-3 .hlblock h1 span {
     display: inline-block;
   }
-  section.col-3 .content {
+  section.colx-3 .content {
     width: 50%;
     height: 80%;
     padding-top: 5%;
     z-index: 6;
   }
-  section.col-3 .pic {
+  section.colx-3 .pic {
     width: 50%;
     height: 80%;
     z-index: 6;
   }
-  section.col-3 .sliderwrapper {
+  section.colx-3 .sliderwrapper {
     height: 80%;
     top: auto;
     bottom: 0;
     z-index: 7;
   }
-  section.col-3 .slider-init,
-  section.col-3 .slider-hide {
+  section.colx-3 .slider-init,
+  section.colx-3 .slider-hide {
     width: 2.5rem;
     height: 2.5rem;
     line-height: 2.5rem;
   }
-  section.col-3 .slickexpandable {
+  section.colx-3 .slickexpandable {
     width: 50%;
   }
-  section.col-3 .slickexpanded {
+  section.colx-3 .slickexpanded {
     width: 100%;
   }
-  section.col-3.stripes-1.stripes-original .content {
+  section.colx-3.stripes-1.stripes-original .content {
     display: none;
   }
-  section.col-3.stripes-1.stripes-original .hlblock {
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    padding-top: 5%;
-  }
-  section.col-3.stripes-1.stripes-original .hlblock:first-child {
-    display: none;
-  }
-  section.col-3.stripes-1.stripes-original .hlblock h2 {
-    font-size: 2.125rem;
-    line-height: 2.75rem;
-  }
-  section.col-3.stripes-1.stripes-original .hlblock h2 span {
-    display: inline-block;
-  }
-  section.col-3.stripes-1.stripes-clone .hlblock {
-    display: none;
-    width: 50%;
-    height: 100%;
-    text-align: center;
-    padding-top: 5%;
-  }
-  section.col-3.stripes-1.stripes-clone .hlblock h2 {
-    font-size: 2.125rem;
-    line-height: 2.75rem;
-  }
-  section.col-3.stripes-1.stripes-clone .hlblock h2 span {
-    display: inline-block;
-  }
-  section.col-3.stripes-1.stripes-clone .hlblock:first-child {
-    display: inline-block;
-  }
-  section.col-3.stripes-1.stripes-clone .content {
-    width: 50%;
-    height: 100%;
-    padding-top: 5%;
-    text-align: center;
-  }
-  section.col-3.stripes-1.stripes-clone .content h2 {
-    font-size: 2.125rem;
-    line-height: 2.75rem;
-  }
-  section.col-3.stripes-1.stripes-clone .content h2 span {
-    display: inline-block;
-  }
-  section.col-3.stripes-2.stripes-original .hlblock {
-    display: none;
-  }
-  section.col-3.stripes-2.stripes-original .content {
+  section.colx-3.stripes-1.stripes-original .hlblock {
     height: 100%;
     width: 100%;
     text-align: center;
     padding-top: 5%;
   }
-  section.col-3.stripes-2.stripes-original .content:first-child {
+  section.colx-3.stripes-1.stripes-original .hlblock:first-child {
     display: none;
   }
-  section.col-3.stripes-2.stripes-original .content h2 {
+  section.colx-3.stripes-1.stripes-original .hlblock h2 {
     font-size: 2.125rem;
     line-height: 2.75rem;
   }
-  section.col-3.stripes-2.stripes-original .content h2 span {
+  section.colx-3.stripes-1.stripes-original .hlblock h2 span {
     display: inline-block;
   }
-  section.col-3.stripes-2.stripes-clone .content {
+  section.colx-3.stripes-1.stripes-clone .hlblock {
+    display: none;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    padding-top: 5%;
+  }
+  section.colx-3.stripes-1.stripes-clone .hlblock h2 {
+    font-size: 2.125rem;
+    line-height: 2.75rem;
+  }
+  section.colx-3.stripes-1.stripes-clone .hlblock h2 span {
+    display: inline-block;
+  }
+  section.colx-3.stripes-1.stripes-clone .hlblock:first-child {
+    display: inline-block;
+  }
+  section.colx-3.stripes-1.stripes-clone .content {
+    width: 50%;
+    height: 100%;
+    padding-top: 5%;
+    text-align: center;
+  }
+  section.colx-3.stripes-1.stripes-clone .content h2 {
+    font-size: 2.125rem;
+    line-height: 2.75rem;
+  }
+  section.colx-3.stripes-1.stripes-clone .content h2 span {
+    display: inline-block;
+  }
+  section.colx-3.stripes-2.stripes-original .hlblock {
+    display: none;
+  }
+  section.colx-3.stripes-2.stripes-original .content {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding-top: 5%;
+  }
+  section.colx-3.stripes-2.stripes-original .content:first-child {
+    display: none;
+  }
+  section.colx-3.stripes-2.stripes-original .content h2 {
+    font-size: 2.125rem;
+    line-height: 2.75rem;
+  }
+  section.colx-3.stripes-2.stripes-original .content h2 span {
+    display: inline-block;
+  }
+  section.colx-3.stripes-2.stripes-clone .content {
     display: none;
     height: 100%;
     width: 50%;
     text-align: center;
     padding-top: 5%;
   }
-  section.col-3.stripes-2.stripes-clone .content:first-child {
+  section.colx-3.stripes-2.stripes-clone .content:first-child {
     display: inline-block;
   }
-  section.col-3.stripes-2.stripes-clone .content h2 {
+  section.colx-3.stripes-2.stripes-clone .content h2 {
     font-size: 2.125rem;
     line-height: 2.75rem;
   }
-  section.col-3.stripes-2.stripes-clone .content h2 span {
+  section.colx-3.stripes-2.stripes-clone .content h2 span {
     display: inline-block;
   }
-  section.col-3.stripes-2.stripes-clone .hlblock {
+  section.colx-3.stripes-2.stripes-clone .hlblock {
     width: 50%;
     height: 100%;
     padding-top: 5%;
     text-align: center;
   }
-  section.col-3.stripes-2.stripes-clone .hlblock h2 {
+  section.colx-3.stripes-2.stripes-clone .hlblock h2 {
     font-size: 2.125rem;
     line-height: 2.75rem;
   }
-  section.col-3.stripes-2.stripes-clone .hlblock h2 span {
+  section.colx-3.stripes-2.stripes-clone .hlblock h2 span {
     display: inline-block;
   }
-  section.col-3.slider-text-hl .content {
+  section.colx-3.slider-text-hl .content {
     margin-left: 50%;
   }
-  section.col-3.slider-hl-text .hlblock {
+  section.colx-3.slider-hl-text .hlblock {
     margin-left: 0;
   }
-  section.col-3.slider-hl-text .content {
+  section.colx-3.slider-hl-text .content {
     margin-left: 50%;
   }
-  section.col-3.single-post .hlblock .meta-top {
+  section.colx-3.single-post .hlblock .meta-top {
     position: absolute;
     text-align: center;
     width: 100%;
     left: 0;
     margin: 1em 0;
   }
-  section.col-3.single-post .hlblock .meta-bottom {
+  section.colx-3.single-post .hlblock .meta-bottom {
     width: 100% !important;
     text-align: center;
     left: 0;
     bottom: 0;
     margin: 1em 0;
   }
-  section.col-3.single-post .comments {
+  section.colx-3.single-post .comments {
     width: 50%;
     top: auto;
     bottom: 0;
     z-index: 10;
     background-color: #f8f8f9;
   }
-  section.col-3.single-post .commentsform {
+  section.colx-3.single-post .commentsform {
     width: 50%;
     top: auto;
     bottom: 0;
     z-index: 10;
     background-color: #f8f8f9;
   }
-  section.col-3.single-post.hl-pic-text .comments,
-  section.col-3.single-post.hl-pic-text .commentsform {
+  section.colx-3.single-post.hl-pic-text .comments,
+  section.colx-3.single-post.hl-pic-text .commentsform {
     right: 50%;
   }
-  section.col-3.single-post.text-pic-hl .comments,
-  section.col-3.single-post.text-pic-hl .commentsform {
+  section.colx-3.single-post.text-pic-hl .comments,
+  section.colx-3.single-post.text-pic-hl .commentsform {
     right: 0%;
   }
-  section.col-3.single-post.slider-text-hl .comments,
-  section.col-3.single-post.slider-text-hl .commentsform {
+  section.colx-3.single-post.slider-text-hl .comments,
+  section.colx-3.single-post.slider-text-hl .commentsform {
     margin-left: 0;
   }
-  section.col-3.single-post.slider-hl-text .comments,
-  section.col-3.single-post.slider-hl-text .commentsform {
+  section.colx-3.single-post.slider-hl-text .comments,
+  section.colx-3.single-post.slider-hl-text .commentsform {
     margin-left: 0;
   }
 
@@ -3999,24 +3999,24 @@ section.col-3 .slider-hide, section.col-3 .slider-init, .pan_controls, .slick-ne
     padding-left: 0;
     padding-right: 0;
   }
-  section.col-2 .hlblock {
+  section.colx-2 .hlblock {
     width: 100%;
     height: auto;
     text-align: center;
     padding: 2.5rem 1.25rem;
   }
-  section.col-2 .hlblock h1 {
+  section.colx-2 .hlblock h1 {
     padding: 0;
   }
-  section.col-2 .hlblock h1 span {
+  section.colx-2 .hlblock h1 span {
     display: inline-block;
   }
-  section.col-2 .content {
+  section.colx-2 .content {
     width: 100%;
     height: auto;
     padding: 0;
   }
-  section.col-2 .panorama {
+  section.colx-2 .panorama {
     min-height: 18.75rem;
   }
   section.slider-left .hlblock h1 {
@@ -4079,62 +4079,62 @@ section.col-3 .slider-hide, section.col-3 .slider-init, .pan_controls, .slick-ne
   section.grid-right .hlblock h1 {
     text-align: center;
   }
-  section.col-3 .hlblock {
+  section.colx-3 .hlblock {
     width: 100%;
     height: auto;
     text-align: center;
     padding: 1.25rem;
   }
-  section.col-3 .hlblock h1 {
+  section.colx-3 .hlblock h1 {
     top: auto;
     -webkit-transform: none;
     transform: none;
   }
-  section.col-3 .content {
+  section.colx-3 .content {
     height: auto;
     padding: 1.25rem;
     width: 100%;
   }
-  section.col-3 .pic {
+  section.colx-3 .pic {
     height: auto;
     width: 100%;
   }
-  section.col-3 .pic img {
+  section.colx-3 .pic img {
     width: 100%;
     height: auto;
   }
-  section.col-3 .sliderwrapper {
+  section.colx-3 .sliderwrapper {
     width: 100%;
     height: 18.75rem;
     position: relative;
   }
-  section.col-3 .slider-init,
-  section.col-3 .slider-hide {
+  section.colx-3 .slider-init,
+  section.colx-3 .slider-hide {
     display: none;
   }
-  section.col-3 .slickexpandable .slick-prev {
+  section.colx-3 .slickexpandable .slick-prev {
     visibility: visible;
   }
-  section.col-3 .slickexpandable .slick-next {
+  section.colx-3 .slickexpandable .slick-next {
     visibility: visible;
     right: auto;
     left: 2.5rem;
   }
-  section.col-3.slider-text-hl .content,
-  section.col-3.slider-hl-text .content {
+  section.colx-3.slider-text-hl .content,
+  section.colx-3.slider-hl-text .content {
     margin-left: 0;
   }
-  section.col-3.single-post .hlblock .meta-top {
+  section.colx-3.single-post .hlblock .meta-top {
     position: relative;
   }
-  section.col-3.single-post .hlblock h1 {
+  section.colx-3.single-post .hlblock h1 {
     margin-bottom: 0.7em;
   }
-  section.col-3.single-post .hlblock .meta-bottom {
+  section.colx-3.single-post .hlblock .meta-bottom {
     display: none;
   }
-  section.col-3.single-post .comments,
-  section.col-3.single-post .commentsform {
+  section.colx-3.single-post .comments,
+  section.colx-3.single-post .commentsform {
     position: relative;
     visibility: visible;
     opacity: 1;
@@ -4144,26 +4144,26 @@ section.col-3 .slider-hide, section.col-3 .slider-init, .pan_controls, .slick-ne
     width: 100%;
     padding-top: 2.5rem;
   }
-  section.col-3.single-post .close {
+  section.colx-3.single-post .close {
     display: none;
   }
-  section.col-3.single-post.hl-pic-text .comments,
-  section.col-3.single-post.hl-pic-text .commentsform {
+  section.colx-3.single-post.hl-pic-text .comments,
+  section.colx-3.single-post.hl-pic-text .commentsform {
     right: 0;
   }
-  section.col-3.stripes .content,
-  section.col-3.stripes .hlblock {
+  section.colx-3.stripes .content,
+  section.colx-3.stripes .hlblock {
     width: 100%;
     height: auto;
     text-align: center;
   }
-  section.col-3.stripes .content h2,
-  section.col-3.stripes .hlblock h2 {
+  section.colx-3.stripes .content h2,
+  section.colx-3.stripes .hlblock h2 {
     font-size: 2.125rem;
     line-height: 2.75rem;
   }
-  section.col-3.stripes .content h2 span,
-  section.col-3.stripes .hlblock h2 span {
+  section.colx-3.stripes .content h2 span,
+  section.colx-3.stripes .hlblock h2 span {
     display: inline-block;
   }
   section.tophead .hlblock {

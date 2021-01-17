@@ -1,3 +1,4 @@
+@import "../css/bootstrap.min.css";
 @import "../css/normalize.css";
 @import "../css/salon-font.css";
 @import "../css/plugins.css";
@@ -75,5 +76,26 @@ fieldset.submit{
 @media screen and (max-width: 800px) {
   .jconfirm-box-container{
     width:90%;
+  }
+}
+
+.blink_me {
+  animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+header #socialshare .socialicon-promo{
+  right: 7rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  header #socialshare .socialicon-promo {
+    height: 4.2rem;
+    right: 8rem;
   }
 }
