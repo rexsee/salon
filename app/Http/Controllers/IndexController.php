@@ -84,7 +84,7 @@ class IndexController extends Controller
         $whatsapp_inquiry_msg .= "\n\n Your Message : ";
         $email_inquiry_msg .= "%0D%0A %0D%0A Your Message : ";
 
-        $product['whatsapp_link'] = 'https://api.whatsapp.com/send?phone=0164891212&text=' . urlencode($whatsapp_inquiry_msg);
+        $product['whatsapp_link'] = 'https://api.whatsapp.com/send?phone=60164891212&text=' . urlencode($whatsapp_inquiry_msg);
         $product['mail_link'] = 'mailto:'.$system_info->email.'?subject=Product Inquiry #' . date('Ymdhi'). '&body=' . $email_inquiry_msg;
         return $product;
     }
