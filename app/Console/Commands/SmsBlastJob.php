@@ -39,7 +39,7 @@ class SmsBlastJob extends Command
      */
     public function handle()
     {
-        if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_MT_URL'))){
+        if(!empty(env('SMS_USERNAME'))){
             $blast_list_raw = Redis::keys('sms_blast||*');
             if (!empty($blast_list_raw)) {
                 $key = $blast_list_raw[0];
@@ -64,7 +64,7 @@ class SmsBlastJob extends Command
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                         if(curl_error($ch)) {
-                            telegram_send_message('SMS Blast fail to send SMS :: ' . curl_error($ch));
+                            $this->info('SMS Blast fail to send SMS :: ' . curl_error($ch));
                         }
                         $sms_result = curl_exec($ch);
                         curl_close($ch);
