@@ -39,7 +39,7 @@ class SmsBlastJob extends Command
      */
     public function handle()
     {
-        if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_BALANCE_URL'))){
+        if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_MT_URL'))){
             $blast_list_raw = Redis::keys('sms_blast||*');
             if (!empty($blast_list_raw)) {
                 $key = $blast_list_raw[0];
