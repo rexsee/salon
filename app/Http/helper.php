@@ -91,10 +91,6 @@ function format_phone($phone){
     return $phone;
 }
 
-function telegram_send_message($message){
-    \RicardoFontanelli\LaravelTelegram\TelegramFacade::sendMessage('default', $message);
-}
-
 function component_sort_link($link, $display_name, $name, $sort_by = '', $sort = 'asc'){
     $need_to_sort_by = $sort;
     if ($name == $sort_by) {

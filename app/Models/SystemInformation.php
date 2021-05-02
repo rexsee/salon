@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SystemInformation extends Model
 {
+    protected $table = 'system_informations';
+
     protected $fillable = [
         'address',
         'contact_number',
