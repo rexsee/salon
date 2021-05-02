@@ -1,0 +1,17 @@
+@import "../../../public/plugins/fontawesome/scss/font-awesome";
+@import "../../../public/plugins/overlayScrollbars/css/OverlayScrollbars.min.css";
+@import "../../../public/plugins/datatables-bs4/css/dataTables.bootstrap4.css";
+@import "../../../public/plugins/select2/css/select2.min.css";
+@import "../../../public/plugins/select2/css/select2-bootstrap.min.css";
+@import "../../../public/css/adminlte.min.css";
+@import "../../../public/css/noty.css";
+
+.far {
+  font-weight: 900;
+}
+
+.nav-sidebar .nav-header:not(:first-of-type) {
+  padding: .5rem 1rem .5rem;
+  background: #333;
+  letter-spacing: 3px;
+}
