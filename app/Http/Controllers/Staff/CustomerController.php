@@ -2,73 +2,63 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Exports\CustomerExport;
 use App\Exports\CustomerLogExport;
+use App\Exports\ExportLib;
+use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\CustomerLog;
 use App\Models\Service;
 use App\Models\Stylist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
+    protected $presetActiveLink;
+
+    public function __construct()
+    {
+        $this->presetActiveLink = route('staff.customer');
+    }
+
     public function index(Request $request)
     {
-        $new = $request->get('new');
-        $type = $request->get('type');
-        $sort_by = $request->get('sort_by','name');
-        $sort = $request->get('sort','asc');
-        $page = $request->get('page');
-        $search = $request->get('search');
-        $from_date = $request->get('from_date');
-        $to_date = $request->get('to_date');
+        $stylists = Stylist::pluck('name','id')->toArray();
+        $filterItems = [
+            'keyword' => ['type' => 'text', 'display_name' => 'Search'],
+            'created_at' => ['type' => 'daterange', 'display_name' => 'Created at'],
+            'follow_up_date' => ['type' => 'daterange', 'display_name' => 'Follow up at'],
+            'category' => ['type' => 'select', 'options' => ['' => '-- All Category --'] + getCustomerCategory()],
+            'type' => ['type' => 'select', 'options' => ['' => '-- All Type --', 'first' => 'First Time', 'birthday' => 'Birthday']],
+            'gender' => ['type' => 'select', 'options' => ['' => '-- All Gender --', 'Male' => 'Male', 'Female' => 'Female']],
+            'stylist' => ['type' => 'select', 'options' => ['' => '-- All Stylist --'] + $stylists],
+        ];
+        $filterSelected = $this->validate($request, [
+            'keyword' => 'nullable',
+            'created_at' => 'nullable',
+            'follow_up_date' => 'nullable',
+            'category' => 'nullable',
+            'type' => 'nullable',
+            'gender' => 'nullable',
+            'stylist' => 'nullable',
+            'order_by' => 'nullable',
+            'order_type' => 'nullable',
+        ]);
 
-        if ($type) {
-            $query = Customer::where('dob', 'like', '%-' . date('m') . '-%');
-        } else {
-            $query = Customer::query();
+        if (empty($filterSelected['order_by'])) {
+            $filterSelected['order_by'] = 'created_at';
         }
 
-        if (!empty($from_date) && !empty($to_date)) {
-            $query->whereBetween('follow_up_date',[
-                Carbon::createFromFormat('d/m/Y', $from_date)->toDateString(),
-                Carbon::createFromFormat('d/m/Y', $to_date)->toDateString()
-            ]);
-        }
-
-        if (!empty($sort_by) && !empty($sort)){
-            $query->orderBy($sort_by,$sort);
-        }
-
-        if (!empty($search)) {
-            $stylist = Stylist::where('name','like',"%$search%")->first();
-            if (!empty($stylist)) {
-                $query->where('stylist_id',$stylist->id);
-            } else {
-                $query->where('name','like',"%$search%")
-                    ->orWhere('tel','like',"%$search%")
-                    ->orWhere('city','like',"%$search%")
-                ;
-            }
-        }
-
-        if (!empty($new)) {
-            if ($new == '7days') {
-                $query->where('created_at','>',Carbon::now()->subDays(7)->toDateString());
-            } else {
-                $query->where('created_at','>',Carbon::now()->subDay()->toDateString());
-            }
-        }
-
-//        $result = $query->paginate(50);
-        $result = $query->get();
-
-        return view('staff.customer.index', compact('result', 'type','new','sort_by','sort','page','search','from_date','to_date'));
+        $query = $this->getListQuery($filterSelected);
+        $data = $query->paginate(50);
+        $page_title = 'Customer';
+        $add_link = route('staff.customer.add');
+        $presetActiveLink = $this->presetActiveLink;
+        return view('admin.customer.list', compact('presetActiveLink','data', 'page_title', 'add_link', 'filterItems', 'filterSelected'));
     }
 
     public function followUp()
@@ -97,9 +87,51 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function export()
+    public function export(Request $request, $islog = 0)
     {
-        return Excel::download(new CustomerExport, 'customers - ' . date('d-m-Y') . ".xlsx");
+        $filterSelected = $this->validate($request, [
+            'keyword' => 'nullable',
+            'created_at' => 'nullable',
+            'follow_up_date' => 'nullable',
+            'type' => 'nullable',
+            'gender' => 'nullable',
+            'stylist' => 'nullable',
+            'order_by' => 'nullable',
+            'order_type' => 'nullable',
+            'islog' => 'boolean',
+        ]);
+
+        if (empty($filterSelected['order_by'])) {
+            $filterSelected['order_by'] = 'created_at';
+        }
+
+        $query = $this->getListQuery($filterSelected, $islog);
+        $rawData = $query->get()->toArray();
+
+        if (!empty($rawData)) {
+            $data = [];
+            foreach ($rawData as $item) {
+                unset($item['id']);
+                unset($item['stylist_id']);
+                unset($item['is_follow_up']);
+                unset($item['deleted_at']);
+                $data[] = $item;
+            }
+
+            foreach (array_keys($data[0]) as $item) {
+                $item = str_replace('_', ' ', $item);
+                $headers[0][] = ucwords($item);
+            }
+            $data = array_merge($headers, $data);
+            $export = new ExportLib($data);
+            $file_name = ($islog ? 'customer_logs_' : 'customers_')  . date('YmdHi');
+
+            return Excel::download($export, "$file_name.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+        } else {
+            session()->flash('noty', 'No data found');
+            session()->flash('notyType', 'error');
+            return redirect()->back();
+        }
     }
 
     public function exportCustomerLog($id)
@@ -388,5 +420,66 @@ class CustomerController extends Controller
                 $customer->save();
             }
         }
+    }
+
+    private function getListQuery($filterSelected = [], $isWithLogDetail = false) {
+        $query = Customer::query();
+        $query->leftJoin('customer_logs','customers.id','=','customer_logs.customer_id');
+        $query->leftJoin('stylists',($isWithLogDetail ? 'customer_logs' : 'customers') . '.stylist_id','=','stylists.id');
+
+        if ($isWithLogDetail) {
+            $query->select(DB::raw('customers.name as customer_name, customers.tel as customer_tel, customer_logs.log_date, customer_logs.services, customer_logs.products, customer_logs.remark as log_remark, customer_logs.total, stylists.name as stylist_name, customer_logs.handle_by'));
+        } else {
+            $query->select(DB::raw('customers.*, stylists.name as stylist_name, count(customer_logs.id) as visit_count'));
+            $query->groupBy('customers.id');
+        }
+
+        if (!empty($filterSelected['keyword'])) {
+            $query->where(function ($query) use ($filterSelected) {
+                $query->where('customers.name', 'like', '%' . $filterSelected['keyword'] . '%')
+                    ->orWhere('customers.tel', 'like', '%' . $filterSelected['keyword'] . '%')
+                    ->orWhere('customers.remark', 'like', '%' . $filterSelected['keyword'] . '%');
+            });
+        }
+
+        if (!empty($filterSelected['type'])) {
+            if ($filterSelected['type'] == 'first') {
+                $query->where('visit_count', '=', 1);
+            } elseif ($filterSelected['type'] == 'birthday') {
+                $query->where('dob', 'like', '%-' . date('m') . '-%');
+            }
+        }
+        if (!empty($filterSelected['category'])) {
+            $query->where('customers.category','=',$filterSelected['category']);
+        }
+        if (!empty($filterSelected['gender'])) {
+            $query->where('gender','=',$filterSelected['gender']);
+        }
+
+        if (!empty($filterSelected['stylist'])) {
+            $query->where('customers.stylist_id','=',$filterSelected['stylist']);
+        }
+
+        if (!empty($filterSelected['created_at'])) {
+            $dates = getFormattedDateRange($filterSelected['created_at']);
+            $query->whereBetween('customers.created_at', $dates);
+        }
+
+        if (!empty($filterSelected['follow_up_date'])) {
+            $dates = getFormattedDateRange($filterSelected['follow_up_date']);
+            $query->whereBetween('follow_up_date', $dates);
+        }
+
+        if ($isWithLogDetail) {
+            $query->orderBy('customers.id', 'ASC');
+            $query->orderBy('log_date', 'DESC');
+        } else {
+            if (!empty($filterSelected['order_by'])) {
+                $orderType = empty($filterSelected['order_type']) ? 'DESC' : $filterSelected['order_type'];
+                $query->orderBy($filterSelected['order_by'], $orderType);
+            }
+        }
+
+        return $query;
     }
 }

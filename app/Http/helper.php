@@ -57,6 +57,18 @@ function check_stylist_availability($stylist_id, \Carbon\Carbon $date, $minutes_
     return ['status' => $status, 'remark' => $remark];
 }
 
+function getFormattedDateRange($dateStr)
+{
+    $dates = explode('-', $dateStr);
+    if (count($dates) != 2) {
+        return [];
+    }
+    $return[] = trim(str_replace('/', '-', $dates[0])) . ' 00:00:00';
+    $return[] = trim(str_replace('/', '-', $dates[1])) . ' 23:59:59';
+
+    return $return;
+}
+
 function get_specialty()
 {
     return [
@@ -128,4 +140,52 @@ function getProductCollections($key = ''){
     } else {
         return $data;
     }
+}
+
+function getCustomerCategory($key = null)
+{
+    $data = [
+        'VVIP'=>'VVIP',
+        'VIP'=>'VIP',
+        'POTENTIAL'=>'POTENTIAL',
+        'STANDARD'=>'STANDARD',
+        'C/O'=>'C/O',
+        'BKT'=>'BKT',
+        'BLOCKED'=>'BLOCKED',
+    ];
+
+    if (!empty($key)) {
+        return @$data[$key];
+    } else {
+        return $data;
+    }
+}
+
+function sort_link($displayName, $key) {
+    $queryString = request()->query();
+    $currentLink = url()->current();
+    unset($queryString['page']);
+
+    $icon = '<i class="fa fa-lg fa-sort"></i> ';
+    $currentSort = @$queryString['order_by'];
+    $sort = empty($queryString['order_type']) ? 'DESC' : $queryString['order_type'];
+    $style = '';
+    if (!empty($currentSort)) {
+        $expCurrent = explode(' ',$currentSort);
+        if ($currentSort == $key) {
+            $style = 'color:#00168e !important; text-decoration:underline';
+
+            if ($sort == 'DESC') {
+                $icon = '<i class="soft-link-icon fa fa-lg fa-sort-down"></i> ';
+                $sort = 'ASC';
+            } else {
+                $icon = '<i style="top:5px;" class="soft-link-icon fa fa-lg fa-sort-up"></i> ';
+                $sort = 'DESC';
+            }
+        }
+    }
+
+    $queryString['order_by'] = $key;
+    $queryString['order_type'] = $sort;
+    return new \Illuminate\Support\HtmlString('<a style="'.$style.'" href="'.url()->current() . '?' . http_build_query($queryString) .'">'.$icon . $displayName.'</a>');
 }

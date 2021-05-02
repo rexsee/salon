@@ -28,7 +28,7 @@ mix.combine([
         'public/plugins/select2/js/select2.full.min.js',
         'public/js/adminlte.min.js',
         'public/js/noty.js',
-    ], 'public/js/adminlte.min.js')
+    ], 'public/js/admin.min.js')
     .combine([
         'resources/assets/js/jquery.min.js',
         'resources/assets/js/jquery-confirm.min.js',
