@@ -10,8 +10,8 @@ use App\Models\SystemInformation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
 
 class BookingController extends Controller
@@ -47,7 +47,7 @@ class BookingController extends Controller
             $services_string = '';
             $services_id = '';
             $minutes_take = 0;
-            $tel = starts_with($inputs['tel'], '60') ? substr($inputs['tel'], 1) : $inputs['tel'];
+            $tel = Str::startsWith($inputs['tel'], '60') ? substr($inputs['tel'], 1) : $inputs['tel'];
             foreach ($inputs['services'] as $service_id) {
                 $service = Service::findOrFail($service_id);
                 $services_string .= $service->name . ', ';
@@ -123,10 +123,10 @@ class BookingController extends Controller
             flash('Booking added')->success();
             return redirect()->route('staff.booking');
         } else {
-            $customer_id = Input::get('id');
-            $stylist_id = Input::get('sid');
-            $book_date = Input::get('bd');
-            $book_time = Input::get('bt');
+            $customer_id = $request->get('id');
+            $stylist_id = $request->get('sid');
+            $book_date = $request->get('bd');
+            $book_time = $request->get('bt');
             if (!empty($customer_id)) {
                 $customer = Customer::find($customer_id);
             }

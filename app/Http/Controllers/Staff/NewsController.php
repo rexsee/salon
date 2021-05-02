@@ -6,6 +6,7 @@ use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
@@ -28,7 +29,7 @@ class NewsController extends Controller
                 'image' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
-            $slug = str_slug($inputs['title']);
+            $slug = Str::slug($inputs['title']);
             $is_slug_exist = News::where('slug',$slug)->first();
             if(!empty($is_slug_exist)) {
                 $slug .= rand(1,100);
@@ -64,7 +65,7 @@ class NewsController extends Controller
                 'image' => 'required|mimes:jpeg,jpg,png,gif|max:5120'
             ]);
 
-            $slug = str_slug($inputs['title']);
+            $slug = Str::slug($inputs['title']);
             $is_slug_exist = News::where('slug',$slug)->first();
             if(!empty($is_slug_exist)) {
                 $slug .= rand(1,100);

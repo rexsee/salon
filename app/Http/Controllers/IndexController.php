@@ -15,9 +15,9 @@ use App\Models\SystemInformation;
 use App\Models\VisionImage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Pusher\Pusher;
 use Illuminate\Support\Facades\Validator;
 
@@ -37,18 +37,14 @@ class IndexController extends Controller
 
         $service = [];
         foreach ($service_raw as $item) {
-            $service[str_slug($item['name'])]['data'][] = [
+            $service[Str::slug($item['name'])]['data'][] = [
               'description'=>$item['description'],
               'price'=>'RM ' . number_format($item['price']) . ($item['price_type'] == 'Estimate' ? '++' : ''),
             ];
-            $service[str_slug($item['name'])]['name'] = $item['name'];
-            $service[str_slug($item['name'])]['type'] = $item['type'];
+            $service[Str::slug($item['name'])]['name'] = $item['name'];
+            $service[Str::slug($item['name'])]['type'] = $item['type'];
         }
 
-//        $color_services = $service->where('type', 'cat-color')->pluck('name', 'id')->toArray();
-//        $basic_services = $service->where('type', 'cat-basics')->pluck('name', 'id')->toArray();
-//        $serviceList['Color'] = $color_services;
-//        $serviceList['Basic'] = $basic_services;
         $serviceList = [];
         $tels = explode(',', $system_info->contact_number);
         return view('welcome',
@@ -57,7 +53,7 @@ class IndexController extends Controller
 
     public function news($date, $slug)
     {
-        $is_back = Input::get('ib');
+        $is_back = request()->get('ib');
         $news = News::where('slug', $slug)->firstOrFail();
         return view('news', compact('news','is_back'));
     }
@@ -103,7 +99,7 @@ class IndexController extends Controller
                 'tel' => 'required',
                 'occupation' => 'nullable',
                 'stylist' => 'required|exists:stylists,id',
-                'remark' => 'nullable',
+                'remark' => 'required',
             ]);
             $year = empty($inputs['dob-year']) ? date('Y') : $inputs['dob-year'];
 
@@ -167,7 +163,7 @@ class IndexController extends Controller
         }
 
         try {
-            if (!starts_with($request->phone, '0') && !starts_with($request->phone, '60')) {
+            if (!Str::startsWith($request->phone, '0') && !Str::startsWith($request->phone, '60')) {
                 throw new \Exception("Please submit a valid Malaysia phone number. Eg. 0129876543 or 60129876543");
             }
 
@@ -190,7 +186,7 @@ class IndexController extends Controller
                 $services_string = '';
                 $services_id = '';
                 $minutes_take = 0;
-                $tel = starts_with($request->phone, '60') ? substr($request->phone, 1) : $request->phone;
+                $tel = Str::startsWith($request->phone, '60') ? substr($request->phone, 1) : $request->phone;
                 foreach ($request->service as $service_id) {
                     $service = Service::findOrFail($service_id);
                     $services_string .= $service->name . ', ';
@@ -299,11 +295,11 @@ class IndexController extends Controller
 
     public function booking()
     {
-        $name = Input::get('name');
-        $tel = Input::get('tel');
-        $stylist_id = urldecode(Input::get('id'));
-        $date = urldecode(Input::get('dt'));
-        $services_id = urldecode(Input::get('s'));
+        $name = request()->get('name');
+        $tel = request()->get('tel');
+        $stylist_id = urldecode(request()->get('id'));
+        $date = urldecode(request()->get('dt'));
+        $services_id = urldecode(request()->get('s'));
 
         $team = Stylist::orderBy('name')->get();
         $service = Service::orderBy('name')->get();

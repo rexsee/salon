@@ -65,7 +65,7 @@
 <div class="form-group row">
     {{ Form::label('remark', 'Remark', ['class'=>'col-form-label col-sm-2']) }}
     <div class="col-sm-10">
-        {{ Form::text('remark', old('remark'), ['class'=>'form-control']) }}
+        {{ Form::text('remark', old('remark'), ['class'=>'form-control','required']) }}
     </div>
 </div>
 

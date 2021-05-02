@@ -92,7 +92,7 @@
 
             <label class="label-input100" for="remark">Remark</label>
             <div class="wrap-input100">
-                <textarea id="remark" class="input100" name="remark" placeholder="Optional">{{old('remark')}}</textarea>
+                <textarea id="remark" class="input100" name="remark" required>{{old('remark')}}</textarea>
                 <span class="focus-input100"></span>
             </div>
 

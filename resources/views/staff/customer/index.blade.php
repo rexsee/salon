@@ -75,7 +75,7 @@
                             @foreach($result as $data)
                                 <tr>
                                     <td>
-                                        <a href="{{route('staff.customer.add_log',['id'=>$data->id])}}"
+                                        <a href="{{route('staff.customer.add_log',$data->id)}}"
                                            class="btn btn-sm-2 btn-success">Add Log</a>
                                         <a href="{{route('staff.customer.edit',[$data->id])}}"
                                            class="btn btn-sm-2 btn-info">Edit</a>

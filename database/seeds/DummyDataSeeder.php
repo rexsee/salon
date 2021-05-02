@@ -37,7 +37,7 @@ class DummyDataSeeder extends Seeder
             $service->type = $service_types->random();
             $service->price = rand(2,30) * 10;
             $service->minutes_needed = rand(1,18) * 10;
-            $service->description = str_limit($faker->paragraph,190,'');
+            $service->description = \Illuminate\Support\Str::limit($faker->paragraph,190,'');
             $service->created_at = \Carbon\Carbon::now()->toDateTimeString();
             $service->updated_at = \Carbon\Carbon::now()->toDateTimeString();
             $service->save();

@@ -280,7 +280,7 @@
                     <div class="meta">
                         <a class="category">{{ucfirst($item->type)}}</a><i>/</i><span class="date">{{$item->news_date->toFormattedDateString()}}</span>
                     </div>
-                    <h2>{{str_limit($item->title,40)}}</h2>
+                    <h2>{{\Illuminate\Support\Str::limit($item->title,40)}}</h2>
                     <p><a href="{{route('news',['date'=>$item->news_date->toDateString(),'slug'=>$item->slug, 'ib'=>1])}}"><img src="{{asset($item->image_path)}}" width="100%" /></a></p>
                     <a class="more icon-salon_plus" href="{{route('news',['date'=>$item->news_date->toDateString(),'slug'=>$item->slug, 'ib'=>1])}}">read more</a>
                 </div>
@@ -303,16 +303,16 @@
                     <div class="columns-1-2">
                         <fieldset>
                             {{ Form::label('name', 'Your Name') }}
-                            {{ Form::text('name', array_get($_COOKIE,'customer_name'), ['data-validetta'=>'required','placeholder'=>'Your Name']) }}
+                            {{ Form::text('name', \Illuminate\Support\Arr::get($_COOKIE,'customer_name'), ['data-validetta'=>'required','placeholder'=>'Your Name']) }}
                         </fieldset>
                         <fieldset>
                             {{ Form::label('phone', 'Your Phone No.') }}
-                            {{ Form::text('phone', array_get($_COOKIE,'customer_phone'), ['data-validetta'=>'required','placeholder'=>'Your Phone No.']) }}
+                            {{ Form::text('phone', \Illuminate\Support\Arr::get($_COOKIE,'customer_phone'), ['data-validetta'=>'required','placeholder'=>'Your Phone No.']) }}
                         </fieldset>
                     </div><div class="columns-2-2">
                         <fieldset class="select">
                             {{ Form::label('stylist', 'Stylist') }}
-                            {{ Form::select('stylist', $team->pluck('name','id')->toArray(), array_get($_COOKIE,'customer_stylist_id'), ['data-placeholder'=>'Select your prefered Stylist','id'=>'bookingformstylist']) }}
+                            {{ Form::select('stylist', $team->pluck('name','id')->toArray(), \Illuminate\Support\Arr::get($_COOKIE,'customer_stylist_id'), ['data-placeholder'=>'Select your prefered Stylist','id'=>'bookingformstylist']) }}
                         </fieldset>
                         <fieldset class="select">
                             {{ Form::label('service', 'Service(s)') }}

@@ -68,14 +68,14 @@
                             <div class="row">
                                 @foreach($stylists as $stylist)
                                     <div class="col-sm mb-2">
-                                        <a href="#{{str_slug($stylist)}}" class="btn btn-dark btn-block">{{$stylist}}</a>
+                                        <a href="#{{\Illuminate\Support\Str::slug($stylist)}}" class="btn btn-dark btn-block">{{$stylist}}</a>
                                     </div>
                                 @endforeach
                             </div>
                             <hr />
 
                             @foreach($stylists as $stylist_id => $stylist)
-                                <h4 id="{{str_slug($stylist)}}" style="background-color: #0a0a0a;color: #ffffff;padding: 2px 10px;margin-bottom: 0;margin-top: 20px;">{{$stylist}}</h4>
+                                <h4 id="{{\Illuminate\Support\Str::slug($stylist)}}" style="background-color: #0a0a0a;color: #ffffff;padding: 2px 10px;margin-bottom: 0;margin-top: 20px;">{{$stylist}}</h4>
                                 <table class="table table-hover table-sm small">
                                     <thead>
                                     <tr>

@@ -5,22 +5,21 @@ namespace App\Http\Controllers\Staff;
 use App\Models\Stylist;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 
 class CalenderController extends Controller
 {
     public function index() {
         $stylists = Stylist::pluck('name','id');
-        $is_day_view = Input::get('today',1);
+        $is_day_view = request()->get('today',1);
         if ($is_day_view) {
-            $day = Input::get('day',date('d/m/Y'));
+            $day = request()->get('day',date('d/m/Y'));
             $day = Carbon::createFromFormat('d/m/Y',$day)->startOfDay();
             $from = $day->startOfDay();
             $to = $day->endOfDay();
         }
         else {
-            $from = Input::get('from_date',date('d/m/Y'));
-            $to = Input::get('to_date',Carbon::now()->addDays(7)->format('d/m/Y'));
+            $from = request()->get('from_date',date('d/m/Y'));
+            $to = request()->get('to_date',Carbon::now()->addDays(7)->format('d/m/Y'));
 
             $from = Carbon::createFromFormat('d/m/Y',$from)->startOfDay();
             $to = Carbon::createFromFormat('d/m/Y',$to)->endOfDay();

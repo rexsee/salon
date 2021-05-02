@@ -11,22 +11,22 @@ use App\Models\Stylist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $new = Input::get('new');
-        $type = Input::get('type');
-        $sort_by = Input::get('sort_by','name');
-        $sort = Input::get('sort','asc');
-        $page = Input::get('page');
-        $search = Input::get('search');
-        $from_date = Input::get('from_date');
-        $to_date = Input::get('to_date');
+        $new = $request->get('new');
+        $type = $request->get('type');
+        $sort_by = $request->get('sort_by','name');
+        $sort = $request->get('sort','asc');
+        $page = $request->get('page');
+        $search = $request->get('search');
+        $from_date = $request->get('from_date');
+        $to_date = $request->get('to_date');
 
         if ($type) {
             $query = Customer::where('dob', 'like', '%-' . date('m') . '-%');
@@ -73,8 +73,8 @@ class CustomerController extends Controller
 
     public function followUp()
     {
-        $from_date = Input::get('from_date');
-        $to_date = Input::get('to_date');
+        $from_date = request()->get('from_date');
+        $to_date = request()->get('to_date');
 
         if (!empty($from_date) && !empty($to_date)) {
             $result = Customer::whereBetween('follow_up_date',[
@@ -100,106 +100,12 @@ class CustomerController extends Controller
     public function export()
     {
         return Excel::download(new CustomerExport, 'customers - ' . date('d-m-Y') . ".xlsx");
-
-        /*
-        Excel::create('customers - ' . date('d-m-Y'), function ($excel) use ($result) {
-            $excel->sheet('customers', function ($sheet) use ($result) {
-                $sheet->freezeFirstRow();
-                $sheet->setColumnFormat(['A:L' => '@']);
-                $sheet->row(1, [
-                    'Name',
-                    'Tel.',
-                    'Email',
-                    'Gender',
-                    'DOB',
-                    'Birthday Month',
-                    'Occupation',
-                    'Address',
-                    'City',
-                    'Handle By',
-                    'Stylist',
-                    'Allergies',
-                    'Remark',
-                    'Last Visit',
-                    'Created At',
-                    'Follow Up Date',
-                    'Total Visit',
-                    'Total Spent'
-                ]);
-                $row = 2;
-
-                foreach ($result as $entry) {
-                    $sheet->row($row, [
-                        $entry->name,
-                        $entry->tel,
-                        $entry->email,
-                        $entry->gender,
-                        empty($entry->dob) ? '-' : $entry->dob->toDateString(),
-                        empty($entry->dob) ? '-' : $entry->dob->format('F'),
-                        $entry->occupation,
-                        $entry->address,
-                        $entry->city,
-                        $entry->handle_by,
-                        empty($entry->stylist) ? '-' : $entry->stylist->name,
-                        $entry->allergies,
-                        $entry->remark,
-                        $entry->last_visit_at,
-                        $entry->created_at->toDateString(),
-                        empty($entry->follow_up_date) ? '-' : $entry->follow_up_date->toDateString(),
-                        $entry->logs()->count(),
-                        $entry->logs()->sum('total'),
-                    ]);
-                    $row++;
-                }
-
-                $sheet->row(1, function ($row) {
-                    $row->setBackground('#337AB7');
-                    $row->setFontColor('#ffffff');
-                    $row->setAlignment('center');
-                });
-
-            });
-            $excel->setTitle('Customer');
-        })->export($format);
-        */
     }
 
     public function exportCustomerLog($id)
     {
         $customer = Customer::findOrFail($id);
         return Excel::download(new CustomerLogExport($id), $customer->name . ' logs - ' . date('d-m-Y') . ".xlsx");
-
-        /*
-        Excel::create($customer->name . ' logs ' . date('d-m-Y'), function ($excel) use ($result) {
-            $excel->sheet('customers', function ($sheet) use ($result) {
-                $sheet->freezeFirstRow();
-                $sheet->setColumnFormat(['A:F' => '@']);
-                $sheet->row(1, ['Date', 'Services', 'Handle By', 'Stylist', 'Remark', 'Product', 'Total Price']);
-                $row = 2;
-
-                foreach ($result as $entry) {
-                    $sheet->row($row, [
-                        $entry->log_date->toDayDateTimeString(),
-                        $entry->services,
-                        $entry->handle_by,
-                        empty($entry->stylist) ? '- ' : $entry->stylist->name,
-                        $entry->remark,
-                        $entry->product,
-                        $entry->total,
-                    ]);
-                    $row++;
-                }
-
-                $sheet->row(1, function ($row) {
-                    $row->setBackground('#337AB7');
-                    $row->setFontColor('#ffffff');
-                    $row->setAlignment('center');
-                });
-
-            });
-            $excel->setTitle('Customer');
-        })->export($format);
-        */
     }
 
     public function add(Request $request)
@@ -216,7 +122,7 @@ class CustomerController extends Controller
                 'address' => 'max:191|nullable',
                 'city' => 'required',
                 'allergies' => 'nullable',
-                'remark' => 'nullable',
+                'remark' => 'required',
                 'handle_by' => 'nullable',
                 'stylist_id' => 'required|exists:stylists,id',
             ]);
@@ -405,7 +311,7 @@ class CustomerController extends Controller
 
 
             if (!empty($tels)) {
-                $key = 'sms_blast||' . time() . '||' . str_slug($inputs['title']);
+                $key = 'sms_blast||' . time() . '||' . Str::slug($inputs['title']);
                 foreach ($tels as $tel) {
                     Redis::command('SADD', [$key, $tel . '||' . $inputs['message'] . '||0']);
                 }
@@ -414,7 +320,7 @@ class CustomerController extends Controller
             flash('Blast created, a total ' . count($tels) . ' SMS is sending now...')->success();
             return redirect()->route('staff.customer.sms_blast');
         } else {
-            $id = Input::get('id');
+            $id = request()->get('id');
             $blast_list_raw = Redis::keys('sms_blast||*');
             $blast_list = [];
             foreach ($blast_list_raw as $item) {
