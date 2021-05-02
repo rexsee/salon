@@ -39,6 +39,7 @@ class SmsBlastJob extends Command
      */
     public function handle()
     {
+        $this->info('SMS Username :: ' .env('SMS_USERNAME'));
         if(!empty(env('SMS_USERNAME'))){
             $blast_list_raw = Redis::keys('sms_blast||*');
             if (!empty($blast_list_raw)) {
