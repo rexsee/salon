@@ -33,6 +33,18 @@
                         <p>Customer SMS Blast</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('staff.report.customer')}}" class="nav-link nav-link-is-value">
+                        <i class="nav-icon fa fa-angle-right"></i>
+                        <p>Customer Report</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('staff.report.sales')}}" class="nav-link nav-link-is-value">
+                        <i class="nav-icon fa fa-angle-right"></i>
+                        <p>Sales Report</p>
+                    </a>
+                </li>
                 @endif
 
                 <li class="nav-item">

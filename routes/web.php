@@ -86,6 +86,12 @@ Route::group(['prefix' => 'staff-panel', 'as'=>'staff'], function () {
             Route::get('sms-delete/{id}', 'Staff\CustomerController@deleteSms')->name('.sms_delete');
         });
 
+        //Report
+        Route::group(['prefix' => 'report', 'as'=>'.report'], function () {
+            Route::get('customer', 'Staff\ReportController@customer')->name('.customer');
+            Route::get('sales', 'Staff\ReportController@sales')->name('.sales');
+        });
+
         //Gallery
         Route::group(['prefix' => 'gallery', 'as'=>'.gallery'], function () {
             Route::get('', 'Staff\GalleryController@index');

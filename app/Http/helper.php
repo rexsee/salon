@@ -189,3 +189,24 @@ function sort_link($displayName, $key) {
     $queryString['order_type'] = $sort;
     return new \Illuminate\Support\HtmlString('<a style="'.$style.'" href="'.url()->current() . '?' . http_build_query($queryString) .'">'.$icon . $displayName.'</a>');
 }
+
+function getReportColor($key) {
+    $key = strtolower($key);
+    if ($key == 'unknown') {
+        return '#eeeeee';
+    }
+
+    $first = substr(strtolower($key),0,1);
+    if (in_array($first,['e','j','p','0',])) return '#f56954';
+    elseif(in_array($first,['a','f','u','1',])) return '#00a65a';
+    elseif(in_array($first,['b','l','m','2',])) return '#f39c12';
+    elseif(in_array($first,['c','h','r','3',])) return '#00c0ef';
+    elseif(in_array($first,['g','o','v','4',])) return '#3c8dbc';
+    elseif(in_array($first,['d','k','x','5',])) return '#A52A2A';
+    elseif(in_array($first,['i','q','y','6',])) return '#808000';
+    elseif(in_array($first,['s','n','z','7',])) return '#008000';
+    elseif(in_array($first,['w','t','8','9',])) return '#800000';
+    else {
+        return '#eeeeee';
+    }
+}
