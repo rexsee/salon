@@ -33,6 +33,7 @@
                             <th width="60px">{{sort_link('City','city')}}</th>
                             <th width="70px">{{sort_link('DOB','dob')}}</th>
                             <th width="50px">{{sort_link('Visits','visit_count')}}</th>
+                            <th width="50px">{{sort_link('Spent','total_spent')}}</th>
                             <th width="70px">{{sort_link('Visited','last_visit_at')}}</th>
                             <th width="70px">{{sort_link('Created','created_at')}}</th>
                             <th>Remark</th>
@@ -60,6 +61,7 @@
                                 <td>{{$record->city}}</td>
                                 <td>{{$record->dob ? $record->dob->toFormattedDateString() : ' - '}}</td>
                                 <td>{{$record->visit_count}}</td>
+                                <td>{{empty($record->total_spent) ? '0' : ("RM ".number_format($record->total_spent))}}</td>
                                 <td>{{$record->last_visit_at ? $record->last_visit_at->toFormattedDateString() : ' - '}}</td>
                                 <td>{{$record->created_at ? $record->created_at->toFormattedDateString() : ' - '}}</td>
                                 <td><small>{!! empty($record->remark) ? ' - ' : nl2br($record->remark) !!}</small></td>

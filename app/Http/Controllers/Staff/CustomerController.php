@@ -430,7 +430,7 @@ class CustomerController extends Controller
         if ($isWithLogDetail) {
             $query->select(DB::raw('customers.name as customer_name, customers.tel as customer_tel, customer_logs.log_date, customer_logs.services, customer_logs.products, customer_logs.remark as log_remark, customer_logs.total, stylists.name as stylist_name, customer_logs.handle_by'));
         } else {
-            $query->select(DB::raw('customers.*, stylists.name as stylist_name, count(customer_logs.id) as visit_count'));
+            $query->select(DB::raw('customers.*, stylists.name as stylist_name, count(customer_logs.id) as visit_count, sum(customer_logs.total) as total_spent'));
             $query->groupBy('customers.id');
         }
 

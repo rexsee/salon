@@ -30,6 +30,84 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="card card-default card-detail">
+                            <div class="card-header">
+                                <h3 class="card-title">Top Sales</h3>
+                                <div class="card-tools">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                            Year {{$salesYear}}
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            @for($i = date('Y'); $i > (date('Y') - 4); $i--)
+                                                <a href="{{route('staff.report.sales',['sales'=>$i,'handle'=>$handleYear])}}" class="dropdown-item">{{$i}}</a>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Stylist</th>
+                                        <th>Sales</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($topSales as $key => $value)
+                                        <tr>
+                                            <td>{{$key}}</td>
+                                            <td>RM {{number_format($value)}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card card-default card-detail">
+                            <div class="card-header">
+                                <h3 class="card-title">Top Handle</h3>
+                                <div class="card-tools">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                            Year {{$handleYear}}
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            @for($i = date('Y'); $i > (date('Y') - 4); $i--)
+                                                <a href="{{route('staff.report.sales',['handle'=>$i,'sales'=>$salesYear])}}" class="dropdown-item">{{$i}}</a>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($topHandle as $key => $value)
+                                        <tr>
+                                            <td>{{$key}}</td>
+                                            <td>{{number_format($value)}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -39,6 +117,10 @@
 @section('js')
     <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
     <script>
+        $(document).ready( function() {
+            $('.dropdown-toggle').dropdown();
+        });
+
         $(function () {
             var areaChartData = {
                 labels: ['{!! implode("','",$dates) !!}'],
@@ -68,23 +150,6 @@
                 scales: {xAxes: [{stacked: true,}], yAxes: [{stacked: true}]}
             }
             new Chart(stackedBarChartCanvas, {type: 'bar', data: stackedBarChartData, options: stackedBarChartOptions})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             var areaChartData2 = {

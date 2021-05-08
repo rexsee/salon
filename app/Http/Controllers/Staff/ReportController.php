@@ -8,11 +8,15 @@ use App\Models\CustomerLog;
 use App\Models\Stylist;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function sales()
+    public function sales(Request $request)
     {
+        $salesYear = (int)$request->get('sales',date('Y'));
+        $handleYear = (int)$request->get('handle',date('Y'));
+
         $visit = [];
         $amount = [];
         $dates = [];
@@ -29,7 +33,29 @@ class ReportController extends Controller
 
             $dates[] = $dateName;
         }
-        return view('staff.report.sales',compact('dates','amount','visit'));
+
+        $topHandle = CustomerLog::select(DB::raw('handle_by, count(*) as total'))
+            ->whereBetween('created_at',["$handleYear-01-01 00:00:00","$handleYear-12-31 23:59:59"])
+            ->groupBy('handle_by')
+            ->orderBy('total', 'DESC')
+            ->limit(5)
+            ->pluck('total','handle_by')
+            ->toArray();
+
+        $stylists = Stylist::pluck('name', 'id');
+        $topSalesRaw = CustomerLog::select(DB::raw('stylist_id, sum(customer_logs.total) as total'))
+            ->whereBetween('created_at',["$salesYear-01-01 00:00:00","$salesYear-12-31 23:59:59"])
+            ->groupBy('stylist_id')
+            ->orderBy('total', 'DESC')
+            ->limit(5)
+            ->get();
+        $topSales = [];
+        foreach ($topSalesRaw as $item) {
+            if (!empty($stylists[$item->stylist_id])) {
+                $topSales[$stylists[$item->stylist_id]] = $item->total;
+            }
+        }
+        return view('staff.report.sales', compact('dates', 'salesYear','handleYear','amount', 'visit', 'topSales', 'topHandle'));
     }
 
     public function customer()
