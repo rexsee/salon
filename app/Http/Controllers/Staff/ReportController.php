@@ -24,7 +24,7 @@ class ReportController extends Controller
             for ($i = 31; $i >= 0; $i--) {
                 $start = Carbon::now()->subDays($i)->startOfDay();
                 $end = Carbon::now()->subDays($i)->endOfDay();
-                $dateName = Carbon::now()->subMonths($i)->format('d M');
+                $dateName = Carbon::now()->subDays($i)->format('d M');
 
                 $count = CustomerLog::whereBetween('log_date', [$start, $end])->count();
                 $visit[$dateName] = $count;
