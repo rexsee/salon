@@ -201,10 +201,10 @@ function getReportColor($key) {
     elseif(in_array($first,['a','f','u','1',])) return '#00a65a';
     elseif(in_array($first,['b','l','m','2',])) return '#f39c12';
     elseif(in_array($first,['c','h','r','3',])) return '#00c0ef';
-    elseif(in_array($first,['g','o','v','4',])) return '#3c8dbc';
-    elseif(in_array($first,['d','k','x','5',])) return '#A52A2A';
-    elseif(in_array($first,['i','q','y','6',])) return '#808000';
-    elseif(in_array($first,['s','n','z','7',])) return '#008000';
+    elseif(in_array($first,['g','k','v','4',])) return '#3c8dbc';
+    elseif(in_array($first,['d','o','x','5',])) return '#A52A2A';
+    elseif(in_array($first,['i','n','y','6',])) return '#808000';
+    elseif(in_array($first,['s','q','z','7',])) return '#008000';
     elseif(in_array($first,['w','t','8','9',])) return '#800000';
     else {
         return '#eeeeee';

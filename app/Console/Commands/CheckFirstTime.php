@@ -3,24 +3,27 @@
 namespace App\Console\Commands;
 
 use App\Models\Customer;
+use App\Models\CustomerLog;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CheckBirthday extends Command
+class CheckFirstTime extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'check:birthday';
+    protected $signature = 'check:firsttime';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send SMS to birthday customer';
+    protected $description = 'Send SMS to first time customer';
 
     /**
      * Create a new command instance.
@@ -39,12 +42,17 @@ class CheckBirthday extends Command
      */
     public function handle()
     {
-        $customers = Customer::where('dob','like','%-' . date('m') . '-%')->get();
+        $customers = CustomerLog::select(DB::raw('count(*) as total, customer_id, customers.tel, customers.name'))
+            ->leftJoin('customers','customers.id','=','customer_logs.customer_id')
+            ->havingRaw('count(*) = 1')
+            ->whereBetween('log_date',[Carbon::now()->subDays(3)->startOfDay(), Carbon::now()->subDays(3)->endOfDay()])
+            ->groupBy('customer_id')
+            ->get();
+
         $sentCount = 0;
         foreach ($customers as $customer) {
             if(!empty(env('SMS_USERNAME')) && !empty(env('SMS_MT_URL'))){
-                $message = urlencode('RM0.00 ALPH STUDIO: Happy Birthday! We will love to treat you a 20% off from all our chemical services. All you have to do is just PM ' . env('APP_NAME') . ' or ring us at 0327338402.');
-//                $message = urlencode('Happy Birthday ' . $customer->name . '. Warmest birthday wishes from ' . env('APP_NAME') . '. Check our website for special offer for you.');
+                $message = urlencode('RM0.00 ALPH STUDIO: Thanks for your 1st visit, and we appreciate any feedback so proper follow up can be arranged. Just WhatsApp/call +6016-4891212');
 
                 $sms_url = env('SMS_MT_URL') . '?';
                 $sms_url.= 'apiusername=' . env('SMS_USERNAME');
@@ -72,6 +80,6 @@ class CheckBirthday extends Command
             }
         }
 
-        Log::info(date('d-m-Y') . " Birthday Customer SMS Sent $sentCount");
+        Log::info(date('d-m-Y') . " First Time Customer SMS Sent $sentCount");
     }
 }

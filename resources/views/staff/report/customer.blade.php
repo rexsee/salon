@@ -10,6 +10,17 @@
                         <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title">New Customer</h3>
+                                <div class="card-tools">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                            {{ucfirst($customerGroup)}} Basic
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <a href="{{route('staff.report.customer',['customer_group'=>'monthly'])}}" class="dropdown-item">Monthly</a>
+                                            <a href="{{route('staff.report.customer',['customer_group'=>'daily'])}}" class="dropdown-item">Daily</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart">
@@ -57,6 +68,7 @@
                         </div>
                     </div>
 
+                    <!--
                     <div class="col-md-12">
                         <div class="card card-default">
                             <div class="card-header">
@@ -65,9 +77,9 @@
                             <div class="card-body">
                                 <canvas id="cityChart" style="min-height: 700px; height: 700px; max-height: 700px; max-width: 100%;"></canvas>
                             </div>
-                            <!-- /.card-body -->
                         </div>
                     </div>
+                    -->
                 </div>
 
             </div>
@@ -79,6 +91,7 @@
     <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
     <script>
         $(function () {
+            /*
             var cityChartCanvas = $('#cityChart').get(0).getContext('2d')
             var cityData = {
                 labels: ['{!! implode("','",array_keys($cityData)) !!}'],
@@ -91,6 +104,7 @@
             }
             var cityOptions = {maintainAspectRatio: false, responsive: true,}
             new Chart(cityChartCanvas, {type: 'pie', data: cityData, options: cityOptions})
+            */
 
 
 

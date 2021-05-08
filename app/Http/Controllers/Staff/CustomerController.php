@@ -30,16 +30,17 @@ class CustomerController extends Controller
         $stylists = Stylist::pluck('name','id')->toArray();
         $filterItems = [
             'keyword' => ['type' => 'text', 'display_name' => 'Search'],
-            'created_at' => ['type' => 'daterange', 'display_name' => 'Created at'],
-            'follow_up_date' => ['type' => 'daterange', 'display_name' => 'Follow up at'],
-            'category' => ['type' => 'select', 'options' => ['' => '-- All Category --'] + getCustomerCategory()],
-            'type' => ['type' => 'select', 'options' => ['' => '-- All Type --', 'first' => 'First Time', 'birthday' => 'Birthday']],
+            'created_at' => ['type' => 'daterange', 'display_name' => 'Created Date'],
+            'logged_at' => ['type' => 'daterange', 'display_name' => 'Visited Date'],
+            'follow_up_date' => ['type' => 'daterange', 'display_name' => 'Follow Up Date'],
+            'category' => ['type' => 'select', 'options' => ['' => '-- All Category --', 'first'=>'First Time', 'birthday'=>'Birthday'] + getCustomerCategory()],
             'gender' => ['type' => 'select', 'options' => ['' => '-- All Gender --', 'Male' => 'Male', 'Female' => 'Female']],
             'stylist' => ['type' => 'select', 'options' => ['' => '-- All Stylist --'] + $stylists],
         ];
         $filterSelected = $this->validate($request, [
             'keyword' => 'nullable',
             'created_at' => 'nullable',
+            'logged_at' => 'nullable',
             'follow_up_date' => 'nullable',
             'category' => 'nullable',
             'type' => 'nullable',
@@ -92,6 +93,7 @@ class CustomerController extends Controller
         $filterSelected = $this->validate($request, [
             'keyword' => 'nullable',
             'created_at' => 'nullable',
+            'logged_at' => 'nullable',
             'follow_up_date' => 'nullable',
             'type' => 'nullable',
             'gender' => 'nullable',
@@ -150,11 +152,12 @@ class CustomerController extends Controller
                 'gender' => 'in:Female,Male|nullable',
                 'follow_up_date' => 'nullable|date_format:d/m/Y',
                 'dob' => 'nullable|date_format:d/m/Y',
+                'category' => 'nullable',
                 'occupation' => 'nullable',
                 'address' => 'max:191|nullable',
                 'city' => 'required',
                 'allergies' => 'nullable',
-                'remark' => 'required',
+                'remark' => 'nullable|string|max:255',
                 'handle_by' => 'nullable',
                 'stylist_id' => 'required|exists:stylists,id',
             ]);
@@ -189,12 +192,13 @@ class CustomerController extends Controller
                 'email' => 'email|nullable',
                 'dob' => 'nullable|date_format:d/m/Y',
                 'follow_up_date' => 'nullable|date_format:d/m/Y',
+                'category' => 'nullable',
                 'occupation' => 'nullable',
                 'gender' => 'in:Female,Male|nullable',
                 'address' => 'max:191|nullable',
                 'city' => 'required',
                 'allergies' => 'nullable',
-                'remark' => 'nullable',
+                'remark' => 'nullable|string|max:255',
                 'handle_by' => 'nullable',
                 'stylist_id' => 'required|exists:stylists,id',
             ]);
@@ -436,21 +440,39 @@ class CustomerController extends Controller
 
         if (!empty($filterSelected['keyword'])) {
             $query->where(function ($query) use ($filterSelected) {
-                $query->where('customers.name', 'like', '%' . $filterSelected['keyword'] . '%')
-                    ->orWhere('customers.tel', 'like', '%' . $filterSelected['keyword'] . '%')
-                    ->orWhere('customers.remark', 'like', '%' . $filterSelected['keyword'] . '%');
+                $keywords = explode(' ',$filterSelected['keyword']);
+
+                foreach ($keywords as $k => $v) {
+                    if ($k == 0) {
+                        $query->where('customers.name', 'like', "%$v%")
+                            ->orWhere('customers.tel', 'like',  "%$v%")
+                            ->orWhere('customers.remark', 'like', "%$v%");
+                    } else {
+                        $query->orWhere('customers.name', 'like', "%$v%")
+                            ->orWhere('customers.tel', 'like',  "%$v%")
+                            ->orWhere('customers.remark', 'like', "%$v%");
+                    }
+                }
             });
         }
 
+        /*
         if (!empty($filterSelected['type'])) {
             if ($filterSelected['type'] == 'first') {
                 $query->where('visit_count', '=', 1);
             } elseif ($filterSelected['type'] == 'birthday') {
-                $query->where('dob', 'like', '%-' . date('m') . '-%');
+
             }
         }
+        */
         if (!empty($filterSelected['category'])) {
-            $query->where('customers.category','=',$filterSelected['category']);
+            if ($filterSelected['category'] == 'birthday') {
+                $query->where('dob', 'like', '%-' . date('m') . '-%');
+            } elseif($filterSelected['category'] == 'first') {
+                $query->havingRaw('count(customer_logs.id) = 1');
+            } else {
+                $query->where('customers.category','=',$filterSelected['category']);
+            }
         }
         if (!empty($filterSelected['gender'])) {
             $query->where('gender','=',$filterSelected['gender']);
@@ -463,6 +485,11 @@ class CustomerController extends Controller
         if (!empty($filterSelected['created_at'])) {
             $dates = getFormattedDateRange($filterSelected['created_at']);
             $query->whereBetween('customers.created_at', $dates);
+        }
+
+        if (!empty($filterSelected['logged_at'])) {
+            $dates = getFormattedDateRange($filterSelected['logged_at']);
+            $query->whereBetween('customer_logs.log_date', $dates);
         }
 
         if (!empty($filterSelected['follow_up_date'])) {

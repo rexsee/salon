@@ -58,6 +58,7 @@
         });
 
         $('[data-toggle="tooltip"]').tooltip();
+        $('.dropdown-toggle').dropdown();
         $(".select2").select2({ theme: "bootstrap", dropdownCssClass: "text-sm" });
     });
 </script>

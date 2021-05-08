@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
          $schedule->command('sms:work')->everyMinute();
 //         $schedule->command('check:booking')->hourly();
          $schedule->command('check:birthday')->monthlyOn(1,'10:00');
+         $schedule->command('check:firsttime')->dailyAt('10:30');
     }
 
     /**

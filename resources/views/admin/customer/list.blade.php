@@ -64,7 +64,7 @@
                                 <td>{{empty($record->total_spent) ? '0' : ("RM ".number_format($record->total_spent))}}</td>
                                 <td>{{$record->last_visit_at ? $record->last_visit_at->toFormattedDateString() : ' - '}}</td>
                                 <td>{{$record->created_at ? $record->created_at->toFormattedDateString() : ' - '}}</td>
-                                <td><small>{!! empty($record->remark) ? ' - ' : nl2br($record->remark) !!}</small></td>
+                                <td>{!! empty($record->remark) ? ' - ' : nl2br($record->remark) !!}</td>
                                 <td>{{empty($record->stylist) ? ' - ' : $record->stylist_name}}</td>
                             </tr>
                         @endforeach
